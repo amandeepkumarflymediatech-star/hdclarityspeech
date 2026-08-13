@@ -1,0 +1,4069 @@
+<!DOCTYPE html>
+
+<html
+  
+  data-wf-page="68a398206b83e17019b48448"
+  data-wf-site="68a398206b83e17019b48462"
+  lang="en"
+>
+  <head>
+    <meta charset="utf-8" />
+    <link
+      href="https://cdn.prod.website-files.com"
+      rel="preconnect"
+      crossorigin="anonymous"
+    />
+
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window,document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+    
+      fbq('init', '1839699807410248');
+      fbq('track', 'PageView');
+      </script>
+    
+      <noscript>
+          <img height="1" width="1"
+          src="https://www.facebook.com/tr?id=1839699807410248&ev=PageView&noscript=1"/>
+      </noscript>
+    
+    <meta property="og:type" content="website" />
+    
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    
+    <!-- <link
+      href="https://cdn.prod.website-files.com/68a398206b83e17019b48462/css/foster-and-reeves.webflow.shared.b989cd451.css"
+      rel="stylesheet"
+      type="text/css"
+      integrity="sha384-uYnNRRoCNBUPPVbCqrEytFjehB/dL9TvQh0C974RPRdwgqXpstncO1NV5Vhh9sK8"
+      crossorigin="anonymous"
+    /> -->
+
+    <link rel="stylesheet" href="./index.css">
+
+    
+    <style>
+      html.w-mod-js:not(.w-mod-ix3) :is([navbar-sticky]) {
+        visibility: hidden !important;
+      }
+    </style>
+    <script type="text/javascript">
+      !(function (o, c) {
+        var n = c.documentElement,
+          t = " w-mod-";
+        (n.className += t + "js"),
+          ("ontouchstart" in o ||
+            (o.DocumentTouch && c instanceof DocumentTouch)) &&
+            (n.className += t + "touch");
+      })(window, document);
+    </script>
+    
+    <style>
+      * {
+        -webkit-font-smoothing: antialiased;
+        /* For WebKit (Safari, Chrome) */
+        -moz-osx-font-smoothing: grayscale;
+        /* For macOS Firefox */
+        font-smoothing: antialiased;
+        /* Non-standard, fallback */
+        text-rendering: optimizeLegibility;
+        /* Improves kerning and ligatures */
+      }
+    </style>
+  
+    <style>
+      .sales-cta-master {
+        display: none !important;
+      }
+      .banner {
+        display: none !important;
+      }
+      .w-webflow-badge {
+        display: none !important;
+      }
+    </style>
+
+
+<style>
+  /* ── Base page reset (only for demo, remove from your site) ── */
+  
+  .demo-notice {
+    max-width: 420px;
+    text-align: center;
+    line-height: 1.7;
+    color: #94a3b8;
+    font-size: 0.95rem;
+  }
+  .demo-notice strong { color: #e2e8f0; }
+
+  /* ════════════════════════════════════════════════════════════
+     CHAT WIDGET STYLES — paste into your global CSS or <style>
+     ════════════════════════════════════════════════════════════ */
+
+  /* ---------- CSS variables ---------- */
+  
+
+  /* ---------- FAB toggle button ---------- */
+  #cw-fab {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: var(--cw-accent);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 32px var(--cw-accent-glow), 0 2px 8px rgba(0,0,0,0.4);
+    transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+    z-index: 9999;
+  }
+  #cw-fab:hover {
+    background: var(--cw-accent-dark);
+    transform: scale(1.08);
+    box-shadow: 0 12px 40px var(--cw-accent-glow), 0 4px 16px rgba(0,0,0,0.5);
+  }
+  #cw-fab svg { width: 26px; height: 26px; fill: #fff; transition: opacity 0.15s; }
+  #cw-fab .icon-close { display: none; }
+  #cw-fab.open .icon-chat  { display: none; }
+  #cw-fab.open .icon-close { display: block; }
+
+  /* Unread badge */
+  #cw-badge {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    width: 18px;
+    height: 18px;
+    background: #ef4444;
+    border-radius: 50%;
+    border: 2px solid var(--cw-bg);
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: #fff;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+  #cw-badge.visible { display: flex; }
+
+  /* ---------- Chat window ---------- */
+  #cw-window {
+    position: fixed;
+    bottom: 100px;
+    right: 28px;
+    width: 370px;
+    max-height: 580px;
+    background: var(--cw-surface);
+    border-radius: var(--cw-radius);
+    box-shadow: var(--cw-shadow);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 9998;
+    transform: translateY(20px) scale(0.96);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform var(--cw-transition), opacity 0.22s ease;
+  }
+  #cw-window.open {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* Header */
+  .cw-header {
+    background: linear-gradient(135deg, var(--cw-accent) 0%, #8b5cf6 100%);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+  .cw-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .cw-avatar svg { width: 20px; height: 20px; fill: #fff; }
+  .cw-header-info { flex: 1; }
+  .cw-header-info h3 {
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+  .cw-status {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.75);
+    margin-top: 1px;
+  }
+  .cw-status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4ade80;
+    animation: cw-pulse 2s infinite;
+  }
+  @keyframes cw-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .cw-minimize-btn {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+  }
+  .cw-minimize-btn:hover { background: rgba(255,255,255,0.28); }
+  .cw-minimize-btn svg { width: 14px; height: 14px; stroke: #fff; fill: none; stroke-width: 2.5; }
+
+  /* Messages area */
+  #cw-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    scroll-behavior: smooth;
+    background: var(--cw-bg);
+  }
+  #cw-messages::-webkit-scrollbar { width: 4px; }
+  #cw-messages::-webkit-scrollbar-track { background: transparent; }
+  #cw-messages::-webkit-scrollbar-thumb { background: var(--cw-border); border-radius: 4px; }
+
+  /* Empty state */
+  .cw-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 32px 20px;
+    text-align: center;
+    flex: 1;
+  }
+  .cw-empty-icon {
+    width: 52px;
+    height: 52px;
+    background: var(--cw-surface2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cw-empty-icon svg { width: 24px; height: 24px; stroke: var(--cw-accent); fill: none; stroke-width: 1.8; }
+  .cw-empty p { color: var(--cw-text-muted); font-size: 0.85rem; line-height: 1.5; }
+  .cw-empty strong { color: var(--cw-text); font-size: 0.95rem; }
+
+  /* Message bubbles */
+  .cw-msg-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    animation: cw-msg-in 0.25s ease;
+  }
+  @keyframes cw-msg-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .cw-msg-row.user { flex-direction: row-reverse; }
+
+  .cw-msg-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--cw-surface2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--cw-text-muted);
+    letter-spacing: 0.03em;
+  }
+  .cw-msg-row.user .cw-msg-avatar { background: var(--cw-accent); color: #fff; }
+  .cw-msg-avatar svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+  .cw-bubble {
+    max-width: 75%;
+    padding: 10px 14px;
+    border-radius: 16px;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    word-break: break-word;
+    position: relative;
+  }
+  .cw-msg-row.admin .cw-bubble {
+    background: var(--cw-surface2);
+    color: var(--cw-text);
+    border-bottom-left-radius: 4px;
+    border: 1px solid var(--cw-border);
+  }
+  .cw-msg-row.user .cw-bubble {
+    background: var(--cw-bubble-user);
+    color: #fff;
+    border-bottom-right-radius: 4px;
+  }
+  .cw-bubble-time {
+    font-size: 0.63rem;
+    margin-top: 4px;
+    display: block;
+    opacity: 0.55;
+  }
+  .cw-msg-row.admin .cw-bubble-time { color: var(--cw-text-muted); }
+  .cw-msg-row.user .cw-bubble-time { color: rgba(255,255,255,0.8); text-align: right; }
+
+  /* Date divider */
+  .cw-date-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--cw-text-muted);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin: 4px 0;
+  }
+  .cw-date-divider::before, .cw-date-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--cw-border);
+  }
+
+  /* Loading spinner */
+  .cw-spinner {
+    display: flex;
+    justify-content: center;
+    padding: 24px;
+  }
+  .cw-spinner::after {
+    content: '';
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--cw-border);
+    border-top-color: var(--cw-accent);
+    border-radius: 50%;
+    animation: cw-spin 0.7s linear infinite;
+  }
+  @keyframes cw-spin { to { transform: rotate(360deg); } }
+
+  /* Typing indicator */
+  .cw-typing {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+  }
+  .cw-typing .cw-bubble {
+    padding: 12px 16px;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+  .cw-typing .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--cw-text-muted);
+    animation: cw-dot 1.2s infinite;
+  }
+  .cw-typing .dot:nth-child(2) { animation-delay: 0.2s; }
+  .cw-typing .dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes cw-dot {
+    0%, 80%, 100% { transform: scale(0.7); opacity: 0.4; }
+    40%           { transform: scale(1);   opacity: 1;   }
+  }
+
+  /* Input area */
+  .cw-input-area {
+    padding: 12px 14px;
+    background: var(--cw-surface);
+    border-top: 1px solid var(--cw-border);
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  #cw-input {
+    flex: 1;
+    background: var(--cw-bg);
+    border: 1px solid var(--cw-border);
+    border-radius: 12px;
+    padding: 10px 14px;
+    color: var(--cw-text);
+    font-family: inherit;
+    font-size: 0.875rem;
+    resize: none;
+    outline: none;
+    min-height: 42px;
+    max-height: 120px;
+    line-height: 1.5;
+    transition: border-color 0.18s;
+  }
+  #cw-input::placeholder { color: var(--cw-text-muted); }
+  #cw-input:focus { border-color: var(--cw-accent); }
+
+  #cw-send-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: var(--cw-accent);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.18s, transform 0.15s;
+    flex-shrink: 0;
+  }
+  #cw-send-btn:hover { background: var(--cw-accent-dark); transform: scale(1.05); }
+  #cw-send-btn:active { transform: scale(0.95); }
+  #cw-send-btn:disabled { background: var(--cw-border); cursor: not-allowed; transform: none; }
+  #cw-send-btn svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 2.2; }
+
+  /* Subject input (first message) */
+  #cw-subject-wrap {
+    padding: 0 14px 10px;
+    background: var(--cw-surface);
+    display: none;
+  }
+  #cw-subject-wrap.visible { display: block; }
+  #cw-subject {
+    width: 100%;
+    background: var(--cw-bg);
+    border: 1px solid var(--cw-border);
+    border-radius: 10px;
+    padding: 8px 12px;
+    color: var(--cw-text);
+    font-family: inherit;
+    font-size: 0.82rem;
+    outline: none;
+    transition: border-color 0.18s;
+  }
+  #cw-subject::placeholder { color: var(--cw-text-muted); }
+  #cw-subject:focus { border-color: var(--cw-accent); }
+
+  /* Not logged in overlay */
+  #cw-auth-notice {
+    flex: 1;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 32px 24px;
+    text-align: center;
+    background: var(--cw-bg);
+  }
+  #cw-auth-notice.visible { display: flex; }
+  #cw-auth-notice svg { width: 40px; height: 40px; stroke: var(--cw-text-muted); fill: none; stroke-width: 1.5; }
+  #cw-auth-notice p { color: var(--cw-text-muted); font-size: 0.85rem; line-height: 1.6; }
+  #cw-auth-notice a {
+    display: inline-block;
+    padding: 9px 22px;
+    background: var(--cw-accent);
+    color: #fff;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: background 0.18s;
+  }
+  #cw-auth-notice a:hover { background: var(--cw-accent-dark); }
+
+  /* Error toast */
+  #cw-error {
+    position: absolute;
+    bottom: 70px;
+    left: 12px;
+    right: 12px;
+    background: #7f1d1d;
+    color: #fca5a5;
+    border: 1px solid #991b1b;
+    border-radius: 10px;
+    padding: 9px 14px;
+    font-size: 0.78rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+    z-index: 10;
+  }
+  #cw-error.show { opacity: 1; }
+
+  /* Responsive */
+  @media (max-width: 420px) {
+    #cw-window {
+      right: 12px;
+      left: 12px;
+      width: auto;
+      bottom: 90px;
+    }
+    #cw-fab { right: 16px; bottom: 20px; }
+  }
+</style>
+
+<style>
+  .cw-msg {
+  display: flex;
+  margin-bottom: 12px;
+}
+
+.cw-msg.user {
+  justify-content: flex-end;
+}
+
+.cw-msg.admin {
+  justify-content: flex-start;
+}
+
+.cw-bubble {
+  max-width: 80%;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.cw-msg.user .cw-bubble {
+  background: #000;
+  color: #fff;
+}
+
+.cw-msg.admin .cw-bubble {
+  background: #f1f1f1;
+  color: #111;
+}
+
+
+#cw-window {
+  position: fixed;
+
+  bottom: 90px;
+
+  right: 20px;
+
+  width: 360px;
+
+  height: 520px;
+
+  background: white;
+
+  border-radius: 20px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 10px 40px
+    rgba(0,0,0,0.12);
+
+  display: none;
+
+  flex-direction: column;
+
+  z-index: 9999;
+}
+
+
+/* IMPORTANT */
+#cw-window.open {
+  display: flex;
+}
+
+#cw-fab {
+  position: fixed;
+
+  bottom: 20px;
+
+  right: 20px;
+
+  width: 64px;
+
+  height: 64px;
+
+  border-radius: 50%;
+
+  border: none;
+
+  background: black;
+
+  color: white;
+
+  cursor: pointer;
+
+  z-index: 9999;
+}
+
+</style>
+
+<style>
+  .cw-header-info > h3 {
+    color: black !important;
+  }
+
+  
+
+  .cc:hover {
+    background-color: #c6dae8 !important;
+  }
+
+  .cs {
+    background-color: #c6dae8 !important; color: #000;
+  }
+</style>
+ 
+</head>
+  <body>
+    <div class="home-a-navigation">
+      <div navbar-static="" class="master-navigation static">
+        <div
+          data-animation="default"
+          class="navbar transparent w-nav"
+          data-easing2="ease"
+          data-easing="ease"
+          data-collapse="medium"
+          data-w-id="b37911c6-a26d-aee2-6377-d32fabf87afd"
+          role="banner"
+          data-no-scroll="1"
+          data-duration="400"
+        >
+          <div class="nav-container">
+            <nav role="navigation" class="nav-menu w-nav-menu">
+              <div class="nav-menu-inner">
+                <div class="divider-nav-items light"></div>
+                <a
+                  href="/"
+                  button=""
+                  class="cta-main nav light w-inline-block cc"
+                >
+                  <div class="button-text-mask button-2">
+                    <div button-text="" class="button-text">Home</div>
+                  </div>
+                </a>
+                <div class="divider-nav-items light"></div>
+                <a
+                  href="./about.html"
+                  button=""
+                  class="cta-main nav light w-inline-block cc"
+                >
+                  <div class="button-text-mask button-2">
+                    <div button-text="" class="button-text">About us</div>
+                  </div>
+                </a>
+                <div class="divider-nav-items light"></div>
+                
+                
+                <a
+                  href="./live-class.html"
+                  button=""
+                  class="cta-main nav light w-inline-block cc"
+                >
+                  <div class="button-text-mask button-2">
+                    <div button-text="" class="button-text">1:1 Session</div>
+                  </div>
+                </a>
+                <div class="divider-nav-items light"></div>
+
+                <a
+                  href="./subscription.html"
+                  button=""
+                  class="cta-main nav light w-inline-block cc"
+                >
+                  <div class="button-text-mask button-2">
+                    <div button-text="" class="button-text">Subscription</div>
+                  </div>
+                </a>
+                <div class="divider-nav-items light"></div>
+                
+              </div>
+              <div class="wrap-mobile-menu">
+                <div class="mobile-nav-top-tile">
+                  <div class="divider-dark-16"></div>
+                  <div class="nav-column-item">
+                    <div class="mobile-links-wrap">
+                      <a
+                        href="/"
+                        aria-current="page"
+                        class="text-large text-dark w--current"
+                        >Home</a
+                      >
+                      
+                    </div>
+                    
+                  </div>
+                  <div class="divider-dark-16"></div>
+                  <a href="./about.html" class="nav-column-item w-inline-block">
+                    <div class="mobile-links-wrap">
+                      <div class="text-large text-dark">About us</div>
+                    </div>
+                    
+                  </a>
+                  <div class="divider-dark-16"></div>
+                  <div class="nav-column-item">
+                    <div class="mobile-links-wrap">
+                      <a href="./live-class.html" class="text-large text-dark"
+                        >1:1 session</a
+                      >
+                    </div>
+                    
+                  </div>
+                  <div class="divider-dark-16"></div>
+
+                  <div class="nav-column-item">
+                    <div class="mobile-links-wrap">
+                      <a href="./subscription.html" class="text-large text-dark"
+                        >Subscription</a
+                      >
+                    </div>
+                    
+                  </div>
+                  <div class="divider-dark-16"></div>
+
+                  <a
+                    href="./privacy.html"
+                    class="nav-column-item w-inline-block"
+                  >
+                    <div class="mobile-links-wrap">
+                      <div class="text-large text-dark">Privacy policy</div>
+                    </div>
+                    
+                  </a>
+                  <div class="divider-dark-16"></div>
+                  <a
+                    href="./terms.html"
+                    class="nav-column-item w-inline-block"
+                  >
+                    <div class="mobile-links-wrap">
+                      <div class="text-large text-dark">terms and Conditions</div>
+                    </div>
+                    
+                  </a>
+                  <div class="divider-dark-16"></div>
+                  <a href="./login.html" class="nav-column-item w-inline-block">
+                    <div class="mobile-links-wrap">
+                      <div class="text-large text-dark">Get started</div>
+                    </div>
+                    
+                  </a>
+                  <div class="divider-dark-16"></div>
+                  <div class="nav-column-item">
+                    <div class="mobile-links-wrap">
+                      <a href="./contact.html" class="text-large text-dark"
+                        >Contact us</a
+                      >
+                    </div>
+                    
+                  </div>
+                </div>
+                
+              </div>
+            </nav>
+            <a
+              href="/"
+              aria-current="page"
+              class="brand-nav w-nav-brand w--current"
+            >
+              <!-- <img
+                src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a83e5fed5bf3258bb1ad89_Foster%20%26%20Reeves.svg"
+                loading="lazy"
+                alt=""
+                class="logo-light"
+              />
+              <img
+                src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a8a7b80e0c03368b11ecde_Logo.svg"
+                loading="lazy"
+                alt=""
+                class="logo-dark"
+              /> -->
+              <img
+                src="https://i.postimg.cc/Dy3w8cpn/Whats-App-Image-2026-05-26-at-1-24-15-PM-(1).jpg"
+                loading="lazy"
+                alt="Logo here"
+                class="logo-light"
+                style="height: 50px !important;"
+              />
+            </a>
+            <div class="right-nav">
+              <div class="nav-button-mobile-hidden">
+                <div class="divider-nav-items light"></div>
+                <a
+                  href="./contact.html"
+                  button=""
+                  class="cta-main nav light w-inline-block cc"
+                >
+                  <div class="button-text-mask button-2">
+                    <div button-text="" class="button-text">Contact Us</div>
+                  </div>
+                </a>
+                <div class="divider-nav-items light"></div>
+              </div>
+              <!-- <a
+                href="/login.html"
+                button=""
+                target="_blank"
+                class="cta-main nav accent-cta w-inline-block"
+              >
+                <div class="button-text-mask button-2">
+                  <div button-text="" class="button-text">Get started</div>
+                </div>
+              </a> -->
+              <a
+  href="./login.html"
+  id="auth-btn"
+  class="cta-main nav accent-cta w-inline-block"
+  style="background-color: #af0b2c !important; color: #fff;"
+>
+  <div class="button-text-mask button-2">
+    <div id="auth-btn-text" class="button-text">
+      Get started
+    </div>
+  </div>
+</a>
+              <div class="menu-button w-nav-button">
+                <div class="menu-button-inner open" id="opens">
+                  <img
+                    loading="lazy"
+                    src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a96eff4a4b6a28004ac021_Menu.svg"
+                    alt=""
+                    class="icon-menu"
+                  />
+                </div>
+                <div class="menu-button-inner close" id="closes">
+                  <img
+                    loading="lazy"
+                    src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a96efff4c545336c8ecf42_Close.svg"
+                    alt=""
+                    class="icon-menu"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="nav-bottom-line light-line"></div>
+        </div>
+        <div class="nav-blured-bg"></div>
+      </div>
+    </div>
+    <div navbar-sticky="" class="master-navigation fixed">
+      <div
+        data-animation="default"
+        class="navbar fixed w-nav"
+        data-easing2="ease"
+        data-easing="ease"
+        data-collapse="medium"
+        data-w-id="d52261ac-4614-08bf-29be-e4fed544e0a3"
+        role="banner"
+        data-no-scroll="1"
+        data-duration="400"
+      >
+        <div class="nav-container">
+          <nav role="navigation" class="nav-menu w-nav-menu">
+            <div class="nav-menu-inner">
+              <div class="divider-nav-items"></div>
+              <a href="/" button="" class="cta-main nav w-inline-block cc">
+                <div class="button-text-mask button-2">
+                  <div button-text="" class="button-text">Home</div>
+                </div>
+              </a>
+              <div class="divider-nav-items"></div>
+              <a
+                href="./about.html"
+                button=""
+                class="cta-main nav w-inline-block cc"
+              >
+                <div class="button-text-mask button-2">
+                  <div button-text="" class="button-text">About us</div>
+                </div>
+              </a>
+              <div class="divider-nav-items"></div>
+              
+              <a
+                href="./live-class.html"
+                button=""
+                class="cta-main nav w-inline-block cc"
+              >
+                <div class="button-text-mask button-2">
+                  <div button-text="" class="button-text">1:1 Session</div>
+                </div>
+              </a>
+              
+              <div class="divider-nav-items"></div>
+
+              <a
+                href="./subscription.html"
+                button=""
+                class="cta-main nav w-inline-block cc"
+              >
+                <div class="button-text-mask button-2">
+                  <div button-text="" class="button-text">Subscription</div>
+                </div>
+              </a>
+              
+              <div class="divider-nav-items"></div>
+            </div>
+            <div class="wrap-mobile-menu">
+              <div class="mobile-nav-top-tile">
+                
+                <div class="nav-column-item">
+                  <div class="mobile-links-wrap">
+                    <a
+                      href="/"
+                      aria-current="page"
+                      class="text-large text-dark w--current"
+                      >Home</a
+                    >
+                    
+                  </div>
+                  
+                </div>
+                <div class="divider-dark-16"></div>
+                <a href="./about.html" class="nav-column-item w-inline-block">
+                  <div class="mobile-links-wrap">
+                    <div class="text-large text-dark">About us</div>
+                  </div>
+                  
+                </a>
+                <div class="divider-dark-16"></div>
+                <div class="nav-column-item">
+                  <div class="mobile-links-wrap">
+                    <a href="./live-class.html" class="text-large text-dark"
+                      >1:1 session</a
+                    >
+                  </div>
+                  
+                </div>
+                <div class="divider-dark-16"></div>
+                <div class="nav-column-item">
+                  <div class="mobile-links-wrap">
+                    <a href="./subscription.html" class="text-large text-dark"
+                      >Subscription</a
+                    >
+                  </div>
+                  
+                </div>
+                <div class="divider-dark-16"></div>
+                <a
+                  href="./privacy.html"
+                  class="nav-column-item w-inline-block"
+                >
+                  <div class="mobile-links-wrap">
+                    <div class="text-large text-dark">Privacy policy</div>
+                  </div>
+                  
+                </a>
+                <div class="divider-dark-16"></div>
+                <a
+                  href="./terms.html"
+                  class="nav-column-item w-inline-block"
+                >
+                  <div class="mobile-links-wrap">
+                    <div class="text-large text-dark">terms and Conditions</div>
+                  </div>
+                  
+                </a>
+                <div class="divider-dark-16"></div>
+                <a
+  href="./login.html"
+  id="auth-btns"
+  class="cta-main nav accent-cta w-inline-block"
+>
+  <div class="button-text-mask button-2">
+    <div id="auth-btns-text" class="button-text">
+      Get started
+    </div>
+  </div>
+</a>
+                <div class="divider-dark-16"></div>
+                <div class="nav-column-item">
+                  <div class="mobile-links-wrap">
+                    <a href="/contact.html" class="text-large text-dark"
+                      >Contact us</a
+                    >
+                  </div>
+                  
+                </div>
+              </div>
+              
+            </div>
+          </nav>
+          <a
+            href="/"
+            aria-current="page"
+            class="brand-nav w-nav-brand w--current"
+          >
+            <!-- <img
+              src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a8a7b80e0c03368b11ecde_Logo.svg"
+              loading="lazy"
+              alt=""
+            /> -->
+            <img src="https://i.postimg.cc/Dy3w8cpn/Whats-App-Image-2026-05-26-at-1-24-15-PM-(1).jpg" height="50px !
+            " alt="Logo here">
+          </a>
+          <div class="right-nav">
+            <div class="nav-button-mobile-hidden">
+              <div class="divider-nav-items"></div>
+              <a
+                href="/contact.html"
+                button=""
+                class="cta-main nav w-inline-block cc"
+                
+              >
+                <div class="button-text-mask button-2">
+                  <div button-text="" class="button-text">Contact Us</div>
+                </div>
+              </a>
+              <div class="divider-nav-items"></div>
+            </div>
+            <!-- <a
+              href="/login.html"
+              button=""
+              target="_blank"
+              class="cta-main nav accent-cta w-inline-block"
+            >
+              <div class="button-text-mask button-2">
+                <div button-text="" class="button-text">Get started</div>
+              </div>
+            </a> -->
+            <a
+  href="/login.html"
+  id="secondary-btn"
+  class="cta-main nav accent-cta w-inline-block"
+  style="background-color: #af0b2c !important; color: #fff;"
+>
+  <div class="button-text-mask button-2">
+    <div id="secondary-btn-text" class="button-text">
+      Get started
+    </div>
+  </div>
+</a>
+            <div class="divider-nav-items"></div>
+            <div class="menu-button w-nav-button">
+              <div class="menu-button-inner open">
+                <img
+                  loading="lazy"
+                  src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a96eff4a4b6a28004ac021_Menu.svg"
+                  alt=""
+                  class="icon-menu"
+                />
+              </div>
+              <div class="menu-button-inner close">
+                <img
+                  loading="lazy"
+                  src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a96efff4c545336c8ecf42_Close.svg"
+                  alt=""
+                  class="icon-menu"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav-bottom-line"></div>
+      </div>
+      <div class="nav-blured-bg"></div>
+    </div>
+    <div class="master-bg-grid">
+      <div class="w-layout-grid bg-grid">
+        <div class="line-bg"></div>
+        <div class="line-bg"></div>
+        <div class="line-bg"></div>
+        <div class="line-bg"></div>
+        <div class="line-bg"></div>
+      </div>
+    </div>
+    <section class="section hero-home-a-section">
+      <div
+        data-poster-url="https://i.postimg.cc/d1RjFqnr/Chat-GPT-Image-Jun-6-2026-01-05-01-PM-(1).webp"
+        data-video-urls="https://i.postimg.cc/d1RjFqnr/Chat-GPT-Image-Jun-6-2026-01-05-01-PM-(1).webp"
+        data-autoplay="true"
+        data-loop="true"
+        data-wf-ignore="true"
+        class="video-home-a w-background-video w-background-video-atom"
+      >
+        <video
+          id="7f5f0a66-6e0a-fc6a-ef4d-54772d54b16f-video"
+          autoplay=""
+          loop=""
+          style="
+            background-image: url('https://i.postimg.cc/zvPS8GDd/Chat-GPT-Image-Jun-6-2026-01-05-01-PM.webp');
+          "
+          muted=""
+          playsinline=""
+          data-wf-ignore="true"
+          data-object-fit="cover"
+        >
+          <!-- <source
+            src="https://www.pexels.com/download/video/8617284/"
+            data-wf-ignore="true"
+          />
+          <source
+            src="https://www.pexels.com/download/video/8617284/"
+            data-wf-ignore="true"
+          /> -->
+        </video>
+        
+        <div class="w-layout-blockcontainer main-container w-container">
+          <div class="master-hero-home-a">
+            <h1 text-hero="">Learn New Skills. On Your Time.</h1>
+            <div class="text-wrap-home-a-hero">
+              <div>
+                Book one-on-one online sessions tailored to your needs. Choose a
+        convenient time, connect through Google Meet, and get the support
+        you need from anywhere.
+              </div>
+              <div class="button-wrap-home-a-hero" >
+                <div data-w-id="22c3aaa6-6254-20a0-1ec8-d9e3fee62d60" >
+                  <a
+                    href="./live-class.html"
+                    button=""
+                    data-wf--cta-main--variant="accent"
+                    
+                    class="cta-main w-variant-a57b7428-18a2-3ff9-288f-84debbb18fc8 w-inline-block"
+                    
+                    >
+                    <div class="button-text-mask" >
+                      <div
+                        button-text=""
+                        
+                        class="button-text w-variant-a57b7428-18a2-3ff9-288f-84debbb18fc8"
+                        
+                        >
+                        Start Learning
+                      </div>
+                    </div>
+                    <div class="button-icon-wrap">
+                      <div button-icon-right="" class="icon-button w-embed">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="100%"
+                          height="100%"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                        >
+                          <path
+                            d="M3.33325 8.00016H11.9999M7.99992 3.3335L12.6666 8.00016L7.99992 12.6668"
+                            stroke="currentColor"
+                            stroke-width="var(--_❇️-icon---icon-stroke)"
+                            stroke-linecap="square"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <div
+                      button-bg=""
+                      class="button-bg w-variant-a57b7428-18a2-3ff9-288f-84debbb18fc8"
+                      style="background-color: #c6dae8 !important; color: #fff;"
+                    ></div>
+                  </a>
+                </div>
+                <a
+                  href="./about.html"
+                  button=""
+                  data-wf--cta-main--variant="secondary-light"
+                  class="cta-main w-variant-ce35de5b-82b0-5c33-cda9-ac85edaf0ae6 w-inline-block"
+                >
+                  <div class="button-text-mask">
+                    <div button-text="" class="button-text">About us</div>
+                  </div>
+                  <div
+                    button-bg=""
+                    class="button-bg w-variant-ce35de5b-82b0-5c33-cda9-ac85edaf0ae6 cc"
+                    
+                  ></div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="overlay-home-a"></div>
+        <div class="overlay-images-tiles home-a">
+          <div class="overlay-line">
+            <div class="overlay-tile home-1"></div>
+          </div>
+          <div class="overlay-line home-a">
+            <div class="overlay-tile home-2"></div>
+          </div>
+          <div class="overlay-line">
+            <div class="overlay-tile home-3"></div>
+          </div>
+          <div class="overlay-line">
+            <div class="overlay-tile home-4"></div>
+          </div>
+        </div> -->
+      </div>
+    </section>
+    <section class="section home-a-about-section">
+      <div class="w-layout-blockcontainer main-container w-container">
+        <div class="master-home-a-about">
+          <div class="w-layout-grid home-a-about-halves">
+            <div class="text-h5">
+              With personalized one-on-one sessions, flexible scheduling, and ongoing
+membership options, our platform has become a trusted place for individuals
+seeking dedicated support. We provide guidance, encouragement, and
+personalized attention every step of the way.
+            </div>
+          </div>
+          <!-- <div class="logo-columns w-row">
+            <div class="w-col w-col-6 w-col-stack">
+              <div class="content-logos left-aligned">
+                <div data-wf--eyebrow--variant="base" class="eyebrow">
+                  <div class="eyebrow-circle"></div>
+                  <div class="label-small">Our clients</div>
+                </div>
+                <div
+                  data-w-id="9d365742-8adb-2fc8-b594-f219d0c30090"
+                  style="filter: blur(12px); opacity: 0"
+                  class="master-marquees logo-marquee home-a"
+                >
+                  <div class="logo-shadow light"></div>
+                  <div
+                    data-w-id="9d365742-8adb-2fc8-b594-f219d0c30091"
+                    style="
+                      -webkit-transform: translate3d(0%, 0, 0) scale3d(1, 1, 1)
+                        rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+                      -moz-transform: translate3d(0%, 0, 0) scale3d(1, 1, 1)
+                        rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+                      -ms-transform: translate3d(0%, 0, 0) scale3d(1, 1, 1)
+                        rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+                      transform: translate3d(0%, 0, 0) scale3d(1, 1, 1)
+                        rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+                    "
+                    class="wrap-marquee-logos"
+                  >
+                    <div class="single-logo-marquee">
+                      <img
+                        loading="lazy"
+                        src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a8974a796e08bfa29aff24_Compnay%20logo.svg"
+                        alt=""
+                        class="marquee-logo"
+                      />
+                      <img
+                        loading="lazy"
+                        src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a8974a796e08bfa29aff27_Compnay%20logo-1.svg"
+                        alt=""
+                        class="marquee-logo large"
+                      />
+                      <img
+                        loading="lazy"
+                        src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a8974a796e08bfa29aff25_Compnay%20logo-2.svg"
+                        alt=""
+                        class="marquee-logo large"
+                      />
+                      <img
+                        loading="lazy"
+                        src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a8974a796e08bfa29aff23_Compnay%20logo-3.svg"
+                        alt=""
+                        class="marquee-logo large"
+                      />
+                      <img
+                        loading="lazy"
+                        src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a8974a796e08bfa29aff22_Compnay%20logo-4.svg"
+                        alt=""
+                        class="marquee-logo small"
+                      />
+                      <img
+                        loading="lazy"
+                        src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a8974a796e08bfa29aff21_Compnay%20logo-5.svg"
+                        alt=""
+                        class="marquee-logo large"
+                      />
+                      <img
+                        loading="lazy"
+                        src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a8974a796e08bfa29aff26_Compnay%20logo-6.svg"
+                        alt=""
+                        class="marquee-logo large"
+                      />
+                      <img
+                        loading="lazy"
+                        src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a8974a796e08bfa29aff20_Compnay%20logo-7.svg"
+                        alt=""
+                        class="marquee-logo large"
+                      />
+                    </div>
+                    <div class="single-logo-marquee">
+                      <img
+                        loading="lazy"
+                        src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a8974a796e08bfa29aff24_Compnay%20logo.svg"
+                        alt=""
+                        class="marquee-logo"
+                      />
+                      <img
+                        loading="lazy"
+                        src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a8974a796e08bfa29aff27_Compnay%20logo-1.svg"
+                        alt=""
+                        class="marquee-logo large"
+                      />
+                      <img
+                        loading="lazy"
+                        src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a8974a796e08bfa29aff25_Compnay%20logo-2.svg"
+                        alt=""
+                        class="marquee-logo large"
+                      />
+                      <img
+                        loading="lazy"
+                        src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a8974a796e08bfa29aff23_Compnay%20logo-3.svg"
+                        alt=""
+                        class="marquee-logo large"
+                      />
+                      <img
+                        loading="lazy"
+                        src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a8974a796e08bfa29aff22_Compnay%20logo-4.svg"
+                        alt=""
+                        class="marquee-logo small"
+                      />
+                      <img
+                        loading="lazy"
+                        src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a8974a796e08bfa29aff21_Compnay%20logo-5.svg"
+                        alt=""
+                        class="marquee-logo large"
+                      />
+                      <img
+                        loading="lazy"
+                        src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a8974a796e08bfa29aff26_Compnay%20logo-6.svg"
+                        alt=""
+                        class="marquee-logo large"
+                      />
+                      <img
+                        loading="lazy"
+                        src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a8974a796e08bfa29aff20_Compnay%20logo-7.svg"
+                        alt=""
+                        class="marquee-logo large"
+                      />
+                    </div>
+                    <div class="single-logo-marquee">
+                      <img
+                        loading="lazy"
+                        src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a8974a796e08bfa29aff24_Compnay%20logo.svg"
+                        alt=""
+                        class="marquee-logo"
+                      />
+                      <img
+                        loading="lazy"
+                        src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a8974a796e08bfa29aff27_Compnay%20logo-1.svg"
+                        alt=""
+                        class="marquee-logo large"
+                      />
+                      <img
+                        loading="lazy"
+                        src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a8974a796e08bfa29aff25_Compnay%20logo-2.svg"
+                        alt=""
+                        class="marquee-logo large"
+                      />
+                      <img
+                        loading="lazy"
+                        src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a8974a796e08bfa29aff23_Compnay%20logo-3.svg"
+                        alt=""
+                        class="marquee-logo large"
+                      />
+                      <img
+                        loading="lazy"
+                        src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a8974a796e08bfa29aff22_Compnay%20logo-4.svg"
+                        alt=""
+                        class="marquee-logo small"
+                      />
+                      <img
+                        loading="lazy"
+                        src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a8974a796e08bfa29aff21_Compnay%20logo-5.svg"
+                        alt=""
+                        class="marquee-logo large"
+                      />
+                      <img
+                        loading="lazy"
+                        src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a8974a796e08bfa29aff26_Compnay%20logo-6.svg"
+                        alt=""
+                        class="marquee-logo large"
+                      />
+                      <img
+                        loading="lazy"
+                        src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a8974a796e08bfa29aff20_Compnay%20logo-7.svg"
+                        alt=""
+                        class="marquee-logo large"
+                      />
+                    </div>
+                  </div>
+                  <div class="logo-shadow light right-light"></div>
+                </div>
+              </div>
+            </div>
+            <div class="w-col w-col-6 w-col-stack"></div>
+          </div> -->
+        </div>
+      </div>
+      <div class="master-marquees">
+        <div
+          data-w-id="199c8ba2-ab41-b640-05dc-88340bef920c"
+          class="marquee-images"
+        >
+          <div class="single-marquee-images">
+            <div class="image-marquee">
+              <img
+                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f"
+                loading="lazy"
+                alt=""
+                class="image-cover"
+              />
+            </div>
+          
+            <div class="image-marquee large">
+              <img
+                src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3"
+                loading="lazy"
+                alt=""
+                class="image-cover"
+              />
+            </div>
+          
+            <div class="image-marquee">
+              <img
+                src="https://images.unsplash.com/photo-1509062522246-3755977927d7"
+                loading="lazy"
+                alt=""
+                class="image-cover"
+              />
+            </div>
+          
+            <div class="image-marquee large">
+              <img
+                src="https://images.unsplash.com/photo-1523240795612-9a054b0db644"
+                loading="lazy"
+                alt=""
+                class="image-cover"
+              />
+            </div>
+          
+            <div class="image-marquee">
+              <div
+                data-poster-url="https://images.unsplash.com/photo-1516321318423-f06f85e504b3"
+                data-video-urls=""
+                data-autoplay="true"
+                data-loop="true"
+                data-wf-ignore="true"
+                class="video-cover w-background-video w-background-video-atom"
+              >
+                <video
+                  autoplay=""
+                  loop=""
+                  muted=""
+                  playsinline=""
+                  data-wf-ignore="true"
+                  data-object-fit="cover"
+                ></video>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="bg-sky">
+        <img
+          src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68ad618a3e7e2dcd1b6567ac_pexels-padrinan-19670.webp"
+          loading="lazy"
+          sizes="(max-width: 6016px) 100vw, 6016px"
+          srcset="
+            https://cdn.prod.website-files.com/68a398206b83e17019b48462/68ad618a3e7e2dcd1b6567ac_pexels-padrinan-19670-p-500.webp   500w,
+            https://cdn.prod.website-files.com/68a398206b83e17019b48462/68ad618a3e7e2dcd1b6567ac_pexels-padrinan-19670-p-800.webp   800w,
+            https://cdn.prod.website-files.com/68a398206b83e17019b48462/68ad618a3e7e2dcd1b6567ac_pexels-padrinan-19670-p-1080.webp 1080w,
+            https://cdn.prod.website-files.com/68a398206b83e17019b48462/68ad618a3e7e2dcd1b6567ac_pexels-padrinan-19670-p-1600.webp 1600w,
+            https://cdn.prod.website-files.com/68a398206b83e17019b48462/68ad618a3e7e2dcd1b6567ac_pexels-padrinan-19670-p-2000.webp 2000w,
+            https://cdn.prod.website-files.com/68a398206b83e17019b48462/68ad618a3e7e2dcd1b6567ac_pexels-padrinan-19670-p-2600.webp 2600w,
+            https://cdn.prod.website-files.com/68a398206b83e17019b48462/68ad618a3e7e2dcd1b6567ac_pexels-padrinan-19670-p-3200.webp 3200w,
+            https://cdn.prod.website-files.com/68a398206b83e17019b48462/68ad618a3e7e2dcd1b6567ac_pexels-padrinan-19670.webp        6016w
+          "
+          alt=""
+          class="image-sky cover"
+        />
+      </div> -->
+    </section>
+    <section class="section projects-home-a-section">
+      <div class="w-layout-blockcontainer main-container w-container">
+        <div class="headline-projects-home-a">
+          <div class=" text-h0">Start Learning</div>
+          <a
+            href="/contact.html"
+            button=""
+            data-wf--cta-main--variant="light"
+            class="cta-main w-variant-fbecf5ef-682c-6338-799a-2aa0018b4b5b w-inline-block"
+          >
+            <div class="button-text-mask">
+              <div
+                button-text=""
+                class="button-text w-variant-fbecf5ef-682c-6338-799a-2aa0018b4b5b"
+              >
+                Get started
+              </div>
+            </div>
+            <div
+              button-bg=""
+              class="button-bg w-variant-fbecf5ef-682c-6338-799a-2aa0018b4b5b cc"
+            ></div>
+          </a>
+        </div>
+        <div class="wrap-sticky-projects">
+          <div class="sticky-project-line bottom"></div>
+          <div class="projects w-dyn-list">
+            <div role="list" class="project-list-home-a w-dyn-items">
+              <div role="listitem" class="project-sticky-home-a w-dyn-item">
+                <a
+                  cms-item=""
+                  
+                  class="card-case-sticky w-inline-block"
+                >
+                  <div
+                    id="w-node-c8c4238f-bea5-9435-a522-d4c873e583da-19b48448"
+                    class="main-content-project-sticky"
+                  >
+                    <div
+                      id="w-node-_6f93a850-4f54-6cbb-f710-9adb057dca24-19b48448"
+                      class="project-sticky-top-tile"
+                    >
+                      <div
+                        id="w-node-_68ee6647-bd98-e871-9a31-19b1696c8576-19b48448"
+                        class="case-sticky-top-tile"
+                      >
+                        <div class="text-h3">Create Account</div>
+                        <div class="text-dark-88">
+                          Sign up in minutes and unlock your personalized dashboard to
+                          access courses, coaching sessions, and track your learning.
+                        </div>
+                      </div>
+                      <div
+                        id="w-node-_2f981323-3129-5a3e-fa7f-af98ea2a1c3d-19b48448"
+                        class="wrap-info-project-sticky"
+                      >
+                        <div class="project-sticky-info-tile">
+                          <div class="label-small">Step</div>
+                          <div>01</div>
+                        </div>
+                        <div class="project-sticky-info-tile">
+                          <div class="label-small">Action</div>
+                          <div>Sign Up</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="left-case-sticky">
+                      <div class="link-cs-card">
+                        <div cms-text="">Get Started</div>
+                        <div cms-icon-wrap="" class="icon-wrap-card-link">
+                          <div cms-icon="" class="icon-link-arrow w-embed">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="100%"
+                              height="100%"
+                              viewBox="0 0 16 16"
+                              fill="none"
+                            >
+                              <path
+                                d="M3.33594 7.9987L12.0026 7.9987M8.0026 3.33203L12.6693 7.9987L8.0026 12.6654"
+                                stroke="currentColor"
+                                stroke-width="var(--_❇️-icon---icon-stroke)"
+                                stroke-linecap="square"
+                              />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="image-wrap-case-sticky">
+                    <img
+                      cms-image=""
+                      loading="lazy"
+                      alt=""
+                      src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d"
+                      class="image-cover"
+                    />
+                  </div>
+                  <div class="sticky-project-line"></div>
+                </a>
+              </div>
+              
+              <div role="listitem" class="project-sticky-home-a w-dyn-item">
+                <a
+                  cms-item=""
+                  
+                  class="card-case-sticky w-inline-block"
+                >
+                  <div
+                    id="w-node-c8c4238f-bea5-9435-a522-d4c873e583da-19b48448"
+                    class="main-content-project-sticky"
+                  >
+                    <div
+                      id="w-node-_6f93a850-4f54-6cbb-f710-9adb057dca24-19b48448"
+                      class="project-sticky-top-tile"
+                    >
+                      <div
+                        id="w-node-_68ee6647-bd98-e871-9a31-19b1696c8576-19b48448"
+                        class="case-sticky-top-tile"
+                      >
+                        <div class="text-h3">Book 1:1 Session</div>
+                        <div class="text-dark-88">
+                          Choose a date and time that works for you and book a personalized
+    one-on-one session tailored to your goals and needs.
+                        </div>
+                      </div>
+                      <div
+                        id="w-node-_2f981323-3129-5a3e-fa7f-af98ea2a1c3d-19b48448"
+                        class="wrap-info-project-sticky"
+                      >
+                        <div class="project-sticky-info-tile">
+                          <div class="label-small">Step</div>
+                          <div>02</div>
+                        </div>
+                        <div class="project-sticky-info-tile">
+                          <div class="label-small">Action</div>
+                          <div>Enroll</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="left-case-sticky">
+                      <div class="link-cs-card">
+                        <div cms-text="">View Courses</div>
+                        <div cms-icon-wrap="" class="icon-wrap-card-link">
+                          <div cms-icon="" class="icon-link-arrow w-embed">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="100%"
+                              height="100%"
+                              viewBox="0 0 16 16"
+                              fill="none"
+                            >
+                              <path
+                                d="M3.33594 7.9987L12.0026 7.9987M8.0026 3.33203L12.6693 7.9987L8.0026 12.6654"
+                                stroke="currentColor"
+                                stroke-width="var(--_❇️-icon---icon-stroke)"
+                                stroke-linecap="square"
+                              />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="image-wrap-case-sticky">
+                    <img
+                      cms-image=""
+                      loading="lazy"
+                      alt=""
+                      src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3"
+                      class="image-cover"
+                    />
+                  </div>
+                  <div class="sticky-project-line"></div>
+                </a>
+              </div>
+              
+              <div role="listitem" class="project-sticky-home-a w-dyn-item">
+                <a
+                  cms-item=""
+                  href="./live-class.html"
+                  class="card-case-sticky w-inline-block"
+                >
+                  <div
+                    id="w-node-c8c4238f-bea5-9435-a522-d4c873e583da-19b48448"
+                    class="main-content-project-sticky"
+                  >
+                    <div
+                      id="w-node-_6f93a850-4f54-6cbb-f710-9adb057dca24-19b48448"
+                      class="project-sticky-top-tile"
+                    >
+                      <div
+                        id="w-node-_68ee6647-bd98-e871-9a31-19b1696c8576-19b48448"
+                        class="case-sticky-top-tile"
+                      >
+                        <div class="text-h3">Learn & Grow</div>
+                        <div class="text-dark-88">
+                          Start learning at your own pace and book 1:1 sessions for
+                          personalized guidance from industry experts.
+                        </div>
+                      </div>
+                      <div
+                        id="w-node-_2f981323-3129-5a3e-fa7f-af98ea2a1c3d-19b48448"
+                        class="wrap-info-project-sticky"
+                      >
+                        <div class="project-sticky-info-tile">
+                          <div class="label-small">Step</div>
+                          <div>03</div>
+                        </div>
+                        <div class="project-sticky-info-tile">
+                          <div class="label-small">Action</div>
+                          <div>Start</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="left-case-sticky">
+                      <div class="link-cs-card">
+                        <div cms-text="">Start Learning</div>
+                        <div cms-icon-wrap="" class="icon-wrap-card-link">
+                          <div cms-icon="" class="icon-link-arrow w-embed">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="100%"
+                              height="100%"
+                              viewBox="0 0 16 16"
+                              fill="none"
+                            >
+                              <path
+                                d="M3.33594 7.9987L12.0026 7.9987M8.0026 3.33203L12.6693 7.9987L8.0026 12.6654"
+                                stroke="currentColor"
+                                stroke-width="var(--_❇️-icon---icon-stroke)"
+                                stroke-linecap="square"
+                              />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="image-wrap-case-sticky">
+                    <img
+                      cms-image=""
+                      loading="lazy"
+                      alt=""
+                      src="https://images.unsplash.com/photo-1509062522246-3755977927d7"
+                      class="image-cover"
+                    />
+                  </div>
+                  <div class="sticky-project-line"></div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section services-section" style="background-color: #1c2b3a !important;">
+      <div class="w-layout-blockcontainer main-container w-container">
+        <div class="w-layout-grid services-halves">
+          <div style="opacity: 1" class="left-services">
+            <div class="outer-image-service">
+              <div class="image-wrap-service">
+                <img
+                  src="https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  loading="lazy"
+                  sizes="(max-width: 767px) 100vw, (max-width: 991px) 728px, 940px"
+                  
+                  alt=""
+                  class="image-cover"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="right-services">
+            <div
+              data-wf--eyebrow--variant="stone-ledger"
+              class="eyebrow w-variant-86026964-4349-5943-ac9a-5d10c27eb92d"
+            >
+              <div class="eyebrow-circle"></div>
+              <div class="label-small">What We Offer</div>
+            </div>
+            <div class="services-list">
+              <div
+                data-hover="true"
+                data-delay="0"
+                class="dropdown-images w-dropdown"
+              >
+                <div class="dropdown-toggle-images w-dropdown-toggle">
+                  <a
+                    data-w-id="1bdbd2ca-e438-8c8a-e8b8-a40416d25fbe"
+                    
+                    class="service-item w-inline-block"
+                  >
+                    <div class="service-top-tile">
+                      <div class="text-h3">1:1 Coaching</div>
+                      <div class="icon-wrap-services">
+                        <div class="icon-service w-embed">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="100%"
+                            height="100%"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            
+                          >
+                            <path
+                              d="M5 12H18M12 5L19 12L12 19"
+                              stroke="currentColor"
+                              stroke-width="var(--_❇️-icon---icon-stroke)"
+                              stroke-linecap="square"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                    <div style="height: 0px" class="service-bottom-tile">
+                      <div class="text-wrap-service-item">
+                        <div class="text-light-88">
+                          Get personalized guidance through live one-on-one sessions tailored to your goals.
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <nav class="dropdown-list-images w-dropdown-list">
+                  <div
+                    class="w-layout-blockcontainer main-container tab-container w-container"
+                  >
+                    <div class="w-layout-grid dropdown-image-halves">
+                      <div class="dropdown-inner-tabs">
+                        <div class="outer-image-service">
+                          <div class="image-wrap-service">
+                            <img
+                              src="https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                              loading="lazy"
+                              sizes="100vw"
+                              
+                              alt=""
+                              class="image-cover"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </nav>
+              </div>
+              <!-- <div
+                data-hover="true"
+                data-delay="0"
+                class="dropdown-images w-dropdown"
+              >
+                <div class="dropdown-toggle-images w-dropdown-toggle">
+                  <a
+                    data-w-id="1bdbd2ca-e438-8c8a-e8b8-a40416d25fd1"
+                    
+                    class="service-item w-inline-block"
+                  >
+                    <div class="service-top-tile">
+                      <div class="text-h3">Video Courses</div>
+                      <div class="icon-wrap-services">
+                        <div class="icon-service w-embed">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="100%"
+                            height="100%"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                          >
+                            <path
+                              d="M5 12H18M12 5L19 12L12 19"
+                              stroke="currentColor"
+                              stroke-width="var(--_❇️-icon---icon-stroke)"
+                              stroke-linecap="square"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                    <div style="height: 0px" class="service-bottom-tile">
+                      <div class="text-wrap-service-item">
+                        <div class="text-light-88">
+                          Learn anytime with step-by-step video lessons designed by industry experts.
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <nav class="dropdown-list-images w-dropdown-list">
+                  <div
+                    class="w-layout-blockcontainer main-container tab-container w-container"
+                  >
+                    <div class="w-layout-grid dropdown-image-halves">
+                      <div class="dropdown-inner-tabs">
+                        <div class="outer-image-service">
+                          <div class="image-wrap-service">
+                            <img
+                              src="https://images.unsplash.com/flagged/photo-1559475555-b26777ed3ab4?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                              loading="lazy"
+                              sizes="100vw"
+                              
+                              alt=""
+                              class="image-cover"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </nav>
+              </div> -->
+              <div
+                data-hover="true"
+                data-delay="0"
+                class="dropdown-images w-dropdown"
+              >
+                <div class="dropdown-toggle-images w-dropdown-toggle">
+                  <a
+                    data-w-id="1bdbd2ca-e438-8c8a-e8b8-a40416d25fe4"
+                    
+                    class="service-item w-inline-block"
+                  >
+                    <div class="service-top-tile">
+                      <div class="text-h3">Live Workshops</div>
+                      <div class="icon-wrap-services">
+                        <div class="icon-service w-embed">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="100%"
+                            height="100%"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                          >
+                            <path
+                              d="M5 12H18M12 5L19 12L12 19"
+                              stroke="currentColor"
+                              stroke-width="var(--_❇️-icon---icon-stroke)"
+                              stroke-linecap="square"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                    <div style="height: 0px" class="service-bottom-tile">
+                      <div class="text-wrap-service-item">
+                        <div class="text-light-88">
+                          Join interactive group sessions and live classes for hands-on learning.
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <nav class="dropdown-list-images w-dropdown-list">
+                  <div
+                    class="w-layout-blockcontainer main-container tab-container w-container"
+                  >
+                    <div class="w-layout-grid dropdown-image-halves">
+                      <div class="dropdown-inner-tabs">
+                        <div class="outer-image-service">
+                          <div class="image-wrap-service">
+                            <img
+                              src="https://images.unsplash.com/photo-1564130987042-acbca1b51e8d?q=80&w=848&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                              loading="lazy"
+                              sizes="100vw"
+                              
+                              alt=""
+                              class="image-cover"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </nav>
+              </div>
+              <div
+                data-hover="true"
+                data-delay="0"
+                class="dropdown-images w-dropdown"
+              >
+                <div class="dropdown-toggle-images w-dropdown-toggle">
+                  <a
+                    data-w-id="1bdbd2ca-e438-8c8a-e8b8-a40416d25ff7"
+                    
+                    class="service-item w-inline-block"
+                  >
+                    <div class="service-top-tile">
+                      <div class="text-h3">Student Dashboard</div>
+                      <div class="icon-wrap-services">
+                        <div class="icon-service w-embed">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="100%"
+                            height="100%"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                          >
+                            <path
+                              d="M5 12H18M12 5L19 12L12 19"
+                              stroke="currentColor"
+                              stroke-width="var(--_❇️-icon---icon-stroke)"
+                              stroke-linecap="square"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                    <div style="height: 0px" class="service-bottom-tile">
+                      <div class="text-wrap-service-item">
+                        <div class="text-light-88">
+                          Track progress, access purchased content, and manage sessions in one place.<br />
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <nav class="dropdown-list-images w-dropdown-list">
+                  <div
+                    class="w-layout-blockcontainer main-container tab-container w-container"
+                  >
+                    <div class="w-layout-grid dropdown-image-halves">
+                      <div class="dropdown-inner-tabs">
+                        <div class="outer-image-service">
+                          <div class="image-wrap-service">
+                            <img
+                              src="https://images.unsplash.com/photo-1635766828498-49dec8c0cc56?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                              loading="lazy"
+                              sizes="100vw"
+                              
+                              alt=""
+                              class="image-cover"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </nav>
+              </div>
+              <div
+                data-hover="true"
+                data-delay="0"
+                class="dropdown-images w-dropdown"
+              >
+                <div class="dropdown-toggle-images w-dropdown-toggle">
+                  <a
+                    data-w-id="1bdbd2ca-e438-8c8a-e8b8-a40416d2600b"
+                    
+                    class="service-item w-inline-block"
+                  >
+                    <div class="service-top-tile">
+                      <div class="text-h3">Flexible Scheduling</div>
+                      <div class="icon-wrap-services">
+                        <div class="icon-service w-embed">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="100%"
+                            height="100%"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                          >
+                            <path
+                              d="M5 12H18M12 5L19 12L12 19"
+                              stroke="currentColor"
+                              stroke-width="var(--_❇️-icon---icon-stroke)"
+                              stroke-linecap="square"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                    <div style="height: 0px" class="service-bottom-tile">
+                      <div class="text-wrap-service-item">
+                        <div class="text-light-88">
+                          Book sessions at your convenience with easy time-slot selection.
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <nav class="dropdown-list-images w-dropdown-list">
+                  <div
+                    class="w-layout-blockcontainer main-container tab-container w-container"
+                  >
+                    <div class="w-layout-grid dropdown-image-halves">
+                      <div class="dropdown-inner-tabs">
+                        <div class="outer-image-service">
+                          <div class="image-wrap-service">
+                            <img
+                              src="https://images.unsplash.com/photo-1517971129774-8a2b38fa128e?q=80&w=776&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                              loading="lazy"
+                              sizes="100vw"
+                              
+                              alt=""
+                              class="image-cover"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </nav>
+              </div>
+              <div
+                data-hover="true"
+                data-delay="0"
+                class="dropdown-images w-dropdown"
+              >
+                <div class="dropdown-toggle-images w-dropdown-toggle">
+                  <a
+                    data-w-id="1bdbd2ca-e438-8c8a-e8b8-a40416d2601e"
+                    
+                    class="service-item w-inline-block"
+                  >
+                    <div class="service-top-tile">
+                      <div class="text-h3">Community Support</div>
+                      <div class="icon-wrap-services">
+                        <div class="icon-service w-embed">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="100%"
+                            height="100%"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                          >
+                            <path
+                              d="M5 12H18M12 5L19 12L12 19"
+                              stroke="currentColor"
+                              stroke-width="var(--_❇️-icon---icon-stroke)"
+                              stroke-linecap="square"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                    <div style="height: 0px" class="service-bottom-tile">
+                      <div class="text-wrap-service-item">
+                        <div class="text-light-88">
+                          Connect with mentors and fellow learners for ongoing motivation.
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <nav class="dropdown-list-images w-dropdown-list">
+                  <div
+                    class="w-layout-blockcontainer main-container tab-container w-container"
+                  >
+                    <div class="w-layout-grid dropdown-image-halves">
+                      <div class="dropdown-inner-tabs">
+                        <div class="outer-image-service">
+                          <div class="image-wrap-service">
+                            <img
+                              src="https://images.unsplash.com/photo-1569682535081-3e826bee049b?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                              loading="lazy"
+                              sizes="100vw"
+                              
+                              alt=""
+                              class="image-cover"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </nav>
+              </div>
+            </div>
+            <a
+              href="./live-class.html"
+              button=""
+              data-w-id="1bdbd2ca-e438-8c8a-e8b8-a40416d2602f"
+              class="cta-main accent w-inline-block cc"
+              
+            >
+              <div class="button-text-mask accent">
+                <div button-text="" class="button-text accent">
+                  Get started
+                </div>
+              </div>
+              <div class="button-icon-wrap accent">
+                <div button-icon-right="" class="icon-button accent w-embed">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="100%"
+                    height="100%"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                  >
+                    <path
+                      d="M3.33325 8.00016H11.9999M7.99992 3.3335L12.6666 8.00016L7.99992 12.6668"
+                      stroke="currentColor"
+                      stroke-width="var(--_❇️-icon---icon-stroke)"
+                      stroke-linecap="square"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div button-bg="" class="button-bg accent cc" style="background-color: #c6dae8 !important; color: #fff;"></div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section home-a-slider-section">
+      <div class="w-layout-blockcontainer main-container w-container">
+        <div class="headline-slider-home">
+          <div data-wf--eyebrow--variant="base" class="eyebrow">
+            <div class="eyebrow-circle"></div>
+            <div class="label-small">WHY CHOOSE US</div>
+          </div>
+          <div class="heading-slider-home-a">
+            <h2 class="no-margins">
+              Learn Smarter. Grow Faster.
+            </h2>
+          </div>
+        </div>
+        <div
+          data-delay="4000"
+          data-animation="slide"
+          class="slider w-slider"
+          data-autoplay="false"
+          data-easing="ease"
+          data-hide-arrows="false"
+          data-disable-swipe="false"
+          data-autoplay-limit="0"
+          data-nav-spacing="3"
+          data-duration="500"
+          data-infinite="true"
+        >
+          <div class="mask-feature-slider w-slider-mask">
+            <div class="slide-services w-slide">
+              <div class="card-feature">
+                <div class="feature-card-top-tile">
+                  <div class="icon-wrap-48 cs" >
+                    <div class="icon-24 w-embed">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <g clip-path="url(#clip0_30037_36692)">
+                          <path
+                            d="M23.047 17.197L18.729 21.132C16.698 22.982 14.067 24 11.321 24H0V22H11.32C13.567 22 15.719 21.167 17.381 19.653L21.665 15.751C22.012 15.403 22.095 14.807 21.821 14.427C21.641 14.178 21.379 14.028 21.081 14.003C20.79 13.984 20.501 14.085 20.293 14.293L16.059 18.179C15.521 18.687 14.797 19 14 19H9V17H14C14.273 17 14.521 16.89 14.701 16.712H14.7L14.723 16.69C14.894 16.51 15 16.268 15 16V15H8.812C6.409 15 4.148 15.937 2.448 17.636L1.431 18.654L0.018 17.239L1.035 16.221C3.113 14.144 5.876 12.999 8.813 12.999H17.001V14.6L18.911 12.848C19.502 12.255 20.367 11.933 21.242 12.009C22.122 12.079 22.925 12.534 23.445 13.257C24.289 14.431 24.118 16.123 23.048 17.196L23.047 17.197ZM4 1V0H5C8.528 0 10.81 1.004 12 3.166C13.19 1.004 15.472 0 19 0H20V1C20 6.187 17.831 8.68 13 8.971V11H11V8.971C6.169 8.68 4 6.187 4 1ZM13.032 6.968C16.351 6.745 17.745 5.352 17.968 2.032C14.649 2.255 13.255 3.648 13.032 6.968ZM6.032 2.032C6.255 5.351 7.648 6.745 10.968 6.968C10.745 3.649 9.352 2.255 6.032 2.032Z"
+                            fill="currentColor"
+                          />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_30037_36692">
+                            <rect width="100%" height="100%" fill="none" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="text-h5">Personalized Sessions</div>
+                </div>
+                <div class="text-wrap-feature-card">
+                  <div class="text-dark-88">
+                    Every session is tailored to your specific goals, challenges, and progress.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="slide-services w-slide">
+              <div class="card-feature">
+                <div class="feature-card-top-tile">
+                  <div class="icon-wrap-48 cs">
+                    <div class="icon-24 w-embed">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <g clip-path="url(#clip0_30037_36684)">
+                          <path
+                            d="M12.001 24C10.384 24 8.865 23.292 7.825 22.08C6.238 22.204 4.659 21.629 3.515 20.485C2.371 19.34 1.798 17.766 1.92 16.175C0.708 15.136 0 13.617 0 12C0 10.383 0.708 8.864 1.92 7.825C1.798 6.234 2.371 4.659 3.515 3.515C4.659 2.372 6.238 1.803 7.825 1.92C8.865 0.708 10.384 0 12.001 0C13.618 0 15.137 0.708 16.177 1.92C17.764 1.801 19.344 2.372 20.487 3.515C21.631 4.66 22.204 6.234 22.082 7.825C23.294 8.864 24.002 10.383 24.002 12C24.002 13.617 23.294 15.136 22.082 16.175C22.204 17.766 21.631 19.341 20.487 20.485C19.344 21.629 17.765 22.204 16.177 22.08C15.137 23.292 13.618 24 12.001 24ZM8.727 19.905L9.097 20.454C9.75 21.422 10.836 22 12.001 22C13.166 22 14.252 21.422 14.905 20.454L15.275 19.905L15.924 20.031C17.072 20.254 18.247 19.895 19.071 19.071C19.895 18.246 20.254 17.07 20.031 15.925L19.904 15.275L20.454 14.905C21.422 14.252 22 13.166 22 12.001C22 10.836 21.422 9.75 20.454 9.097L19.904 8.727L20.031 8.077C20.254 6.932 19.895 5.755 19.071 4.931C18.247 4.107 17.071 3.749 15.924 3.971L15.275 4.097L14.905 3.548C14.252 2.58 13.166 2.002 12.001 2.002C10.836 2.002 9.75 2.58 9.097 3.548L8.727 4.097L8.078 3.971C6.931 3.751 5.755 4.107 4.931 4.931C4.107 5.756 3.748 6.932 3.971 8.077L4.098 8.727L3.548 9.097C2.58 9.75 2.002 10.836 2.002 12.001C2.002 13.166 2.58 14.252 3.548 14.905L4.098 15.275L3.971 15.925C3.748 17.07 4.107 18.247 4.931 19.071C5.755 19.894 6.929 20.253 8.078 20.031L8.727 19.905ZM11.911 15.42L17.704 9.713L16.3 8.288L10.491 13.989L7.698 11.282L6.305 12.719L9.087 15.415C9.478 15.806 9.99 16 10.503 16C11.016 16 11.525 15.807 11.911 15.42Z"
+                            fill="currentColor"
+                          />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_30037_36684">
+                            <rect width="100%" height="100%" fill="none" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="text-h5">Flexible Scheduling</div>
+                </div>
+                <div class="text-wrap-feature-card">
+                  <div class="text-dark-88">
+                    Choose appointment times that fit your routine and availability.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="slide-services w-slide">
+              <div class="card-feature">
+                <div class="feature-card-top-tile">
+                  <div class="icon-wrap-48 cs">
+                    <div class="icon-24 w-embed">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <g clip-path="url(#clip0_30037_36688)">
+                          <path
+                            d="M23.9703 0.941375L23.9153 -0.015625L22.9563 -0.000625C16.2493 0.103375 13.2953 4.23037 12.0003 7.60437C10.7053 4.23037 7.75133 0.103375 1.04433 -0.000625L0.0853275 -0.015625L0.0303275 0.941375C-0.188673 4.73938 0.779328 7.73238 2.90433 9.83438C5.53633 12.4374 9.20533 12.9194 11.0003 12.9894V23.9994H13.0003V12.9894C14.7953 12.9194 18.4633 12.4374 21.0963 9.83438C23.2213 7.73138 24.1893 4.73938 23.9703 0.941375ZM4.30233 8.40338C2.78833 6.90138 2.01733 4.76737 2.00033 2.05038C8.83833 2.67038 10.4893 8.52938 10.8823 10.9774C9.32033 10.8874 6.35033 10.4354 4.30233 8.40238V8.40338ZM13.1183 10.9784C13.5113 8.52938 15.1623 2.67038 22.0003 2.05138C21.9833 4.76838 21.2123 6.90238 19.6983 8.40438C17.6493 10.4384 14.6803 10.8884 13.1183 10.9784Z"
+                            fill="currentColor"
+                          />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_30037_36688">
+                            <rect width="100%" height="100%" fill="none" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="text-h5">One-on-One Attention</div>
+                </div>
+                <div class="text-wrap-feature-card">
+                  <div class="text-dark-88">
+                    Receive dedicated support focused entirely on your individual needs.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="slide-services w-slide">
+              <div class="card-feature">
+                <div class="feature-card-top-tile">
+                  <div class="icon-wrap-48 cs">
+                    <div class="icon-24 w-embed">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <g clip-path="url(#clip0_30037_36692)">
+                          <path
+                            d="M23.047 17.197L18.729 21.132C16.698 22.982 14.067 24 11.321 24H0V22H11.32C13.567 22 15.719 21.167 17.381 19.653L21.665 15.751C22.012 15.403 22.095 14.807 21.821 14.427C21.641 14.178 21.379 14.028 21.081 14.003C20.79 13.984 20.501 14.085 20.293 14.293L16.059 18.179C15.521 18.687 14.797 19 14 19H9V17H14C14.273 17 14.521 16.89 14.701 16.712H14.7L14.723 16.69C14.894 16.51 15 16.268 15 16V15H8.812C6.409 15 4.148 15.937 2.448 17.636L1.431 18.654L0.018 17.239L1.035 16.221C3.113 14.144 5.876 12.999 8.813 12.999H17.001V14.6L18.911 12.848C19.502 12.255 20.367 11.933 21.242 12.009C22.122 12.079 22.925 12.534 23.445 13.257C24.289 14.431 24.118 16.123 23.048 17.196L23.047 17.197ZM4 1V0H5C8.528 0 10.81 1.004 12 3.166C13.19 1.004 15.472 0 19 0H20V1C20 6.187 17.831 8.68 13 8.971V11H11V8.971C6.169 8.68 4 6.187 4 1ZM13.032 6.968C16.351 6.745 17.745 5.352 17.968 2.032C14.649 2.255 13.255 3.648 13.032 6.968ZM6.032 2.032C6.255 5.351 7.648 6.745 10.968 6.968C10.745 3.649 9.352 2.255 6.032 2.032Z"
+                            fill="currentColor"
+                          />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_30037_36692">
+                            <rect width="100%" height="100%" fill="none" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="text-h5">Online Convenience</div>
+                </div>
+                <div class="text-wrap-feature-card">
+                  <div class="text-dark-88">
+                    Attend sessions from anywhere through secure and easy-to-use video meetings.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="slide-services w-slide">
+              <div class="card-feature">
+                <div class="feature-card-top-tile">
+                  <div class="icon-wrap-48 cs">
+                    <div class="icon-24 w-embed">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <g clip-path="url(#clip0_30037_36684)">
+                          <path
+                            d="M12.001 24C10.384 24 8.865 23.292 7.825 22.08C6.238 22.204 4.659 21.629 3.515 20.485C2.371 19.34 1.798 17.766 1.92 16.175C0.708 15.136 0 13.617 0 12C0 10.383 0.708 8.864 1.92 7.825C1.798 6.234 2.371 4.659 3.515 3.515C4.659 2.372 6.238 1.803 7.825 1.92C8.865 0.708 10.384 0 12.001 0C13.618 0 15.137 0.708 16.177 1.92C17.764 1.801 19.344 2.372 20.487 3.515C21.631 4.66 22.204 6.234 22.082 7.825C23.294 8.864 24.002 10.383 24.002 12C24.002 13.617 23.294 15.136 22.082 16.175C22.204 17.766 21.631 19.341 20.487 20.485C19.344 21.629 17.765 22.204 16.177 22.08C15.137 23.292 13.618 24 12.001 24ZM8.727 19.905L9.097 20.454C9.75 21.422 10.836 22 12.001 22C13.166 22 14.252 21.422 14.905 20.454L15.275 19.905L15.924 20.031C17.072 20.254 18.247 19.895 19.071 19.071C19.895 18.246 20.254 17.07 20.031 15.925L19.904 15.275L20.454 14.905C21.422 14.252 22 13.166 22 12.001C22 10.836 21.422 9.75 20.454 9.097L19.904 8.727L20.031 8.077C20.254 6.932 19.895 5.755 19.071 4.931C18.247 4.107 17.071 3.749 15.924 3.971L15.275 4.097L14.905 3.548C14.252 2.58 13.166 2.002 12.001 2.002C10.836 2.002 9.75 2.58 9.097 3.548L8.727 4.097L8.078 3.971C6.931 3.751 5.755 4.107 4.931 4.931C4.107 5.756 3.748 6.932 3.971 8.077L4.098 8.727L3.548 9.097C2.58 9.75 2.002 10.836 2.002 12.001C2.002 13.166 2.58 14.252 3.548 14.905L4.098 15.275L3.971 15.925C3.748 17.07 4.107 18.247 4.931 19.071C5.755 19.894 6.929 20.253 8.078 20.031L8.727 19.905ZM11.911 15.42L17.704 9.713L16.3 8.288L10.491 13.989L7.698 11.282L6.305 12.719L9.087 15.415C9.478 15.806 9.99 16 10.503 16C11.016 16 11.525 15.807 11.911 15.42Z"
+                            fill="currentColor"
+                          />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_30037_36684">
+                            <rect width="100%" height="100%" fill="none" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="text-h5">Membership Benefits</div>
+                </div>
+                <div class="text-wrap-feature-card">
+                  <div class="text-dark-88">
+                    Save time and money with subscription plans that include multiple sessions each month.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="slide-services w-slide">
+              <div class="card-feature">
+                <div class="feature-card-top-tile">
+                  <div class="icon-wrap-48 cs">
+                    <div class="icon-24 w-embed">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <g clip-path="url(#clip0_30037_36688)">
+                          <path
+                            d="M23.9703 0.941375L23.9153 -0.015625L22.9563 -0.000625C16.2493 0.103375 13.2953 4.23037 12.0003 7.60437C10.7053 4.23037 7.75133 0.103375 1.04433 -0.000625L0.0853275 -0.015625L0.0303275 0.941375C-0.188673 4.73938 0.779328 7.73238 2.90433 9.83438C5.53633 12.4374 9.20533 12.9194 11.0003 12.9894V23.9994H13.0003V12.9894C14.7953 12.9194 18.4633 12.4374 21.0963 9.83438C23.2213 7.73138 24.1893 4.73938 23.9703 0.941375ZM4.30233 8.40338C2.78833 6.90138 2.01733 4.76737 2.00033 2.05038C8.83833 2.67038 10.4893 8.52938 10.8823 10.9774C9.32033 10.8874 6.35033 10.4354 4.30233 8.40238V8.40338ZM13.1183 10.9784C13.5113 8.52938 15.1623 2.67038 22.0003 2.05138C21.9833 4.76838 21.2123 6.90238 19.6983 8.40438C17.6493 10.4384 14.6803 10.8884 13.1183 10.9784Z"
+                            fill="currentColor"
+                          />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_30037_36688">
+                            <rect width="100%" height="100%" fill="none" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="text-h5">Ongoing Progress</div>
+                </div>
+                <div class="text-wrap-feature-card">
+                  <div class="text-dark-88">
+                    Build confidence through consistent support, guidance, and measurable growth.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="slider-button services-button services-prev w-slider-arrow-left cc"
+          >
+            <div class="icon-slider-button prev w-embed">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="100%"
+                height="100%"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M19 12L6 12M12 19L5 12L12 5"
+                  stroke="currentColor"
+                  stroke-width="var(--_❇️-icon---icon-stroke)"
+                  stroke-linecap="square"
+                />
+              </svg>
+            </div>
+          </div>
+          <div class="slider-button services-button w-slider-arrow-right cc">
+            <div class="icon-slider-button w-embed">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="100%"
+                height="100%"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M5 12H18M12 5L19 12L12 19"
+                  stroke="currentColor"
+                  stroke-width="var(--_❇️-icon---icon-stroke)"
+                  stroke-linecap="square"
+                />
+              </svg>
+            </div>
+          </div>
+          <div class="hidden w-slider-nav w-round w-num cc"></div>
+        </div>
+      </div>
+    </section>
+    <section class="section home-a-column-section">
+      <div class="w-layout-blockcontainer main-container w-container">
+        <div class="w-layout-grid column-halves reverse">
+          <div class="image-wrap-column">
+            <div
+              data-poster-url="https://i.postimg.cc/tTtNKKgD/A0AB1F84-8FA9-4399-9520-43F1144C372B.webp"
+              data-video-urls="https://i.postimg.cc/tTtNKKgD/A0AB1F84-8FA9-4399-9520-43F1144C372B.webp"
+              data-autoplay="true"
+              data-loop="true"
+              data-wf-ignore="true"
+              class="video-cover w-background-video w-background-video-atom"
+            >
+              <video
+                id="b8cc76e3-d300-7492-f3ef-efce268f4fb5-video"
+                autoplay=""
+                loop=""
+                style="
+                  background-image: url('https://i.postimg.cc/tTtNKKgD/A0AB1F84-8FA9-4399-9520-43F1144C372B.webp');
+                "
+                muted=""
+                playsinline=""
+                data-wf-ignore="true"
+                data-object-fit="cover"
+              >
+                <!-- <source
+                  src="https://www.pexels.com/download/video/6324536/"
+                  data-wf-ignore="true"
+                />
+                <source
+                  src="https://www.pexels.com/download/video/6324536/"
+                  data-wf-ignore="true"
+                /> -->
+              </video>
+            </div>
+            <!-- <div class="overlay-images-tiles">
+              <div class="overlay-line">
+                <div class="overlay-tile _4"></div>
+              </div>
+              <div class="overlay-line">
+                <div class="overlay-tile _3"></div>
+              </div>
+              <div class="overlay-line">
+                <div class="overlay-tile _2"></div>
+              </div>
+              <div class="overlay-line">
+                <div class="overlay-tile _1"></div>
+              </div>
+            </div> -->
+          </div>
+          <div
+            id="w-node-b8cc76e3-d300-7492-f3ef-efce268f4fb6-19b48448"
+            class="content-column"
+          >
+            <div class="headline-column">
+              <div data-wf--eyebrow--variant="base" class="eyebrow">
+                <div class="eyebrow-circle"></div>
+                <div class="label-small">About us</div>
+              </div>
+              <div class="text-h3">
+                Personalized Support That Fits Your Schedule.
+              </div>
+              <div class="text-dark-88">
+                We provide personalized one-on-one online sessions designed to support
+    your individual goals. With flexible scheduling, convenient virtual
+    meetings, and membership options for ongoing support, we make it easier
+    to get the guidance you need when you need it.
+              </div>
+              <div class="button-wrap-figma-x-webflow">
+                <a
+                  href="/about.html"
+                  button=""
+                  data-wf--cta-main--variant="secondary-dark"
+                  class="cta-main w-variant-0fd6e162-b9b8-f478-bd94-bdbafdfbbe54 w-inline-block cc"
+                >
+                  <div class="button-text-mask">
+                    <div
+                      button-text=""
+                      class="button-text w-variant-0fd6e162-b9b8-f478-bd94-bdbafdfbbe54"
+                    >
+                      About us
+                    </div>
+                  </div>
+                  <div
+                    button-bg=""
+                    class="button-bg w-variant-0fd6e162-b9b8-f478-bd94-bdbafdfbbe54 cc"
+                  ></div>
+                </a>
+              </div>
+            </div>
+            <div class="column-features-list">
+              <div class="feature-item">
+                <div class="icon-wrap-48 cs">
+                  <div class="icon-24 w-embed">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="100%"
+                      height="100%"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                    >
+                      <g clip-path="url(#clip0_30037_36763)">
+                        <path
+                          d="M6.349 11H3C2.73478 11 2.48043 11.1054 2.29289 11.2929C2.10536 11.4804 2 11.7348 2 12V15H0V12C0 11.2044 0.316071 10.4413 0.87868 9.87868C1.44129 9.31607 2.20435 9 3 9H7.537C7.01384 9.58243 6.61019 10.262 6.349 11ZM21 9H16.463C16.9862 9.58243 17.3898 10.262 17.651 11H21C21.2652 11 21.5196 11.1054 21.7071 11.2929C21.8946 11.4804 22 11.7348 22 12V15H24V12C24 11.2044 23.6839 10.4413 23.1213 9.87868C22.5587 9.31607 21.7956 9 21 9ZM16 13C16 12.2089 15.7654 11.4355 15.3259 10.7777C14.8864 10.1199 14.2616 9.60723 13.5307 9.30448C12.7998 9.00173 11.9956 8.92252 11.2196 9.07686C10.4437 9.2312 9.73098 9.61216 9.17157 10.1716C8.61216 10.731 8.2312 11.4437 8.07686 12.2196C7.92252 12.9956 8.00173 13.7998 8.30448 14.5307C8.60723 15.2616 9.11992 15.8864 9.77772 16.3259C10.4355 16.7654 11.2089 17 12 17C13.0609 17 14.0783 16.5786 14.8284 15.8284C15.5786 15.0783 16 14.0609 16 13ZM14 13C14 13.3956 13.8827 13.7822 13.6629 14.1111C13.4432 14.44 13.1308 14.6964 12.7654 14.8478C12.3999 14.9991 11.9978 15.0387 11.6098 14.9616C11.2219 14.8844 10.8655 14.6939 10.5858 14.4142C10.3061 14.1345 10.1156 13.7781 10.0384 13.3902C9.96126 13.0022 10.0009 12.6001 10.1522 12.2346C10.3036 11.8692 10.56 11.5568 10.8889 11.3371C11.2178 11.1173 11.6044 11 12 11C12.5304 11 13.0391 11.2107 13.4142 11.5858C13.7893 11.9609 14 12.4696 14 13ZM18 21C18 20.2044 17.6839 19.4413 17.1213 18.8787C16.5587 18.3161 15.7956 18 15 18H9C8.20435 18 7.44129 18.3161 6.87868 18.8787C6.31607 19.4413 6 20.2044 6 21V24H8V21C8 20.7348 8.10536 20.4804 8.29289 20.2929C8.48043 20.1054 8.73478 20 9 20H15C15.2652 20 15.5196 20.1054 15.7071 20.2929C15.8946 20.4804 16 20.7348 16 21V24H18V21ZM22 4C22 3.20888 21.7654 2.43552 21.3259 1.77772C20.8864 1.11992 20.2616 0.607234 19.5307 0.304484C18.7998 0.00173313 17.9956 -0.0774802 17.2196 0.0768607C16.4437 0.231202 15.731 0.612165 15.1716 1.17157C14.6122 1.73098 14.2312 2.44372 14.0769 3.21964C13.9225 3.99556 14.0017 4.79983 14.3045 5.53074C14.6072 6.26164 15.1199 6.88636 15.7777 7.32588C16.4355 7.76541 17.2089 8 18 8C19.0609 8 20.0783 7.57857 20.8284 6.82843C21.5786 6.07828 22 5.06087 22 4ZM20 4C20 4.39556 19.8827 4.78224 19.6629 5.11114C19.4432 5.44004 19.1308 5.69639 18.7654 5.84776C18.3999 5.99914 17.9978 6.03874 17.6098 5.96157C17.2219 5.8844 16.8655 5.69392 16.5858 5.41422C16.3061 5.13451 16.1156 4.77814 16.0384 4.39018C15.9613 4.00222 16.0009 3.60009 16.1522 3.23464C16.3036 2.86918 16.56 2.55683 16.8889 2.33706C17.2178 2.1173 17.6044 2 18 2C18.5304 2 19.0391 2.21072 19.4142 2.58579C19.7893 2.96086 20 3.46957 20 4ZM10 4C10 3.20888 9.7654 2.43552 9.32588 1.77772C8.88635 1.11992 8.26164 0.607234 7.53073 0.304484C6.79983 0.00173313 5.99556 -0.0774802 5.21964 0.0768607C4.44371 0.231202 3.73098 0.612165 3.17157 1.17157C2.61216 1.73098 2.2312 2.44372 2.07686 3.21964C1.92252 3.99556 2.00173 4.79983 2.30448 5.53074C2.60723 6.26164 3.11992 6.88636 3.77772 7.32588C4.43552 7.76541 5.20887 8 6 8C7.06087 8 8.07828 7.57857 8.82843 6.82843C9.57857 6.07828 10 5.06087 10 4ZM8 4C8 4.39556 7.8827 4.78224 7.66294 5.11114C7.44318 5.44004 7.13082 5.69639 6.76537 5.84776C6.39992 5.99914 5.99778 6.03874 5.60982 5.96157C5.22186 5.8844 4.86549 5.69392 4.58579 5.41422C4.30608 5.13451 4.1156 4.77814 4.03843 4.39018C3.96126 4.00222 4.00087 3.60009 4.15224 3.23464C4.30362 2.86918 4.55996 2.55683 4.88886 2.33706C5.21776 2.1173 5.60444 2 6 2C6.53043 2 7.03914 2.21072 7.41421 2.58579C7.78929 2.96086 8 3.46957 8 4Z"
+                          fill="currentColor"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_30037_36763">
+                          <rect width="100%" height="100%" fill="none" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  </div>
+                </div>
+                <div class="text-wrap-feature">
+                  <div class="text-semibold">Expert Guidance</div>
+                  <div class="text-dark-64">
+                    Learn directly from experienced teacher.
+                  </div>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="icon-wrap-48 cs">
+                  <div class="icon-24 w-embed">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="100%"
+                      height="100%"
+                      viewBox="0 0 24 23"
+                      fill="none"
+                    >
+                      <path
+                        d="M23.9427 7.412L11.9987 0.25L0.0546875 7.412L11.9987 14.578L23.9427 7.412ZM11.9987 2.578L20.0547 7.412L11.9987 12.25L3.94269 7.412L11.9987 2.578Z"
+                        fill="currentColor"
+                      />
+                      <path
+                        d="M24 13.7148L12 20.9148L0 13.7148V16.0478L12 23.2468L24 16.0478V13.7148Z"
+                        fill="currentColor"
+                      />
+                      <path
+                        d="M24 9.38281L21.485 10.8918L12 16.5828L2.515 10.8918L0 9.38281V11.7148L12 18.9148L24 11.7148V9.38281Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div class="text-wrap-feature">
+                  <div class="text-semibold">Flexible Access</div>
+                  <div>Study anytime, anywhere at your own pace.</div>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="icon-wrap-48 cs">
+                  <div class="icon-24 w-embed">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="100%"
+                      height="100%"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                    >
+                      <g clip-path="url(#clip0_30037_36767)">
+                        <path
+                          d="M8 7.077L6.846 9.846L5 9.077L6.615 6.5L8 7.077ZM24 12C24 18.617 18.617 24 12 24C5.383 24 0 18.617 0 12C0 5.383 5.383 0 12 0C18.617 0 24 5.383 24 12ZM12 22V19.5L10 19L8 17V15L10.5 13H13L16 15H17.5L19 16.5L20.819 16.71C21.053 16.273 21.256 15.817 21.424 15.344L18 13.5L19 12.5V11.5L16 10.5V9H19V7H17L16 9L14.5 9.5L15 11L14 11.5L12.5 10L11 12H10L9 10.5L10.5 7L14 5.5V4.5L11 5L10.5 4L11.494 2.013C6.214 2.277 2 6.656 2 12C2 17.514 6.486 22 12 22Z"
+                          fill="currentColor"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_30037_36767">
+                          <rect width="100%" height="100%" fill="none" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  </div>
+                </div>
+                <div class="text-wrap-feature">
+                  <div class="text-semibold">Real Results</div>
+                  <div>Build practical skills that create real opportunities.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </section>
+    <section class="section slider-large-section">
+      <div class="slide-large-image _1">
+        <img
+          loading="lazy"
+          src="https://images.unsplash.com/photo-1515191107209-c28698631303?q=80&w=928&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt=""
+          class="image-cover"
+        />
+      </div>
+      <div class="slide-large-image _2">
+        <img
+          loading="lazy"
+          src="https://images.unsplash.com/photo-1515191107209-c28698631303?q=80&w=928&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt=""
+          class="image-cover"
+        />
+      </div>
+      <div class="slide-large-image _3">
+        <img
+          loading="lazy"
+          src="https://images.unsplash.com/photo-1515191107209-c28698631303?q=80&w=928&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt=""
+          class="image-cover"
+        />
+      </div>
+      <div class="w-layout-blockcontainer main-container w-container">
+        <div class="headline-slider-large">
+          <div class="left-slider-large">
+            <div
+              data-wf--eyebrow--variant="stone-ledger"
+              class="eyebrow w-variant-86026964-4349-5943-ac9a-5d10c27eb92d"
+            >
+              <div class="eyebrow-circle"></div>
+              <div class="label-small">TESTIMONIALS</div>
+            </div>
+            <h2 class="no-margins">Success Stories</h2>
+            <div class="headline-slider-large-text">
+              <div>
+                Hear from students who transformed their skills, careers, and confidence through our coaching.
+              </div>
+            </div>
+          </div>
+          <div class="button-wrap-slider-large">
+            <a
+              href="./contact.html"
+              button=""
+              data-wf--cta-main--variant="secondary-light"
+              class="cta-main w-variant-ce35de5b-82b0-5c33-cda9-ac85edaf0ae6 w-inline-block cc"
+            >
+              <div class="button-text-mask">
+                <div button-text="" class="button-text">Contact us</div>
+              </div>
+              <div
+                button-bg=""
+                class="button-bg w-variant-ce35de5b-82b0-5c33-cda9-ac85edaf0ae6 cc"
+              ></div>
+            </a>
+          </div>
+        </div>
+        <div
+          data-delay="2000"
+          data-animation="slide"
+          class="slider w-slider"
+          data-autoplay="true"
+          data-easing="ease-in-out-circ"
+          data-hide-arrows="false"
+          data-disable-swipe="false"
+          data-autoplay-limit="0"
+          data-nav-spacing="3"
+          data-duration="600"
+          data-infinite="true"
+        >
+          <div class="mask-slider-large w-slider-mask">
+            <div
+              data-w-id="b0d3cf5d-3dae-402c-6744-107b4f7a6429"
+              class="slide-case-large w-slide"
+            >
+              <div class="story-long w-dyn-list">
+                <div role="list" class="w-dyn-items">
+                  <div role="listitem" class="w-dyn-item">
+                    <a
+                      cms-item=""
+                      
+                      class="card-case-long w-inline-block"
+                    >
+                      
+                      <div class="right-case-long">
+                        <div class="case-card-top-tile">
+                          <!-- <div class="label-small">Completed course</div> -->
+                          <div class="text-h5">Irina 🇬🇧</div>
+                          <div class="text-dark-88">
+                            Hridey is very professional and creates a comfortable feeling to engage and speak openly. Public speaking now feels not only like something I need to learn, but something I genuinely want to learn more about. The lessons feel supportive, motivating, and enjoyable.
+                          </div>
+                        </div>
+                        
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div
+              data-w-id="b0d3cf5d-3dae-402c-6744-107b4f7a6429"
+              class="slide-case-large w-slide"
+            >
+              <div class="story-long w-dyn-list">
+                <div role="list" class="w-dyn-items">
+                  <div role="listitem" class="w-dyn-item">
+                    <a
+                      cms-item=""
+                      
+                      class="card-case-long w-inline-block"
+                    >
+                      
+                      <div class="right-case-long">
+                        <div class="case-card-top-tile">
+                          <!-- <div class="label-small">Completed course</div> -->
+                          <div class="text-h5">Saul 🇵🇪</div>
+                          <div class="text-dark-88">
+                            He is an excellent tutor—very committed, patient, and genuinely kind during every lesson. He consistently provides clear, constructive feedback that helps me improve step by step. I truly appreciate his dedication and the supportive learning environment he creates.
+                          </div>
+                        </div>
+                        
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              data-w-id="b0d3cf5d-3dae-402c-6744-107b4f7a6429"
+              class="slide-case-large w-slide"
+            >
+              <div class="story-long w-dyn-list">
+                <div role="list" class="w-dyn-items">
+                  <div role="listitem" class="w-dyn-item">
+                    <a
+                      cms-item=""
+                      
+                      class="card-case-long w-inline-block"
+                    >
+                      
+                      <div class="right-case-long">
+                        <div class="case-card-top-tile">
+                          <!-- <div class="label-small">Completed course</div> -->
+                          <div class="text-h5">Ysa 🇨🇦</div>
+                          <div class="text-dark-88">
+                            Hridley creates a very encouraging learning environment where making mistakes is part of the process. He makes lessons feel safe and supportive, which helps build confidence and motivation. Learning with him feels comfortable and stress-free.
+                          </div>
+                        </div>
+                        
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              data-w-id="b0d3cf5d-3dae-402c-6744-107b4f7a6429"
+              class="slide-case-large w-slide"
+            >
+              <div class="story-long w-dyn-list">
+                <div role="list" class="w-dyn-items">
+                  <div role="listitem" class="w-dyn-item">
+                    <a
+                      cms-item=""
+                      
+                      class="card-case-long w-inline-block"
+                    >
+                      
+                      <div class="right-case-long">
+                        <div class="case-card-top-tile">
+                          <!-- <div class="label-small">Completed course</div> -->
+                          <div class="text-h5">Franzen 🇺🇸</div>
+                          <div class="text-dark-88">
+                            Great public speaking tutor! Every session feels personalized to what you actually need. His teaching style is very supportive and encouraging, which helped me feel more confident and comfortable speaking. 
+                          </div>
+                        </div>
+                        
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+            data-w-id="b0d3cf5d-3dae-402c-6744-107b4f7a6429"
+            class="slide-case-large w-slide"
+          >
+            <div class="story-long w-dyn-list">
+              <div role="list" class="w-dyn-items">
+                <div role="listitem" class="w-dyn-item">
+                  <a
+                    cms-item=""
+                    
+                    class="card-case-long w-inline-block"
+                  >
+                    
+                    <div class="right-case-long">
+                      <div class="case-card-top-tile">
+                        <!-- <div class="label-small">Completed course</div> -->
+                        <div class="text-h5">Mazin - Saudi Arabia 🇸🇦</div>
+                        <div class="text-dark-88">
+                          Honestly, Hridey is a great tutor who helped me a lot in learning new strategies and techniques on public speaking. I didn't realize that public speaking has a lot of pillars that must be covered for those who want to speak in public.
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            data-w-id="b0d3cf5d-3dae-402c-6744-107b4f7a6429"
+            class="slide-case-large w-slide"
+          >
+            <div class="story-long w-dyn-list">
+              <div role="list" class="w-dyn-items">
+                <div role="listitem" class="w-dyn-item">
+                  <a
+                    cms-item=""
+                    
+                    class="card-case-long w-inline-block"
+                  >
+                    
+                    <div class="right-case-long">
+                      <div class="case-card-top-tile">
+                        <!-- <div class="label-small">Completed course</div> -->
+                        <div class="text-h5">Tarun 🇮🇳</div>
+                        <div class="text-dark-88">
+                          He is a good tutor he is helping me a lot in improving my public speaking and correcting me where ever I am wrong, I believe that I've chosen the right tutor to help me improving my skills in a very short time.
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+            <!-- <div
+              data-w-id="b0d3cf5d-3dae-402c-6744-107b4f7a6447"
+              class="slide-case-large w-slide"
+            >
+              <div class="story-long w-dyn-list">
+                <div role="list" class="w-dyn-items">
+                  <div role="listitem" class="w-dyn-item">
+                    <a
+                      cms-item=""
+                      
+                      class="card-case-long w-inline-block"
+                    >
+                      <div class="left-case-long">
+                        <div class="image-wrap-case-long">
+                          <img
+                            cms-image=""
+                            loading="lazy"
+                            alt=""
+                            src="https://images.unsplash.com/photo-1601392561050-340745ba9c25?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHN0dWRlbnR8ZW58MHwxfDB8fHww"
+                            sizes="(max-width: 767px) 100vw, (max-width: 991px) 728px, 940px, 100vw"
+                            
+                            class="image-cover"
+                          />
+                          <div class="overlay-tag-card">
+                            <div class="card-tag">
+                              <div class="label-small">
+                                Business Coaching
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="right-case-long">
+                        <div class="case-card-top-tile">
+                          <div class="label-small">Business Coaching</div>
+                          <div class="text-h5">Michael Carter</div>
+                          <div class="text-dark-88">
+                            “The 1:1 coaching sessions gave me clarity and confidence to scale my business faster than I expected.”
+                          </div>
+                        </div>
+                        
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              data-w-id="b0d3cf5d-3dae-402c-6744-107b4f7a644e"
+              class="slide-case-large w-slide"
+            >
+              <div class="story-long w-dyn-list">
+                <div role="list" class="w-dyn-items">
+                  <div role="listitem" class="w-dyn-item">
+                    <a
+                      cms-item=""
+                      
+                      class="card-case-long w-inline-block"
+                    >
+                      <div class="left-case-long">
+                        <div class="image-wrap-case-long">
+                          <img
+                            cms-image=""
+                            loading="lazy"
+                            alt=""
+                            src="https://images.unsplash.com/photo-1618355776464-8666794d2520?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHN0dWRlbnR8ZW58MHwxfDB8fHww"
+                            sizes="(max-width: 767px) 100vw, (max-width: 991px) 728px, 940px, 100vw"
+                            
+                            class="image-cover"
+                          />
+                          <div class="overlay-tag-card">
+                            <div class="card-tag">
+                              <div class="label-small">
+                                Digital Marketing
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="right-case-long">
+                        <div class="case-card-top-tile">
+                          <div class="label-small">Digital Marketing</div>
+                          <div class="text-h5">Emily Brown</div>
+                          <div class="text-dark-88">
+                            “The step-by-step training and support helped me build real-world skills I use every day.”
+                          </div>
+                        </div>
+                        
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              data-w-id="b5c2c3d0-3409-6815-f42a-045da7384731"
+              class="slide-case-large w-slide"
+            >
+              <div class="story-long w-dyn-list">
+                <div role="list" class="w-dyn-items">
+                  <div role="listitem" class="w-dyn-item">
+                    <a
+                      cms-item=""
+                      
+                      class="card-case-long w-inline-block"
+                    >
+                      <div class="left-case-long">
+                        <div class="image-wrap-case-long">
+                          <img
+                            cms-image=""
+                            loading="lazy"
+                            alt=""
+                            src="https://images.unsplash.com/photo-1618355776464-8666794d2520?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHN0dWRlbnR8ZW58MHwxfDB8fHww"
+                            sizes="(max-width: 767px) 100vw, (max-width: 991px) 728px, 940px, 100vw"
+                            
+                            class="image-cover"
+                          />
+                          <div class="overlay-tag-card">
+                            <div class="card-tag">
+                              <div class="label-small">
+                                Digital Marketing
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="right-case-long">
+                        <div class="case-card-top-tile">
+                          <div class="label-small">Digital Marketing</div>
+                          <div class="text-h5">Emily Brown</div>
+                          <div class="text-dark-88">
+                            “The step-by-step training and support helped me build real-world skills I use every day.”
+                          </div>
+                        </div>
+                        
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              data-w-id="4ecac242-f294-4df9-24ba-2982ea0a33d7"
+              class="slide-case-large w-slide"
+            >
+              <div class="story-long w-dyn-list">
+                <div role="list" class="w-dyn-items">
+                  <div role="listitem" class="w-dyn-item">
+                    <a
+                      cms-item=""
+                      
+                      class="card-case-long w-inline-block"
+                    >
+                      <div class="left-case-long">
+                        <div class="image-wrap-case-long">
+                          <img
+                            cms-image=""
+                            loading="lazy"
+                            alt=""
+                            src="https://images.unsplash.com/photo-1618355776464-8666794d2520?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHN0dWRlbnR8ZW58MHwxfDB8fHww"
+                            sizes="(max-width: 767px) 100vw, (max-width: 991px) 728px, 940px, 100vw"
+                            
+                            class="image-cover"
+                          />
+                          <div class="overlay-tag-card">
+                            <div class="card-tag">
+                              <div class="label-small">
+                                Digital Marketing
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="right-case-long">
+                        <div class="case-card-top-tile">
+                          <div class="label-small">Digital Marketing</div>
+                          <div class="text-h5">Emily Brown</div>
+                          <div class="text-dark-88">
+                            “The step-by-step training and support helped me build real-world skills I use every day.”
+                          </div>
+                        </div>
+                        
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              data-w-id="bfce412f-6166-d978-0f92-24dc6dacd945"
+              class="slide-case-large w-slide"
+            >
+              <div class="story-long w-dyn-list">
+                <div role="list" class="w-dyn-items">
+                  <div role="listitem" class="w-dyn-item">
+                    <a
+                      cms-item=""
+                      
+                      class="card-case-long w-inline-block"
+                    >
+                      <div class="left-case-long">
+                        <div class="image-wrap-case-long">
+                          <img
+                            cms-image=""
+                            loading="lazy"
+                            alt=""
+                            src="https://images.unsplash.com/photo-1618355776464-8666794d2520?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHN0dWRlbnR8ZW58MHwxfDB8fHww"
+                            sizes="(max-width: 767px) 100vw, (max-width: 991px) 728px, 940px, 100vw"
+                            
+                            class="image-cover"
+                          />
+                          <div class="overlay-tag-card">
+                            <div class="card-tag">
+                              <div class="label-small">
+                                Digital Marketing
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="right-case-long">
+                        <div class="case-card-top-tile">
+                          <div class="label-small">Digital Marketing</div>
+                          <div class="text-h5">Emily Brown</div>
+                          <div class="text-dark-88">
+                            “The step-by-step training and support helped me build real-world skills I use every day.”
+                          </div>
+                        </div>
+                        
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+          </div>
+          <div
+            data-w-id="b0d3cf5d-3dae-402c-6744-107b4f7a6455"
+            class="slider-button prev w-slider-arrow-left cc"
+          >
+            <div class="icon-slider-button prev w-embed">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="100%"
+                height="100%"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M19 12L6 12M12 19L5 12L12 5"
+                  stroke="currentColor"
+                  stroke-width="var(--_❇️-icon---icon-stroke)"
+                  stroke-linecap="square"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            data-w-id="b0d3cf5d-3dae-402c-6744-107b4f7a6457"
+            class="slider-button next w-slider-arrow-right cc"
+          >
+            <div class="icon-slider-button w-embed">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="100%"
+                height="100%"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M5 12H18M12 5L19 12L12 19"
+                  stroke="currentColor"
+                  stroke-width="var(--_❇️-icon---icon-stroke)"
+                  stroke-linecap="square"
+                />
+              </svg>
+            </div>
+          </div>
+          <div class="navigation-testimonial-slider w-slider-nav w-round"></div>
+        </div>
+      </div>
+      <div class="overlay-slide-large"></div>
+    </section>
+    <section class="section contact-section" style="background-color: #c6dae8 !important;">
+      <div class="w-layout-blockcontainer main-container w-container">
+        <div class="w-layout-grid contact-halves">
+          <div class="contact-left">
+            <div class="contact-top-tile">
+              <div class="contact-eyebrow">
+                <div data-wf--eyebrow--variant="base" class="eyebrow">
+                  <div class="eyebrow-circle"></div>
+                  <div class="label-small">GET STARTED</div>
+                </div>
+              </div>
+              <h3 class="no-margins">Ready to Start Learning?</h3>
+              <div>
+                Whether you're ready to book a 1:1 session, explore membership options,
+or have questions about our services, we're here to help you take the
+next step with confidence.
+              </div>
+              <a
+                href="./contact.html"
+                button=""
+                target="_blank"
+                class="cta-main outline-dark-48 w-inline-block"
+              >
+                <div class="button-text-mask outline-dark-48">
+                  <div button-text="" class="button-text outline-dark-48">
+                    Get started
+                  </div>
+                </div>
+                <div class="button-icon-wrap outline-dark-48">
+                  <div
+                    button-icon-right=""
+                    class="icon-button outline-dark-48 w-embed"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="100%"
+                      height="100%"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                    >
+                      <path
+                        d="M3.33325 8.00016H11.9999M7.99992 3.3335L12.6666 8.00016L7.99992 12.6668"
+                        stroke="currentColor"
+                        stroke-width="var(--_❇️-icon---icon-stroke)"
+                        stroke-linecap="square"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div button-bg="" class="button-bg outline-dark-48"></div>
+              </a>
+            </div>
+            
+          </div>
+          <div class="contact-right">
+            <div class="form-block w-form">
+              <form
+                id="email-form"
+                name="email-form"
+                data-name="Email Form"
+                method="get"
+                class="form-contact"
+                data-wf-page-id="68a398206b83e17019b48448"
+                data-wf-element-id="c07929f1-4f14-d5fe-088a-e764efcb4913"
+              >
+                <div class="contact-form-top-tile">
+                  <div class="text-h5">Have Questions?</div>
+                </div>
+                <div class="contact-form-inner">
+                  <div class="input-wrap-contact">
+                    <div class="label-large">Full Name</div>
+                    <input
+                      class="text-field w-input"
+                      maxlength="256"
+                      name="name"
+                      data-name="Name"
+                      placeholder="Your name here"
+                      type="text"
+                      id="name"
+                      required=""
+                    />
+                  </div>
+                  <div class="w-layout-grid input-halves">
+                    <div class="input-wrap-contact">
+                      <div class="label-large">Email</div>
+                      <input
+                        class="text-field w-input"
+                        maxlength="256"
+                        name="Email-address"
+                        data-name="Email address"
+                        placeholder="Email address"
+                        type="email"
+                        id="Email-address"
+                        required=""
+                      />
+                    </div>
+                    <div class="input-wrap-contact">
+                      <div class="label-large">How you wanna study?</div>
+                      <select
+                        id="Select-a-range"
+                        name="Select-a-range"
+                        data-name="Select a range"
+                        class="text-field select w-select"
+                      >
+                        <option value="">Select a type</option>
+                        <option value="First">1:1 Coaching</option>
+                        <option value="Second">Video Courses</option>
+                        <option value="Third">Live Workshops</option>
+                        <option value="Third">General Inquiry</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="input-wrap-contact">
+                    <div class="label-large">Message</div>
+                    <textarea
+                      placeholder="Tell us what you’d like to learn"
+                      maxlength="5000"
+                      id="Message"
+                      name="Message"
+                      data-name="Message"
+                      class="text-field textarea w-input"
+                    ></textarea>
+                  </div>
+                  <label class="w-checkbox checkbox">
+                    <div
+                      class="w-checkbox-input w-checkbox-input--inputType-custom checkbox-contact cc"
+                    ></div>
+                    <input
+                      type="checkbox"
+                      name="Checkbox"
+                      id="Checkbox"
+                      data-name="Checkbox"
+                      required=""
+                      style="opacity: 0; position: absolute; z-index: -1"
+                      class="cc"
+                    />
+                    <span class="checkbox-text w-form-label" for="Checkbox"
+                      >I agree to receive updates and communication.</span
+                    >
+                  </label>
+                </div>
+                <div class="contact-form-bottom-tile">
+                  <div class="contact-form-bottom-left">
+                    <div class="text-small">
+                      We’ll get back to you within 24 hours.
+                      <br />
+                      By sending, you accept our
+                      <a href="/privacy.html" class="link-dark-underline">Privacy Policy</a>
+                      .
+                    </div>
+                  </div>
+                  <div class="submit-wrap">
+                    <input
+                      
+                      data-wait="Please wait..."
+                      class="cta-submit-invisible w-button"
+                      value="Send message"
+                    />
+                    <a
+                      href="#"
+                      button=""
+                      data-wf--cta-main--variant="accent"
+                      class="cta-main w-variant-a57b7428-18a2-3ff9-288f-84debbb18fc8 w-inline-block"
+                    >
+                      <div class="button-text-mask">
+                        <div
+                          button-text=""
+                          class="button-text w-variant-a57b7428-18a2-3ff9-288f-84debbb18fc8"
+                        >
+                          Send Message
+                        </div>
+                      </div>
+                      <div class="button-icon-wrap">
+                        <div button-icon-right="" class="icon-button w-embed">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="100%"
+                            height="100%"
+                            viewBox="0 0 16 16"
+                            fill="none"
+                          >
+                            <path
+                              d="M3.33325 8.00016H11.9999M7.99992 3.3335L12.6666 8.00016L7.99992 12.6668"
+                              stroke="currentColor"
+                              stroke-width="var(--_❇️-icon---icon-stroke)"
+                              stroke-linecap="square"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <div
+                        button-bg=""
+                        class="button-bg w-variant-a57b7428-18a2-3ff9-288f-84debbb18fc8 cs"
+                      ></div>
+                    </a>
+                  </div>
+                </div>
+              </form>
+              <div class="success-message w-form-done">
+                <div>Thank you! Your submission has been received!</div>
+              </div>
+              <div class="error-message w-form-fail">
+                <div>Oops! Something went wrong while submitting the form.</div>
+              </div>
+            </div>
+            <div class="contact-testimonial mobile">
+              <div class="testimonial-rating">
+                <div class="icon-star w-embed">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="100%"
+                    height="100%"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                  >
+                    <path
+                      d="M9.69824 5.26074C9.84349 5.5561 10.1255 5.76082 10.4512 5.80859L14.2598 6.36719L11.502 9.06348C11.2674 9.293 11.1606 9.62275 11.2158 9.94629L11.8652 13.752L8.46387 11.957C8.17179 11.8029 7.82233 11.8029 7.53027 11.957L4.12891 13.752L4.7793 9.94629C4.8345 9.62285 4.72764 9.29298 4.49316 9.06348L1.73535 6.36719L5.54395 5.80859C5.86948 5.76081 6.15062 5.55594 6.2959 5.26074L7.99707 1.80078L9.69824 5.26074Z"
+                      fill="currentColor"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+                <div class="icon-star w-embed">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="100%"
+                    height="100%"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                  >
+                    <path
+                      d="M9.69824 5.26074C9.84349 5.5561 10.1255 5.76082 10.4512 5.80859L14.2598 6.36719L11.502 9.06348C11.2674 9.293 11.1606 9.62275 11.2158 9.94629L11.8652 13.752L8.46387 11.957C8.17179 11.8029 7.82233 11.8029 7.53027 11.957L4.12891 13.752L4.7793 9.94629C4.8345 9.62285 4.72764 9.29298 4.49316 9.06348L1.73535 6.36719L5.54395 5.80859C5.86948 5.76081 6.15062 5.55594 6.2959 5.26074L7.99707 1.80078L9.69824 5.26074Z"
+                      fill="currentColor"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+                <div class="icon-star w-embed">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="100%"
+                    height="100%"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                  >
+                    <path
+                      d="M9.69824 5.26074C9.84349 5.5561 10.1255 5.76082 10.4512 5.80859L14.2598 6.36719L11.502 9.06348C11.2674 9.293 11.1606 9.62275 11.2158 9.94629L11.8652 13.752L8.46387 11.957C8.17179 11.8029 7.82233 11.8029 7.53027 11.957L4.12891 13.752L4.7793 9.94629C4.8345 9.62285 4.72764 9.29298 4.49316 9.06348L1.73535 6.36719L5.54395 5.80859C5.86948 5.76081 6.15062 5.55594 6.2959 5.26074L7.99707 1.80078L9.69824 5.26074Z"
+                      fill="currentColor"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+                <div class="icon-star w-embed">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="100%"
+                    height="100%"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                  >
+                    <path
+                      d="M9.69824 5.26074C9.84349 5.5561 10.1255 5.76082 10.4512 5.80859L14.2598 6.36719L11.502 9.06348C11.2674 9.293 11.1606 9.62275 11.2158 9.94629L11.8652 13.752L8.46387 11.957C8.17179 11.8029 7.82233 11.8029 7.53027 11.957L4.12891 13.752L4.7793 9.94629C4.8345 9.62285 4.72764 9.29298 4.49316 9.06348L1.73535 6.36719L5.54395 5.80859C5.86948 5.76081 6.15062 5.55594 6.2959 5.26074L7.99707 1.80078L9.69824 5.26074Z"
+                      fill="currentColor"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+                <div class="icon-star w-embed">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="100%"
+                    height="100%"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                  >
+                    <path
+                      d="M9.69824 5.26074C9.84349 5.5561 10.1255 5.76082 10.4512 5.80859L14.2598 6.36719L11.502 9.06348C11.2674 9.293 11.1606 9.62275 11.2158 9.94629L11.8652 13.752L8.46387 11.957C8.17179 11.8029 7.82233 11.8029 7.53027 11.957L4.12891 13.752L4.7793 9.94629C4.8345 9.62285 4.72764 9.29298 4.49316 9.06348L1.73535 6.36719L5.54395 5.80859C5.86948 5.76081 6.15062 5.55594 6.2959 5.26074L7.99707 1.80078L9.69824 5.26074Z"
+                      fill="currentColor"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div>
+                “This platform made learning simple and effective. The lessons were practical, easy to follow, and helped me gain real confidence.”
+              </div>
+              <div class="testimonial-author">
+                <div class="text-wrap-author">
+                  <div class="text-small">— Malwina Juice</div>
+                  <div class="text-small text-light-64">FRANCO</div>
+                </div>
+                <div class="author-avatar">
+                  <img
+                    loading="lazy"
+                    src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a85013c8cd3bc01ec4e03e_Author.webp"
+                    alt=""
+                    class="image-cover"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="section cta-section">
+      <div
+        data-poster-url="https://i.postimg.cc/4dDn1yG1/0BC803EE-3659-4699-A1EA-16B783B85C4C.webp"
+        data-video-urls="https://i.postimg.cc/4dDn1yG1/0BC803EE-3659-4699-A1EA-16B783B85C4C.webp"
+        data-autoplay="true"
+        data-loop="true"
+        data-wf-ignore="true"
+        class="video-cta w-background-video w-background-video-atom"
+      >
+        <video
+          id="78bc52d4-4b4c-556d-3710-2379611f61dc-video"
+          autoplay=""
+          loop=""
+          style="
+            background-image: url('https://i.postimg.cc/4dDn1yG1/0BC803EE-3659-4699-A1EA-16B783B85C4C.webp');
+          "
+          muted=""
+          playsinline=""
+          data-wf-ignore="true"
+          data-object-fit="cover"
+        >
+          <!-- <source
+            src="https://i.postimg.cc/4dDn1yG1/0BC803EE-3659-4699-A1EA-16B783B85C4C.webp"
+            data-wf-ignore="true"
+          />
+          <source
+            src="https://i.postimg.cc/4dDn1yG1/0BC803EE-3659-4699-A1EA-16B783B85C4C.webp"
+            data-wf-ignore="true"
+          /> -->
+        </video>
+        <div class="w-layout-blockcontainer main-container w-container">
+          <div class="content-cta">
+            <div class="heading-cta">
+              <h2 class="no-margins">Your Learning Journey Starts Here.</h2>
+            </div>
+            <div class="button-wrap-cta">
+              <a
+                href="./contact.html"
+                button=""
+                data-w-id="5c5941d2-f1d2-6c4e-e2f7-af76cec7daed"
+                class="cta-main accent w-inline-block cc"
+              >
+                <div class="button-text-mask accent">
+                  <div button-text="" class="button-text accent">
+                    Get started
+                  </div>
+                </div>
+                <div class="button-icon-wrap accent">
+                  <div button-icon-right="" class="icon-button accent w-embed">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="100%"
+                      height="100%"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                    >
+                      <path
+                        d="M3.33325 8.00016H11.9999M7.99992 3.3335L12.6666 8.00016L7.99992 12.6668"
+                        stroke="currentColor"
+                        stroke-width="var(--_❇️-icon---icon-stroke)"
+                        stroke-linecap="square"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div button-bg="" class="button-bg accent cc"></div>
+              </a>
+              <a
+                href="./live-class.html"
+                button=""
+                target="_blank"
+                class="cta-main light w-inline-block"
+              >
+                <div class="button-text-mask light">
+                  <div button-text="" class="button-text light">
+                    Book a Session
+                  </div>
+                </div>
+                <div button-bg="" class="button-bg light"></div>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="overlay-cta-left"></div>
+        <div class="overlay-cta"></div>
+      </div>
+    </section>
+    <section class="footer">
+      <div class="w-layout-blockcontainer main-container w-container">
+        <div class="content-footer">
+          <div class="w-layout-grid footer-halves">
+            <div
+              id="w-node-e67d8acf-58a6-205a-f067-103a519e9df8-d0446e59"
+              class="footer-left"
+            >
+              <div class="footer-top-tile">
+                <div class="heading-footer">
+                  <a
+                    href="/"
+                    aria-current="page"
+                    class="brand-footer w-inline-block w--current"
+                  >
+                    <!-- <img
+                      loading="lazy"
+                      src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/68a83e5fed5bf3258bb1ad89_Foster%20%26%20Reeves.svg"
+                      alt=""
+                      class="logo-footer"
+                    /> -->
+                  </a>
+                </div>
+                <div class="footer-left-text">
+                  <div class="text-light-88">
+                    Shop 113/112, Floor 3, chauda bazaar
+                    <br />ludhiana, punjab. 141008
+                  </div>
+                  <div class="text-light-88">
+                    +91-7986964474
+                    <br />hridey@hdclarityspeech.com
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              id="w-node-e67d8acf-58a6-205a-f067-103a519e9dff-d0446e59"
+              class="footer-right"
+            >
+              <div
+                id="w-node-e67d8acf-58a6-205a-f067-103a519e9e00-d0446e59"
+                data-w-id="e67d8acf-58a6-205a-f067-103a519e9e00"
+                class="footer-column"
+              >
+                <div class="column-expand-top-tile">
+                  <div class="label-large text-light-88">Navigation</div>
+                  <div class="footer-expand-icon">
+                    <div class="line-expand-footer vertical"></div>
+                    <div class="line-expand-footer horizontal"></div>
+                  </div>
+                </div>
+                <div class="wrap-column">
+                  <div class="footer-links-column">
+                    <a
+                      href="/"
+                      aria-current="page"
+                      class="footer-link w--current"
+                      >Home</a
+                    >
+                    <a href="./about.html" class="footer-link"
+                      >About us</a
+                    >
+                    <a href="./live-class.html" class="footer-link"
+                      >1:1 session</a
+                    >
+                    <a href="./subscription.html" class="footer-link"
+                      >Subscription</a
+                    >
+                    <a href="./login.html" class="footer-link"
+                      >Get started</a
+                    >
+                    <a href="./contact.html" class="footer-link"
+                      >Contact us</a
+                    >
+                    
+                  </div>
+                </div>
+              </div>
+              <div
+                data-w-id="e67d8acf-58a6-205a-f067-103a519e9e1b"
+                class="footer-column no-borders"
+              >
+                <div class="column-expand-top-tile">
+                  <div class="label-large text-light-88">Resources</div>
+                  <div class="footer-expand-icon">
+                    <div class="line-expand-footer vertical"></div>
+                    <div class="line-expand-footer horizontal"></div>
+                  </div>
+                </div>
+                <div class="wrap-column">
+                  <div class="footer-links-column">
+                    <a href="./privacy.html" class="footer-link">Privacy Policy</a>
+                    <a href="./terms.html" class="footer-link">Terms & Conditions</a>
+                    <a href="./refund.html" class="footer-link"
+                      >Refund</a
+                    >
+                    
+                  </div>
+                </div>
+              </div>
+              <div
+                data-w-id="e67d8acf-58a6-205a-f067-103a519e9e30"
+                class="footer-column"
+              >
+                <div class="column-expand-top-tile">
+                  <div class="label-large text-light-88">Community</div>
+                  <div class="footer-expand-icon">
+                    <div class="line-expand-footer vertical"></div>
+                    <div class="line-expand-footer horizontal"></div>
+                  </div>
+                </div>
+                <div class="wrap-column">
+                  <div class="footer-links-column">
+                    <a href="https://www.instagram.com/hdclarityspeech?igsh=dmJkcG4yZzhqaTgy" class="footer-link">Instagram</a>
+                    <a href="https://www.facebook.com/people/Hd-Clarity-Speech/61591878064697/?mibextid=wwXIfr" class="footer-link">Facebook</a>
+                    <a href="https://www.youtube.com/@hdclarityspeech" class="footer-link">Youtube</a>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="footer-bottom-wrap">
+            <div class="footer-legal-tile">
+              <div class="text-small text-light-64">
+                © 2026 brand. All rights reserved.
+              </div>
+              
+            </div>
+            <div class="footer-last-block">
+              <div class="limit-680">
+                <div class="text-small text-light-64">
+                  Empowering learners worldwide through expert-led courses, coaching, and flexible online education.
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <button id="cw-fab" aria-label="Open chat">
+      <!-- Chat icon -->
+      <svg class="icon-chat" viewBox="0 0 24 24"><path d="M20 2H4a2 2 0 00-2 2v18l4-4h14a2 2 0 002-2V4a2 2 0 00-2-2z"/></svg>
+      <!-- Close icon -->
+      <svg class="icon-close" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke="#fff" stroke-width="2.5" stroke-linecap="round" fill="none"/></svg>
+      <!-- Unread badge -->
+      <span id="cw-badge"></span>
+    </button>
+  
+    <!-- Chat Window -->
+    <div id="cw-window" role="dialog" aria-label="Support chat">
+  
+      <!-- Header -->
+      <div class="cw-header">
+        <div class="cw-avatar">
+          <svg viewBox="0 0 24 24"><path d="M20 2H4a2 2 0 00-2 2v18l4-4h14a2 2 0 002-2V4a2 2 0 00-2-2z"/></svg>
+        </div>
+        <div class="cw-header-info">
+          <h3 style="color: #000 !important;">Support Chat</h3>
+          <div class="cw-status">
+            <span class="cw-status-dot"></span>
+            <span style="color: #000 !important;">Usually replies in minutes</span>
+          </div>
+        </div>
+        <button style="color: #000 !important;" class="cw-minimize-btn" id="cw-minimize" aria-label="Minimize">
+          <svg style="color: #000 !important;" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+  
+      <!-- Auth notice (shown if not logged in) -->
+      <div id="cw-auth-notice">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p style="color: #000 !important;">Please log in to start a conversation with our support team.</p>
+        <a href="/login.html">Log in</a>
+      </div>
+  
+      <!-- Messages list -->
+      <div id="cw-messages" style="color: #000 !important;"></div>
+  
+      <!-- Subject row (shown only for first message) -->
+      <div id="cw-subject-wrap" style="color: #000 !important;">
+        <input id="cw-subject" type="text" placeholder="Subject (e.g. Course access issue)" maxlength="80" />
+      </div>
+  
+      <!-- Input area -->
+      <div class="cw-input-area" id="cw-input-area">
+        <textarea style="color: #000 !important;" id="cw-input" placeholder="Type your message…" rows="1" maxlength="2000"></textarea>
+        <button id="cw-send-btn" aria-label="Send message" style="background-color: #000 !important; color: #fff !important;">
+          <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+  
+      <!-- Error toast -->
+      <div id="cw-error" style="color: #000 !important;"></div>
+    </div>
+
+
+    <!-- <div class="ultra-master">
+      <div class="ultra-pop_master">
+        <div class="w-layout-grid ultra-pop_grid">
+          <div
+            id="w-node-_91781c88-be46-c0c6-907d-077606d09587-06d09575"
+            class="ultra-pop_left"
+          >
+            <img
+              loading="lazy"
+              src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/69bcf057c4ca50e41ede2e3c_bg-pop-up.avif"
+              alt=""
+              sizes="100vw"
+              srcset="
+                https://cdn.prod.website-files.com/68a398206b83e17019b48462/69bcf057c4ca50e41ede2e3c_bg-pop-up-p-500.avif 500w,
+                https://cdn.prod.website-files.com/68a398206b83e17019b48462/69bcf057c4ca50e41ede2e3c_bg-pop-up.avif       674w
+              "
+              class="ultra_image-cover"
+            />
+            <div class="ultra-pop_testi-box">
+              <div class="ultra-pop_testimonial-top">
+                <img
+                  loading="lazy"
+                  src="https://cdn.prod.website-files.com/68a398206b83e17019b48462/69bcf057c4ca50e41ede2e3f_testi.avif"
+                  alt=""
+                  class="ultra-pop_testi-image"
+                />
+                <div class="ultra-bar_text-small">
+                  “My favorite subscription by far. Fresh supply of templates
+                  and ready-to-use sections that save us hours on every project.
+                  Absolute no-brainer.”
+                </div>
+              </div>
+              <div class="div-block">
+                <div class="ultra-label_text tone-subtle-ultra">
+                  Jeremy Olley
+                </div>
+                <div class="ultra-pop_testimonial-dot"></div>
+                <div class="ultra-label_text tone-subtle-ultra">
+                  Small Agency
+                </div>
+              </div>
+            </div>
+            <div class="ultra-pop_image-shade"></div>
+          </div>
+          <div
+            id="w-node-_91781c88-be46-c0c6-907d-077606d09595-06d09575"
+            class="ultra-pop_right"
+          >
+            <div class="ultra-pop_right-top">
+              <div class="ultra-tag">
+                <div class="ultra-tag_icon w-embed">
+                  <svg
+                    width="8"
+                    height="8"
+                    viewBox="0 0 8 8"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M2.77926 7.8804C2.76675 7.94228 2.81463 8 2.87847 8H5.12153C5.18537 8 5.23325 7.94228 5.22074 7.8804L4.73564 5.48105C4.71651 5.38647 4.83057 5.32259 4.90283 5.3874L6.708 7.00649C6.75607 7.0496 6.8322 7.03745 6.8641 6.98156L7.9869 5.0142C8.01801 4.95968 7.99139 4.89064 7.93146 4.87042L5.63147 4.09462C5.54015 4.06381 5.54015 3.93614 5.63147 3.90533L7.93146 3.12957C7.99139 3.10936 8.01801 3.04031 7.9869 2.9858L6.8641 1.01843C6.8322 0.96255 6.75607 0.950394 6.708 0.99351L4.90284 2.61254C4.83058 2.67735 4.71653 2.61347 4.73565 2.51889L5.22074 0.119597C5.23325 0.057722 5.18537 0 5.12153 0H2.87847C2.81463 0 2.76675 0.057722 2.77926 0.119597L3.26434 2.51883C3.28346 2.61341 3.16941 2.6773 3.09715 2.61249L1.292 0.993508C1.24393 0.950393 1.1678 0.962549 1.1359 1.01843L0.013099 2.9858C-0.0180133 3.04031 0.00861272 3.10936 0.068542 3.12957L2.36853 3.90533C2.45985 3.93614 2.45985 4.06381 2.36853 4.09462L0.0685391 4.87042C0.00861097 4.89064 -0.0180142 4.95968 0.0130978 5.0142L1.1359 6.98157C1.1678 7.03745 1.24393 7.04961 1.292 7.00649L3.09716 5.38745C3.16943 5.32264 3.28348 5.38653 3.26435 5.48111L2.77926 7.8804Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </div>
+                <div class="ultra-label_text">best deal</div>
+              </div>
+              <div class="ultra-bar_text-heading">
+                Save with BYQ Supply Ultra
+              </div>
+              <div class="ultra-bar_text-medium tone-subtle-ultra">
+                BYQ Supply Ultra is our premium subscription that gives you
+                access to our templates and 1800+ copy/paste sections library
+                for half the price.
+              </div>
+            </div>
+            <div class="ultra-pop_comparison-master">
+              <div class="ultra-pop_comparison-single">
+                <div class="ultra-label_text-big">Webflow Marketplace</div>
+                <div class="ultra-bar_text-medium tone-subtle-ultra">
+                  1 template for $129
+                </div>
+              </div>
+              <div class="ultra-pop_comparison-single">
+                <div class="ultra-label_text-big">With byq ultra</div>
+                <div class="ultra-bar_text-medium tone-subtle-ultra">
+                  3 templates for $46 each + 1800 sections
+                </div>
+              </div>
+            </div>
+            <div class="ultra-pop_list-master">
+              <div class="ultra-pop_list-single">
+                <div class="ultra-pop_list-circle">
+                  <div class="ultra-pop_list-icon w-embed">
+                    <svg
+                      width="8"
+                      height="8"
+                      viewBox="0 0 8 8"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6.66668 2L3.00001 5.66667L1.33334 4"
+                        stroke="black"
+                        stroke-width="0.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div class="ultra-bar_text-small">
+                  3 template credits every quarter
+                </div>
+              </div>
+              <div class="ultra-pop_list-single">
+                <div class="ultra-pop_list-circle">
+                  <div class="ultra-pop_list-icon w-embed">
+                    <svg
+                      width="8"
+                      height="8"
+                      viewBox="0 0 8 8"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6.66668 2L3.00001 5.66667L1.33334 4"
+                        stroke="black"
+                        stroke-width="0.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div class="ultra-bar_text-small">
+                  Full access to 1800+ copy paste sections library
+                </div>
+              </div>
+              <div class="ultra-pop_list-single">
+                <div class="ultra-pop_list-circle">
+                  <div class="ultra-pop_list-icon w-embed">
+                    <svg
+                      width="8"
+                      height="8"
+                      viewBox="0 0 8 8"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6.66668 2L3.00001 5.66667L1.33334 4"
+                        stroke="black"
+                        stroke-width="0.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div class="ultra-bar_text-small">
+                  All new templates added during your subscription
+                </div>
+              </div>
+            </div>
+            <div class="ultra-bar_text-small">
+              With code CRAFTED20 only $46/month for the first quarter.<br />Cancel
+              anytime.
+            </div>
+            <a
+              href="https://app.byq.supply/templates/foster-and-reeves"
+              data-w-id="91781c88-be46-c0c6-907d-077606d095be"
+              target="_blank"
+              class="ultra_cta w-inline-block"
+            >
+              <div class="ultra_cta_text-mask">
+                <div class="ultra_cta-text">
+                  Get Foster and Reeves with ULTRA
+                </div>
+              </div>
+              <div class="ultra_cta_bg"></div>
+            </a>
+          </div>
+        </div>
+        <div
+          data-w-id="91781c88-be46-c0c6-907d-077606d095c3"
+          class="ultra-pop_close-circle"
+        >
+          <div class="ultra-pop_close-icon w-embed">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 18 18"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M13.125 4.375L4.375 13.125M4.375 4.375L13.125 13.125"
+                stroke="currentColor"
+                stroke-width="1.3125"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div
+        data-w-id="91781c88-be46-c0c6-907d-077606d095c5"
+        class="ultra-pop_overlay"
+      ></div>
+    </div> -->
+    <script
+    src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=68a398206b83e17019b48462"
+    type="text/javascript"
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="./js/webflow.schunk.36b8fb49256177c8.js"
+    type="text/javascript"
+    
+  ></script>
+  <script
+    src="./js/webflow.schunk.3a56ca963d7db957.js"
+    type="text/javascript"
+    
+  ></script>
+  <script
+    src="./js/webflow.7dadf3bf.e58cba3db08092e0.js"
+    type="text/javascript"
+    
+  ></script>
+  <script
+    src="https://cdn.prod.website-files.com/gsap/3.14.2/gsap.min.js"
+    type="text/javascript"
+  ></script>
+  <script
+    src="https://cdn.prod.website-files.com/gsap/3.14.2/SplitText.min.js"
+    type="text/javascript"
+  ></script>
+  <script
+    src="https://cdn.prod.website-files.com/gsap/3.14.2/ScrollTrigger.min.js"
+    type="text/javascript"
+  ></script>
+
+    <script>
+      document.getElementById('opens').onclick = function () {
+        document.body.style.overflow = 'hidden';
+      };
+    
+      document.getElementById('closes').onclick = function () {
+        document.body.style.overflow = 'auto';
+      };
+    </script>
+
+<script src="./logout.js"></script>
+
+<script src="./auth-navbar.js"></script>
+
+<script src="./chat-widget.js"></script>
+
+<script src="./contact-form.js"></script>
+
+<script src="./auth-check.js"></script>
+
+  </body>
+</html>

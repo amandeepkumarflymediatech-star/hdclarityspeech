@@ -1,0 +1,1 @@
+export default function TutorDashboard() { return <main className="min-h-screen p-8"><h1>Tutor Dashboard</h1></main>; }

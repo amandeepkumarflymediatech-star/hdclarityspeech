@@ -1,0 +1,1 @@
+export default function StudentDashboard() { return <main className="min-h-screen p-8"><h1>Student Dashboard</h1></main>; }
