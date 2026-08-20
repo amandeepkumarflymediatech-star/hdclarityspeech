@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { gsap } from 'gsap';
@@ -12,11 +12,50 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function HomePage() {
   const container = useRef<HTMLDivElement>(null);
-  
+
+  // Contact Form State
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    studyPreference: '1:1 Coaching',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+    setErrorMessage('');
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || 'Failed to send message');
+      }
+
+      setSubmitStatus('success');
+      setFormData({ name: '', email: '', studyPreference: '1:1 Coaching', message: '' });
+    } catch (error: any) {
+      setSubmitStatus('error');
+      setErrorMessage(error.message || 'An error occurred.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   useGSAP(() => {
     // Stacking cards animation
     const cards = gsap.utils.toArray('.sticky-card');
-    
+
     cards.forEach((card: any, index: number) => {
       ScrollTrigger.create({
         trigger: card,
@@ -34,7 +73,7 @@ export default function HomePage() {
       const header = acc.querySelector('.accordion-header');
       const content = acc.querySelector('.accordion-content');
       const icon = acc.querySelector('.accordion-icon');
-      
+
       let isOpen = false;
       const tween = gsap.to(content, {
         height: 'auto',
@@ -47,7 +86,7 @@ export default function HomePage() {
         duration: 0.3,
         paused: true,
       });
-      
+
       header.addEventListener('click', () => {
         if (!isOpen) {
           tween.play();
@@ -62,88 +101,90 @@ export default function HomePage() {
   }, { scope: container });
 
   return (
-    <div ref={container} className="w-full font-sans text-slate-800 dark:text-slate-200 bg-white dark:bg-slate-950 transition-colors duration-300">
-      
+    <div ref={container} className="w-full font-sans text-primary bg-white transition-colors duration-300">
+
       {/* 1. Hero Section */}
-      <section className="relative px-6 pt-32 pb-24 md:pt-48 md:pb-32 overflow-hidden flex flex-col items-center text-center">
-        <div className="absolute inset-0 bg-gradient-to-b from-blue-50/50 to-white -z-10" />
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-50" />
-        <div className="absolute top-40 -left-40 w-72 h-72 bg-purple-100 rounded-full blur-3xl opacity-50" />
-        
-        <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight max-w-4xl leading-[1.1] mb-6 text-slate-900 dark:text-white transition-colors duration-300">
-          Learn New Skills. <span className="text-blue-600 block sm:inline">On Your Time.</span>
+      <section className="relative px-6 pt-32 pb-24 md:pt-48 md:pb-32 overflow-hidden flex flex-col items-center text-center bg-secondary min-h-screen justify-center">
+        <h2 className="text-xl md:text-2xl font-bold tracking-widest uppercase mb-6 text-primary font-sans animate-in fade-in slide-in-from-bottom-4 duration-1000">
+          Welcome to a space
+        </h2>
+
+        <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter max-w-5xl leading-[1.1] mb-12 text-primary font-playfair animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-150 fill-mode-both">
+          where speaking clearly isn't a skill...
         </h1>
-        <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mb-10 leading-relaxed transition-colors duration-300">
-          Book one-on-one online sessions tailored to your needs. Choose a convenient time, connect through Google Meet, and get the support you need from anywhere.
+
+        <p className="text-lg md:text-xl text-primary/80 max-w-4xl mx-auto mb-12 leading-relaxed font-sans font-medium animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300 fill-mode-both">
+          it's your sharpest weapon. Where every word is delivered with unshakable conviction. Where every room you walk into becomes yours to command. This isn't about finding your voice, it's about owning it completely, in HD.
         </p>
-        
-        <div className="flex flex-col sm:flex-row gap-4 items-center">
-          <Link href="/live-class" className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 w-full sm:w-auto">
+
+        <div className="flex flex-col sm:flex-row gap-6 items-center animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500 fill-mode-both">
+          <Link href="/live-class" className="px-10 py-5 bg-accent hover:bg-primary text-white font-bold rounded-none shadow-sm transition-all w-full sm:w-auto text-lg uppercase tracking-wider">
             Start Learning
           </Link>
-          <Link href="/about" className="px-8 py-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-full shadow-sm hover:shadow-md transition-all w-full sm:w-auto">
-            About us
+          <Link href="/about" className="px-10 py-5 bg-transparent border-2 border-primary hover:bg-primary text-primary hover:text-white font-bold rounded-none transition-all w-full sm:w-auto text-lg uppercase tracking-wider">
+            Our Mission
           </Link>
         </div>
       </section>
 
       {/* 2. Value Proposition */}
-      <section className="px-6 py-24 bg-white dark:bg-slate-950 transition-colors duration-300">
-        <div className="max-w-4xl mx-auto text-center">
-          <p className="text-2xl md:text-3xl font-medium leading-relaxed text-slate-700 dark:text-slate-300 transition-colors duration-300">
-            With personalized one-on-one sessions, flexible scheduling, and ongoing membership options, our platform has become a trusted place for individuals seeking dedicated support and real results.
+      <section className="px-6 py-32 bg-white transition-colors duration-300 border-t border-secondary">
+        <div className="max-w-5xl mx-auto text-center relative z-10">
+          <p className="text-3xl md:text-5xl font-playfair leading-tight text-primary transition-colors duration-300">
+            "Your voice is the only instrument you'll play every single day. <span className="text-accent italic font-cormorant">It's time to tune it.</span>"
           </p>
         </div>
       </section>
 
       {/* 3. How It Works (Sticky Cards) */}
-      <section className="px-6 py-24 bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
+      <section className="px-6 py-32 bg-white transition-colors duration-300 border-t border-secondary">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-slate-900 dark:text-white transition-colors duration-300">Start Learning</h2>
-            <p className="text-slate-500 dark:text-slate-400 mt-4 text-lg transition-colors duration-300">Your journey to mastery in 3 simple steps</p>
+          <div className="mb-20 text-center">
+            <h4 className="text-accent font-bold tracking-widest uppercase mb-4 text-sm font-sans">The HD Method</h4>
+            <h2 className="text-5xl md:text-6xl font-black text-primary font-playfair tracking-tight transition-colors duration-300">Command The Room</h2>
+            <p className="text-primary/70 mt-6 text-xl max-w-2xl mx-auto font-sans">Your journey to absolute clarity in 3 definitive steps.</p>
           </div>
-          
-          <div className="cards-container relative flex flex-col gap-10">
+
+          <div className="cards-container relative flex flex-col gap-12">
             {/* Card 1 */}
-            <div className="sticky-card bg-white dark:bg-slate-950 p-10 md:p-14 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 dark:border-slate-800 flex flex-col md:flex-row items-center justify-between gap-10 w-full z-10 transform origin-top transition-colors duration-300">
+            <div className="sticky-card bg-white p-12 md:p-16 border border-secondary rounded-none shadow-sm flex flex-col md:flex-row items-center justify-between gap-12 w-full z-10 transform origin-top">
               <div className="flex-1">
-                <span className="text-blue-600 font-bold text-lg mb-2 block">Step 01</span>
-                <h3 className="text-3xl font-bold mb-4 dark:text-white">Create Account</h3>
-                <p className="text-slate-600 dark:text-slate-400 mb-8 text-lg">Sign up in minutes and unlock your personalized dashboard where you can manage sessions, view progress, and access resources.</p>
-                <Link href="/signup" className="inline-flex px-6 py-3 bg-slate-900 dark:bg-slate-800 text-white font-medium rounded-xl hover:bg-slate-800 dark:hover:bg-slate-700 transition">Get Started</Link>
+                <span className="text-secondary font-black text-6xl mb-6 block font-playfair">01</span>
+                <h3 className="text-4xl font-bold mb-6 text-primary font-playfair tracking-tight">Assess & Align</h3>
+                <p className="text-primary/80 mb-8 text-lg font-sans leading-relaxed">Sign up in minutes. We'll dive deep into your current speaking habits, identify the friction points, and establish exactly what absolute clarity looks like for you.</p>
+                <Link href="/signup" className="inline-flex px-8 py-4 bg-primary text-white font-bold uppercase tracking-wider text-sm hover:bg-accent transition-colors">Begin Assessment</Link>
               </div>
-              <div className="flex-1 w-full relative aspect-video rounded-2xl overflow-hidden shadow-lg border border-slate-200 dark:border-slate-800">
-                <Image src="/student-learning.png" alt="Create Account" fill className="object-cover" />
+              <div className="flex-1 w-full relative aspect-square md:aspect-video overflow-hidden bg-secondary">
+                <Image src="/student-learning.png" alt="Create Account" fill className="object-cover mix-blend-multiply grayscale contrast-125 opacity-70" />
               </div>
             </div>
-            
+
             {/* Card 2 */}
-            <div className="sticky-card bg-white dark:bg-slate-950 p-10 md:p-14 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 dark:border-slate-800 flex flex-col md:flex-row items-center justify-between gap-10 w-full z-20 transform origin-top transition-colors duration-300">
+            <div className="sticky-card bg-white p-12 md:p-16 border border-secondary rounded-none shadow-sm flex flex-col md:flex-row items-center justify-between gap-12 w-full z-20 transform origin-top">
               <div className="flex-1">
-                <span className="text-blue-600 font-bold text-lg mb-2 block">Step 02</span>
-                <h3 className="text-3xl font-bold mb-4 dark:text-white">Book 1:1 Session</h3>
-                <p className="text-slate-600 dark:text-slate-400 mb-8 text-lg">Choose a date and time that works for you. Browse our expert tutors and lock in your session instantly.</p>
-                <Link href="/live-class" className="inline-flex px-6 py-3 bg-slate-900 dark:bg-slate-800 text-white font-medium rounded-xl hover:bg-slate-800 dark:hover:bg-slate-700 transition">View Courses</Link>
+                <span className="text-secondary font-black text-6xl mb-6 block font-playfair">02</span>
+                <h3 className="text-4xl font-bold mb-6 text-primary font-playfair tracking-tight">The 1:1 Crucible</h3>
+                <p className="text-primary/80 mb-8 text-lg font-sans leading-relaxed">Lock in your sessions. No generic courses. You get intense, personalized coaching designed to strip away the noise and forge your delivery.</p>
+                <Link href="/live-class" className="inline-flex px-8 py-4 bg-primary text-white font-bold uppercase tracking-wider text-sm hover:bg-accent transition-colors">View Mentors</Link>
               </div>
-              <div className="flex-1 w-full relative aspect-video rounded-2xl overflow-hidden shadow-lg border border-slate-200 dark:border-slate-800">
-                <Image src="/tutor-call.png" alt="Book 1:1 Session" fill className="object-cover" />
+              <div className="flex-1 w-full relative aspect-square md:aspect-video overflow-hidden bg-secondary">
+                <Image src="/tutor-call.png" alt="Book 1:1 Session" fill className="object-cover mix-blend-multiply grayscale contrast-125 opacity-70" />
               </div>
             </div>
-            
+
             {/* Card 3 */}
-            <div className="sticky-card bg-white dark:bg-slate-950 p-10 md:p-14 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 dark:border-slate-800 flex flex-col md:flex-row items-center justify-between gap-10 w-full z-30 transform origin-top transition-colors duration-300">
+            <div className="sticky-card bg-white p-12 md:p-16 border border-secondary rounded-none shadow-sm flex flex-col md:flex-row items-center justify-between gap-12 w-full z-30 transform origin-top">
               <div className="flex-1">
-                <span className="text-blue-600 font-bold text-lg mb-2 block">Step 03</span>
-                <h3 className="text-3xl font-bold mb-4 dark:text-white">Learn & Grow</h3>
-                <p className="text-slate-600 dark:text-slate-400 mb-8 text-lg">Start learning at your own pace with tailored 1-on-1 guidance designed to help you reach your specific goals faster.</p>
-                <Link href="/live-class" className="inline-flex px-6 py-3 bg-blue-600 text-white font-medium rounded-xl hover:bg-blue-700 transition">Start Learning</Link>
+                <span className="text-secondary font-black text-6xl mb-6 block font-playfair">03</span>
+                <h3 className="text-4xl font-bold mb-6 text-primary font-playfair tracking-tight">Execute in HD</h3>
+                <p className="text-primary/80 mb-8 text-lg font-sans leading-relaxed">Walk into your next meeting, presentation, or negotiation with unshakable conviction. The room is yours.</p>
+                <Link href="/live-class" className="inline-flex px-8 py-4 bg-accent text-white font-bold uppercase tracking-wider text-sm hover:bg-primary transition-colors">Start Learning</Link>
               </div>
-              <div className="flex-1 w-full relative aspect-video rounded-2xl overflow-hidden shadow-lg border border-slate-200 dark:border-slate-800">
-                <Image src="/student-success.png" alt="Learn & Grow" fill className="object-cover" />
+              <div className="flex-1 w-full relative aspect-square md:aspect-video overflow-hidden bg-secondary">
+                <Image src="/student-success.png" alt="Learn & Grow" fill className="object-cover mix-blend-multiply grayscale contrast-125 opacity-70" />
               </div>
             </div>
-            
+
             {/* Invisible spacer so we can scroll past the pinned cards smoothly */}
             <div className="h-[20vh]"></div>
           </div>
@@ -151,11 +192,12 @@ export default function HomePage() {
       </section>
 
       {/* 4. What We Offer (Accordions) */}
-      <section className="px-6 py-24 bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-slate-800 transition-colors duration-300">
+      <section className="px-6 py-32 bg-secondary transition-colors duration-300">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-4xl font-bold text-slate-900 dark:text-white mb-12 text-center transition-colors duration-300">What We Offer</h2>
-          
-          <div className="flex flex-col gap-4">
+          <h4 className="text-primary font-bold tracking-widest uppercase mb-4 text-sm font-sans text-center">The Arsenal</h4>
+          <h2 className="text-4xl md:text-5xl font-black text-primary mb-16 text-center font-playfair tracking-tight">What We Offer</h2>
+
+          <div className="flex flex-col gap-6">
             {[
               { title: '1:1 Coaching', content: 'Get personalized guidance through live one-on-one sessions customized entirely to your learning goals and speed.' },
               { title: 'Live Workshops', content: 'Join interactive group sessions and live classes where you can learn alongside a community of peers.' },
@@ -163,13 +205,13 @@ export default function HomePage() {
               { title: 'Flexible Scheduling', content: 'Book sessions at your convenience. We match you with experts across different timezones to fit your busy life.' },
               { title: 'Community Support', content: 'Connect with mentors and fellow learners in our exclusive community forums and chat channels.' }
             ].map((item, i) => (
-              <div key={i} className="accordion-item border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 transition-colors duration-300">
-                <button className="accordion-header w-full flex items-center justify-between p-6 text-left hover:bg-slate-50 dark:hover:bg-slate-800/50 transition cursor-pointer">
-                  <span className="text-xl font-semibold text-slate-800 dark:text-slate-200">{item.title}</span>
-                  <ChevronDown className="accordion-icon text-slate-400 dark:text-slate-500" />
+              <div key={i} className="accordion-item border border-primary/20 bg-white transition-colors duration-300 rounded-none">
+                <button className="accordion-header w-full flex items-center justify-between p-8 text-left hover:bg-secondary/30 transition cursor-pointer">
+                  <span className="text-2xl font-bold text-primary font-playfair tracking-tight">{item.title}</span>
+                  <ChevronDown className="accordion-icon text-accent" />
                 </button>
-                <div className="accordion-content h-0 overflow-hidden opacity-0">
-                  <div className="p-6 pt-0 text-slate-600 dark:text-slate-400">
+                <div className="accordion-content h-0 overflow-hidden opacity-0 border-t border-primary/10">
+                  <div className="p-8 text-primary/80 font-sans text-lg leading-relaxed">
                     {item.content}
                   </div>
                 </div>
@@ -180,24 +222,24 @@ export default function HomePage() {
       </section>
 
       {/* 5. Why Choose Us (Grid) */}
-      <section className="px-6 py-24 bg-slate-900 dark:bg-slate-950 text-white transition-colors duration-300">
+      <section className="px-6 py-32 bg-white text-primary transition-colors duration-300">
         <div className="max-w-6xl mx-auto">
-          <div className="mb-16">
-            <h4 className="text-blue-400 font-semibold tracking-wider uppercase mb-2">Why Choose Us</h4>
-            <h2 className="text-4xl font-bold">Learn Smarter. Grow Faster.</h2>
+          <div className="mb-20 text-center">
+            <h4 className="text-accent font-bold tracking-widest uppercase mb-4 font-sans text-sm">The Advantage</h4>
+            <h2 className="text-5xl md:text-6xl font-black font-playfair tracking-tight">Learn Smarter. Grow Faster.</h2>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
             {[
               { title: 'Personalized Sessions', desc: 'Custom curriculum tailored exactly to your strengths and weaknesses.' },
               { title: 'Flexible Scheduling', desc: 'Find times that work for you, no matter your timezone or routine.' },
               { title: 'One-on-One Attention', desc: 'Undivided focus from expert instructors dedicated to your success.' },
-              { title: 'Online Convenience', desc: 'Learn from the comfort of your home using seamless Google Meet integrations.' }
+              { title: 'Online Convenience', desc: 'Learn from the comfort of your home using seamless integrations.' }
             ].map((feature, i) => (
-              <div key={i} className="bg-slate-800/50 dark:bg-slate-900/50 p-8 rounded-2xl border border-slate-700 dark:border-slate-800 transition-colors duration-300">
-                <CheckCircle2 className="text-blue-400 w-10 h-10 mb-6" />
-                <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-                <p className="text-slate-400">{feature.desc}</p>
+              <div key={i} className="bg-white border border-secondary p-10 transition-colors duration-300 hover:bg-secondary/30">
+                <CheckCircle2 className="text-accent w-12 h-12 mb-8" />
+                <h3 className="text-2xl font-bold mb-4 font-playfair tracking-tight">{feature.title}</h3>
+                <p className="text-primary/80 font-sans leading-relaxed">{feature.desc}</p>
               </div>
             ))}
           </div>
@@ -205,75 +247,75 @@ export default function HomePage() {
       </section>
 
       {/* 6. About Preview */}
-      <section className="px-6 py-24 bg-white dark:bg-slate-950 transition-colors duration-300">
-        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-16 items-center">
-          <div className="flex-1 space-y-8">
+      <section className="px-6 py-32 bg-secondary transition-colors duration-300">
+        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-20 items-center">
+          <div className="flex-1 space-y-10">
             <div>
-              <h4 className="text-blue-600 font-semibold tracking-wider uppercase mb-2">About us</h4>
-              <h2 className="text-4xl font-bold text-slate-900 dark:text-white leading-tight transition-colors duration-300">Personalized Support That Fits Your Schedule.</h2>
+              <h4 className="text-accent font-bold tracking-widest uppercase mb-4 text-sm font-sans">About us</h4>
+              <h2 className="text-4xl md:text-5xl font-black text-primary leading-tight font-playfair tracking-tight">Personalized Support That Fits Your Schedule.</h2>
             </div>
-            <p className="text-lg text-slate-600 dark:text-slate-400 transition-colors duration-300">
+            <p className="text-xl text-primary/80 font-sans leading-relaxed">
               We believe education shouldn't be one-size-fits-all. Our platform connects you with dedicated professionals who adapt to your learning style, ensuring you acquire the skills you need efficiently.
             </p>
-            <ul className="space-y-4">
-              <li className="flex items-center gap-3 text-slate-700 dark:text-slate-300 font-medium transition-colors duration-300">
-                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
-                  <CheckCircle2 size={16} />
+            <ul className="space-y-6">
+              <li className="flex items-center gap-4 text-primary font-bold font-sans text-lg">
+                <div className="w-10 h-10 border border-primary flex items-center justify-center text-accent bg-white">
+                  <CheckCircle2 size={20} />
                 </div>
                 Expert Guidance
               </li>
-              <li className="flex items-center gap-3 text-slate-700 dark:text-slate-300 font-medium transition-colors duration-300">
-                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
-                  <CheckCircle2 size={16} />
+              <li className="flex items-center gap-4 text-primary font-bold font-sans text-lg">
+                <div className="w-10 h-10 border border-primary flex items-center justify-center text-accent bg-white">
+                  <CheckCircle2 size={20} />
                 </div>
                 Flexible Access
               </li>
-              <li className="flex items-center gap-3 text-slate-700 dark:text-slate-300 font-medium transition-colors duration-300">
-                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
-                  <CheckCircle2 size={16} />
+              <li className="flex items-center gap-4 text-primary font-bold font-sans text-lg">
+                <div className="w-10 h-10 border border-primary flex items-center justify-center text-accent bg-white">
+                  <CheckCircle2 size={20} />
                 </div>
                 Real Results
               </li>
             </ul>
-            <div className="pt-4">
-              <Link href="/about" className="px-8 py-4 bg-slate-900 text-white font-medium rounded-full hover:bg-slate-800 transition shadow-lg inline-block">
+            <div className="pt-8">
+              <Link href="/about" className="px-10 py-5 bg-white border border-primary text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-wider text-sm transition inline-block">
                 More About Us
               </Link>
             </div>
           </div>
-          <div className="flex-1 w-full relative rounded-3xl aspect-[4/3] flex items-center justify-center overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800">
-             <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-purple-600/20 z-10 mix-blend-overlay" />
-             <Image src="/team-office.png" alt="Our Team" fill className="object-cover" />
+          <div className="flex-1 w-full relative aspect-[4/3] flex items-center justify-center overflow-hidden border border-secondary bg-white">
+            <Image src="/team-office.png" alt="Our Team" fill className="object-cover grayscale mix-blend-multiply opacity-80" />
           </div>
         </div>
       </section>
 
       {/* 7. Testimonials */}
-      <section className="py-24 bg-slate-50 dark:bg-slate-900 overflow-hidden transition-colors duration-300">
-        <div className="max-w-6xl mx-auto px-6 mb-16 text-center">
-          <h4 className="text-blue-600 font-semibold tracking-wider uppercase mb-2">Testimonials</h4>
-          <h2 className="text-4xl font-bold text-slate-900 dark:text-white transition-colors duration-300">Success Stories</h2>
+      <section className="py-32 bg-white overflow-hidden transition-colors duration-300">
+        <div className="max-w-6xl mx-auto px-6 mb-20 text-center">
+          <h4 className="text-accent font-bold tracking-widest uppercase mb-4 text-sm font-sans">Testimonials</h4>
+          <h2 className="text-5xl md:text-6xl font-black text-primary font-playfair tracking-tight transition-colors duration-300">Success Stories</h2>
         </div>
-        
-        <div className="flex gap-6 px-6 pb-8 overflow-x-auto snap-x snap-mandatory hide-scrollbar" style={{ scrollbarWidth: 'none' }}>
+
+        <div className="flex gap-8 px-6 pb-12 overflow-x-auto snap-x snap-mandatory hide-scrollbar" style={{ scrollbarWidth: 'none' }}>
           {[
-            { name: 'Mazin', country: 'Saudi Arabia 🇸🇦', text: 'The 1:1 sessions completely changed my approach. I gained confidence in just 3 weeks!' },
-            { name: 'Tarun', country: 'India 🇮🇳', text: 'Flexible scheduling allowed me to learn while working full time. Highly recommend to everyone.' },
-            { name: 'Sarah', country: 'USA 🇺🇸', text: 'My tutor was exceptionally patient and tailored every lesson to my exact career goals.' },
-            { name: 'Aisha', country: 'UAE 🇦🇪', text: 'The dashboard makes tracking my progress so easy. Worth every penny.' },
+            { name: 'Mazin', country: 'Saudi Arabia', text: 'The 1:1 sessions completely changed my approach. I gained confidence in just 3 weeks!' },
+            { name: 'Tarun', country: 'India', text: 'Flexible scheduling allowed me to learn while working full time. Highly recommend to everyone.' },
+            { name: 'Sarah', country: 'USA', text: 'My tutor was exceptionally patient and tailored every lesson to my exact career goals.' },
+            { name: 'Aisha', country: 'UAE', text: 'The dashboard makes tracking my progress so easy. Worth every penny.' },
           ].map((t, i) => (
-            <div key={i} className="snap-center shrink-0 w-80 md:w-96 bg-white dark:bg-slate-950 p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors duration-300">
-              <div className="flex text-yellow-400 mb-6">
-                {[...Array(5)].map((_, j) => <Star key={j} size={18} fill="currentColor" />)}
+            <div key={i} className="snap-center shrink-0 w-80 md:w-[450px] bg-white border border-secondary p-10 md:p-14 relative transition-all duration-300 group hover:shadow-lg">
+              <div className="absolute top-8 left-8 text-8xl font-playfair text-secondary/30 pointer-events-none transition-colors">"</div>
+              <div className="flex text-accent mb-8 relative z-10">
+                {[...Array(5)].map((_, j) => <Star key={j} size={20} fill="currentColor" />)}
               </div>
-              <p className="text-slate-600 dark:text-slate-400 mb-8 text-lg">"{t.text}"</p>
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-slate-200 dark:bg-slate-800 rounded-full flex items-center justify-center font-bold text-slate-500 dark:text-slate-400">
+              <p className="text-primary mb-10 text-2xl md:text-3xl font-cormorant italic leading-relaxed relative z-10">"{t.text}"</p>
+              <div className="flex items-center gap-5 relative z-10">
+                <div className="w-14 h-14 bg-secondary text-primary rounded-none flex items-center justify-center font-bold text-xl font-playfair">
                   {t.name.charAt(0)}
                 </div>
                 <div>
-                  <h4 className="font-bold text-slate-900 dark:text-white">{t.name}</h4>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">{t.country}</p>
+                  <h4 className="font-bold text-primary text-xl font-sans tracking-tight">{t.name}</h4>
+                  <p className="text-sm text-primary/70 font-sans mt-1 uppercase tracking-wider">{t.country}</p>
                 </div>
               </div>
             </div>
@@ -281,55 +323,72 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 8. Contact Form */}
-      <section className="px-6 py-24 bg-white dark:bg-slate-950 transition-colors duration-300">
-        <div className="max-w-6xl mx-auto bg-slate-900 dark:bg-slate-900/80 rounded-[2.5rem] overflow-hidden flex flex-col md:flex-row border dark:border-slate-800">
-          <div className="flex-1 p-12 md:p-20 flex flex-col justify-center text-white relative">
-            <div className="absolute inset-0 bg-blue-600/20 blur-3xl rounded-full translate-x-1/2 translate-y-1/2" />
-            <div className="relative z-10">
-              <h4 className="text-blue-400 font-semibold tracking-wider uppercase mb-2">Get Started</h4>
-              <h2 className="text-4xl font-bold mb-6">Ready to Start Learning?</h2>
-              <p className="text-slate-300 text-lg mb-10">Have questions about our programs or need help choosing the right tutor? Send us a message and we'll get back to you shortly.</p>
-              <Link href="/live-class" className="inline-flex px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full shadow-lg transition">
-                Book a Session Now
-              </Link>
-            </div>
+      {/* 8. Contact Form (CTA Promotional Section) */}
+      <section className="px-6 py-32 bg-primary transition-colors duration-300">
+        <div className="max-w-6xl mx-auto rounded-none overflow-hidden flex flex-col md:flex-row relative bg-primary">
+          <div className="flex-1 p-12 md:p-20 flex flex-col justify-center text-white relative z-10">
+            <h4 className="text-secondary font-bold tracking-widest uppercase mb-4 text-sm font-sans">Get Started</h4>
+            <h2 className="text-4xl md:text-5xl font-black mb-8 font-playfair tracking-tight text-white">Ready to Command the Room?</h2>
+            <p className="text-white/80 text-lg md:text-xl mb-12 font-sans leading-relaxed">Have questions about our mentorship or need help finding the right match? Send us a message and we'll secure your position.</p>
+            <Link href="/live-class" className="inline-flex items-center justify-center px-10 py-5 bg-accent hover:bg-white text-white hover:text-primary font-bold uppercase tracking-wider text-sm transition-all max-w-max">
+              Book a Session Now
+            </Link>
           </div>
-          
-          <div className="flex-1 p-12 md:p-20 bg-white dark:bg-slate-900 m-2 rounded-[2rem] transition-colors duration-300">
-            <form className="space-y-6 flex flex-col" onSubmit={(e) => e.preventDefault()}>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Full Name</label>
-                <input type="text" placeholder="John Doe" className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition" />
+
+          <div className="flex-1 p-12 md:p-20 bg-white border border-secondary m-2 transition-colors duration-300 relative z-10">
+            {submitStatus === 'success' ? (
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-8 bg-white z-10 animate-in fade-in zoom-in duration-500">
+                <div className="w-20 h-20 bg-primary text-white flex items-center justify-center mb-6">
+                  <CheckCircle2 size={40} />
+                </div>
+                <h3 className="text-3xl font-black text-primary mb-4 font-playfair tracking-tight">Message Received.</h3>
+                <p className="text-primary/70 text-center text-lg font-sans">
+                  We'll review your inquiry and reach out shortly.
+                </p>
+                <button onClick={() => setSubmitStatus('idle')} className="mt-10 text-accent font-bold uppercase tracking-wider text-sm hover:underline">
+                  Send another message
+                </button>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Email Address</label>
-                <input type="email" placeholder="john@example.com" className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition" />
+            ) : null}
+
+            <form className={`space-y-8 flex flex-col transition-opacity font-sans ${submitStatus === 'success' ? 'opacity-0 pointer-events-none' : 'opacity-100'}`} onSubmit={handleContactSubmit}>
+              {submitStatus === 'error' && (
+                <div className="p-4 bg-red-50 text-accent text-sm border-l-4 border-accent font-medium">
+                  {errorMessage}
+                </div>
+              )}
+              <div className="space-y-2">
+                <label className="block text-xs font-bold text-primary uppercase tracking-widest">Full Name</label>
+                <input required type="text" placeholder="Your Name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-0 py-3 border-0 border-b-2 border-secondary text-primary bg-transparent focus:ring-0 focus:border-accent transition-colors text-lg font-medium placeholder-primary/30" />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">How do you want to study?</label>
-                <select className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition appearance-none">
-                  <option>1:1 Coaching</option>
-                  <option>Group Classes</option>
-                  <option>Self Paced</option>
+              <div className="space-y-2">
+                <label className="block text-xs font-bold text-primary uppercase tracking-widest">Email Address</label>
+                <input required type="email" placeholder="you@domain.com" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-0 py-3 border-0 border-b-2 border-secondary text-primary bg-transparent focus:ring-0 focus:border-accent transition-colors text-lg font-medium placeholder-primary/30" />
+              </div>
+              <div className="space-y-2">
+                <label className="block text-xs font-bold text-primary uppercase tracking-widest">How do you want to study?</label>
+                <select required value={formData.studyPreference} onChange={(e) => setFormData({ ...formData, studyPreference: e.target.value })} className="w-full px-0 py-3 border-0 border-b-2 border-secondary text-primary bg-transparent focus:ring-0 focus:border-accent transition-colors text-lg font-medium">
+                  <option value="1:1 Coaching">1:1 Coaching</option>
+                  <option value="Group Classes">Group Classes</option>
+                  <option value="Self Paced">Self Paced</option>
                 </select>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Message</label>
-                <textarea rows={4} placeholder="Tell us about your goals..." className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition resize-none"></textarea>
+              <div className="space-y-2">
+                <label className="block text-xs font-bold text-primary uppercase tracking-widest">Message</label>
+                <textarea required rows={4} placeholder="Your goals..." value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className="w-full px-0 py-3 border-0 border-b-2 border-secondary text-primary bg-transparent focus:ring-0 focus:border-accent transition-colors text-lg font-medium placeholder-primary/30 resize-none"></textarea>
               </div>
-              <div className="flex items-start gap-3 py-2">
-                <input type="checkbox" id="consent" className="mt-1 w-4 h-4 text-blue-600 rounded border-slate-300 focus:ring-blue-500" />
-                <label htmlFor="consent" className="text-sm text-slate-500">I agree to the terms and conditions and privacy policy.</label>
+              <div className="flex items-start gap-4 pt-4">
+                <input required type="checkbox" id="consent" className="mt-1 w-5 h-5 text-accent border-secondary focus:ring-accent rounded-none cursor-pointer" />
+                <label htmlFor="consent" className="text-sm text-primary/80 leading-relaxed cursor-pointer">I commit to the terms and agree to the privacy policy.</label>
               </div>
-              <button type="submit" className="w-full px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white font-semibold rounded-xl transition">
-                Send Message
+              <button disabled={isSubmitting} type="submit" className="w-full px-8 py-5 bg-accent hover:bg-primary text-white font-bold uppercase tracking-wider text-sm transition-all disabled:opacity-70 flex items-center justify-center gap-2 mt-4">
+                {isSubmitting ? 'Transmitting...' : 'Send Message'}
               </button>
             </form>
           </div>
         </div>
       </section>
-      
+
     </div>
   );
 }

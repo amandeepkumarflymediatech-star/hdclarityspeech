@@ -1,18 +1,21 @@
 import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
 async function main() {
   console.log('Seeding database...');
+  
+  const hashedPassword = await bcrypt.hash('password123', 10);
 
   // 1. Create Admin
   const admin = await prisma.user.upsert({
     where: { email: 'admin@hdclarity.com' },
-    update: {},
+    update: { password: hashedPassword },
     create: {
       email: 'admin@hdclarity.com',
       name: 'Admin User',
-      password: 'password123', // In a real app, hash this with bcrypt!
+      password: hashedPassword,
       role: 'ADMIN',
     },
   });
@@ -20,22 +23,22 @@ async function main() {
   // 2. Create Tutors
   const tutor1 = await prisma.user.upsert({
     where: { email: 'tutor1@hdclarity.com' },
-    update: {},
+    update: { password: hashedPassword },
     create: {
       email: 'tutor1@hdclarity.com',
       name: 'Sarah Tutor',
-      password: 'password123',
+      password: hashedPassword,
       role: 'TUTOR',
     },
   });
 
   const tutor2 = await prisma.user.upsert({
     where: { email: 'tutor2@hdclarity.com' },
-    update: {},
+    update: { password: hashedPassword },
     create: {
       email: 'tutor2@hdclarity.com',
       name: 'John Tutor',
-      password: 'password123',
+      password: hashedPassword,
       role: 'TUTOR',
     },
   });
@@ -43,11 +46,11 @@ async function main() {
   // 3. Create Student and Subscription
   const student = await prisma.user.upsert({
     where: { email: 'student@example.com' },
-    update: {},
+    update: { password: hashedPassword },
     create: {
       email: 'student@example.com',
       name: 'Alice Student',
-      password: 'password123',
+      password: hashedPassword,
       role: 'STUDENT',
       subscriptions: {
         create: {

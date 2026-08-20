@@ -38,42 +38,42 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center p-4 sm:p-8 transition-colors duration-300 font-sans">
-      <div className="max-w-md w-full bg-white dark:bg-slate-900 rounded-3xl shadow-xl p-8 sm:p-12 border border-slate-100 dark:border-slate-800">
+    <div className="min-h-screen bg-secondary flex items-center justify-center p-4 sm:p-8 transition-colors duration-300 font-sans">
+      <div className="max-w-md w-full bg-white rounded-none shadow-xl p-8 sm:p-12 border border-secondary">
         
         <div className="mb-10 text-center">
           <Link href="/" className="mb-8 inline-block">
-            <Image src={logoImg} alt="HD Clarity Logo" className="object-contain w-auto h-16 rounded-lg dark:brightness-200 mx-auto" priority />
+            <Image src={logoImg} alt="HD Clarity Logo" className="object-contain w-auto h-16 mx-auto" priority />
           </Link>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mb-3 tracking-tight">
+          <h1 className="text-3xl font-black text-primary mb-3 tracking-tight font-playfair">
             Forgot Password
           </h1>
-          <p className="text-slate-500 dark:text-slate-400">
+          <p className="text-primary/70 font-sans">
             Enter your email and we'll send you a link to reset your password.
           </p>
         </div>
 
         {status === 'success' ? (
-          <div className="bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400 p-6 rounded-xl border border-emerald-100 dark:border-emerald-500/20 text-center">
-            <p className="font-semibold mb-2">Check your email!</p>
-            <p className="text-sm">{message}</p>
-            <Link href="/login" className="inline-block mt-6 text-emerald-700 dark:text-emerald-300 font-semibold hover:underline">
+          <div className="bg-secondary/30 text-primary p-8 border border-secondary text-center">
+            <p className="font-bold text-lg mb-2 font-playfair">Check your email!</p>
+            <p className="text-sm font-sans">{message}</p>
+            <Link href="/login" className="inline-block mt-8 text-accent font-bold uppercase tracking-widest text-xs hover:text-primary transition-colors">
               Return to Login
             </Link>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Email address</label>
+              <label className="block text-xs font-bold text-primary uppercase tracking-widest mb-3">Email address</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-slate-400" />
+                <div className="absolute inset-y-0 left-0 pl-0 flex items-center pointer-events-none">
+                  <Mail className="h-5 w-5 text-primary/50" />
                 </div>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="block w-full pl-11 pr-4 py-3.5 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800 focus:bg-white focus:ring-2 focus:ring-blue-600 outline-none"
+                  className="block w-full pl-8 pr-4 py-3 border-0 border-b-2 border-secondary text-primary bg-transparent focus:ring-0 focus:border-accent transition-colors duration-200 outline-none text-lg placeholder-primary/30"
                   placeholder="you@example.com"
                   required
                 />
@@ -81,23 +81,23 @@ export default function ForgotPasswordPage() {
             </div>
 
             {status === 'error' && (
-              <p className="text-red-500 text-sm">{message}</p>
+              <p className="text-accent text-sm font-bold bg-accent/10 p-3">{message}</p>
             )}
 
             <button
               type="submit"
               disabled={status === 'loading'}
-              className="w-full flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-xl transition-colors disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-2 bg-accent hover:bg-primary text-white font-bold py-5 px-8 transition-colors duration-200 group disabled:opacity-70 mt-8 uppercase tracking-widest text-sm rounded-none shadow-sm"
             >
               <span>{status === 'loading' ? 'Sending...' : 'Send Reset Link'}</span>
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
           </form>
         )}
 
-        <div className="mt-8 text-center text-slate-500 text-sm">
+        <div className="mt-8 text-center text-primary/70 font-sans text-sm">
           Remember your password?{' '}
-          <Link href="/login" className="text-blue-600 font-semibold hover:underline">
+          <Link href="/login" className="text-accent font-bold hover:text-primary transition-colors">
             Log in
           </Link>
         </div>
