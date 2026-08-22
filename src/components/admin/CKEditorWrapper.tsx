@@ -125,7 +125,7 @@ export default function CKEditorWrapper({ value, onChange }: CKEditorWrapperProp
         }
       `}</style>
       <CKEditor
-        editor={ClassicEditor}
+        editor={ClassicEditor as any}
         config={{
           extraPlugins: [MyCustomUploadAdapterPlugin],
           toolbar: [
