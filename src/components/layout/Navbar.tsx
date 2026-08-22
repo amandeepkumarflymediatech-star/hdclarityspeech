@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from "next/link";
 import { ChevronDown } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -30,9 +31,7 @@ export default function Navbar() {
           {/* Left Side: Logo */}
           <div className="font-bold flex items-center">
             <Link href="/" className="group flex items-center">
-              <div className="font-playfair text-3xl font-extrabold tracking-tight text-primary flex items-end">
-                HD <span className="w-2 h-2 bg-accent rounded-full mb-1 ml-0.5 group-hover:scale-125 transition-transform duration-300"></span>
-              </div>
+              <Image src="/logo.png" alt="HD Clarity Speech" width={48} height={48} className="object-contain" />
             </Link>
           </div>
 

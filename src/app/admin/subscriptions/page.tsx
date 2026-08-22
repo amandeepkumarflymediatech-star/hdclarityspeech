@@ -11,10 +11,19 @@ export default async function AdminSubscriptionsPage() {
     redirect("/login");
   }
 
-  const subscriptions = await prisma.subscription.findMany({
-    include: { user: { select: { id: true, name: true, email: true } } },
+  const packages = await prisma.studentPackage.findMany({
+    include: { student: { select: { id: true, name: true, email: true } }, package: true },
     orderBy: { createdAt: 'desc' }
   });
+
+  const subscriptions = packages.map(pkg => ({
+    id: pkg.id,
+    userId: pkg.studentId,
+    planType: pkg.package?.name || 'BASIC',
+    status: pkg.status,
+    createdAt: pkg.createdAt,
+    user: pkg.student
+  }));
 
   const users = await prisma.user.findMany({
     select: { id: true, name: true, email: true },

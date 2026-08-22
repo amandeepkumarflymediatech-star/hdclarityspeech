@@ -20,7 +20,7 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
   ];
 
   return (
-    <div className="flex h-screen bg-secondary overflow-hidden font-sans">
+    <div className="flex h-screen bg-secondary/10 overflow-hidden font-sans">
       
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
@@ -31,19 +31,19 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
       )}
 
       {/* Sidebar */}
-      <aside className={`fixed inset-y-0 left-0 w-72 bg-white flex flex-col z-50 transform transition-transform duration-300 md:relative md:translate-x-0 border-r border-secondary shadow-xl md:shadow-none ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        <div className="p-6 flex items-center justify-between border-b border-secondary bg-white">
+      <aside className={`fixed inset-y-0 left-0 w-72 bg-white flex flex-col z-50 transform transition-transform duration-300 md:relative md:translate-x-0 border-r border-secondary/30 shadow-2xl md:shadow-none ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className="p-8 flex items-center justify-between border-b border-secondary/30">
           <div className="flex items-center gap-3">
             <Image src={logoImg} alt="HD Clarity Logo" className="object-contain w-auto h-8" priority />
             <span className="font-bold text-xl text-primary tracking-tight">Student<span className="text-accent">Portal</span></span>
           </div>
-          <button className="md:hidden text-primary" onClick={() => setIsMobileMenuOpen(false)}>
+          <button className="md:hidden text-primary/50 hover:text-primary transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
             <X size={24} />
           </button>
         </div>
         
         <div className="px-6 py-8 flex-1 overflow-y-auto">
-          <p className="text-xs font-bold text-primary/50 uppercase tracking-widest mb-6">Overview</p>
+          <p className="text-[10px] font-bold text-primary/40 uppercase tracking-widest mb-6 ml-4">Overview</p>
           <nav className="space-y-2">
             {navItems.map((item) => {
               const isActive = pathname === item.href;
@@ -53,14 +53,14 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
                   key={item.name} 
                   href={item.href} 
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className={`flex items-center gap-4 px-4 py-4 transition-colors group ${
+                  className={`flex items-center gap-4 px-4 py-3.5 transition-all duration-300 rounded-2xl group ${
                     isActive 
-                      ? 'bg-primary text-white' 
-                      : 'text-primary/70 hover:bg-secondary hover:text-primary'
+                      ? 'bg-accent/10 text-accent font-black shadow-sm' 
+                      : 'text-primary/60 hover:bg-secondary/20 hover:text-primary'
                   }`}
                 >
-                  <Icon size={20} className={`transition-transform duration-200 ${isActive ? 'text-accent' : 'group-hover:text-accent group-hover:scale-110'}`} /> 
-                  <span className="font-bold text-sm tracking-widest uppercase">{item.name}</span>
+                  <Icon size={20} className={`transition-transform duration-300 ${isActive ? 'text-accent' : 'group-hover:text-accent group-hover:scale-110'}`} /> 
+                  <span className="font-bold text-sm tracking-wide">{item.name}</span>
                 </Link>
               );
             })}
@@ -68,27 +68,29 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
         </div>
 
         {/* Progress Widget in Sidebar */}
-        <div className="px-6 mb-6">
-          <div className="bg-secondary/30 rounded-none p-5 border border-secondary">
+        <div className="px-6 mb-8">
+          <div className="bg-secondary/10 rounded-3xl p-5 border border-secondary/30 shadow-sm hover:shadow-md transition-shadow group">
             <div className="flex items-center gap-3 text-accent mb-3">
-              <Award size={18} />
-              <span className="text-xs font-bold uppercase tracking-widest">Level 3</span>
+              <div className="p-1.5 bg-accent/10 rounded-lg group-hover:scale-110 transition-transform">
+                <Award size={16} />
+              </div>
+              <span className="text-[10px] font-bold uppercase tracking-widest">Level 3</span>
             </div>
-            <p className="text-sm font-bold text-primary mb-3 font-sans">Articulation Master</p>
-            <div className="w-full bg-white rounded-none h-2 overflow-hidden border border-secondary">
-              <div className="bg-accent h-2 rounded-none w-[65%]"></div>
+            <p className="text-sm font-bold text-primary mb-3">Articulation Master</p>
+            <div className="w-full bg-secondary/30 rounded-full h-1.5 overflow-hidden">
+              <div className="bg-accent h-full w-[65%] rounded-full shadow-[0_0_10px_rgba(var(--accent),0.5)]"></div>
             </div>
-            <p className="text-xs text-primary/50 mt-3 text-right uppercase tracking-widest font-bold">65% to Level 4</p>
+            <p className="text-[10px] text-primary/50 mt-3 text-right uppercase tracking-widest font-bold">65% to Level 4</p>
           </div>
         </div>
 
-        <div className="p-6 border-t border-secondary bg-white">
+        <div className="p-6 border-t border-secondary/30">
           <button 
             onClick={() => signOut({ callbackUrl: '/login' })}
-            className="flex w-full items-center gap-4 px-4 py-4 text-primary/70 hover:bg-accent hover:text-white transition-colors group"
+            className="flex w-full items-center gap-4 px-4 py-3.5 text-primary/60 hover:bg-red-50 hover:text-red-600 transition-all duration-300 rounded-2xl group"
           >
             <LogOut size={20} className="group-hover:-translate-x-1 transition-transform" /> 
-            <span className="font-bold text-sm uppercase tracking-widest">Logout</span>
+            <span className="font-bold text-sm tracking-wide">Logout</span>
           </button>
         </div>
       </aside>
@@ -96,9 +98,9 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col h-full overflow-hidden relative">
         {/* Top Navbar */}
-        <header className="h-20 bg-white border-b border-secondary flex items-center justify-between px-6 md:px-10 z-10 sticky top-0">
+        <header className="h-24 bg-secondary/10 backdrop-blur-md flex items-center justify-between px-6 md:px-10 z-10 sticky top-0">
           <div className="flex items-center gap-4">
-            <button className="md:hidden text-primary p-2 hover:bg-secondary transition-colors" onClick={() => setIsMobileMenuOpen(true)}>
+            <button className="md:hidden text-primary p-2 bg-white rounded-xl shadow-sm border border-secondary/30 hover:bg-secondary/10 transition-colors" onClick={() => setIsMobileMenuOpen(true)}>
               <Menu size={24} />
             </button>
             <div className="relative hidden sm:block w-64 md:w-96">
@@ -106,32 +108,32 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
               <input 
                 type="text" 
                 placeholder="Search anything..." 
-                className="w-full bg-secondary/30 border border-secondary pl-12 pr-4 py-3 text-sm focus:border-accent text-primary outline-none transition-colors placeholder-primary/40 rounded-none"
+                className="w-full bg-white border border-secondary/30 pl-12 pr-4 py-3 text-sm focus:border-accent text-primary outline-none transition-all placeholder-primary/40 rounded-2xl shadow-sm hover:shadow-md focus:shadow-md"
               />
             </div>
           </div>
           
           <div className="flex items-center gap-6">
-            <button className="relative p-2 text-primary/60 hover:text-primary transition-colors">
-              <Bell size={22} />
-              <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-accent rounded-full border-2 border-white"></span>
+            <button className="relative p-3 bg-white border border-secondary/30 rounded-xl text-primary/60 hover:text-primary hover:shadow-md transition-all">
+              <Bell size={20} />
+              <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-accent rounded-full shadow-[0_0_5px_rgba(var(--accent),0.5)]"></span>
             </button>
-            <div className="h-10 w-px bg-secondary hidden sm:block"></div>
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-primary flex items-center justify-center text-white font-black font-playfair text-xl">
-                S
+            <div className="h-8 w-px bg-secondary/30 hidden sm:block"></div>
+            <div className="flex items-center gap-4 cursor-pointer group">
+              <div className="hidden sm:block text-right transition-transform group-hover:-translate-x-1">
+                <div className="text-sm font-bold text-primary leading-tight">Alice Student</div>
+                <div className="text-[10px] text-accent uppercase tracking-widest mt-1 font-bold">Premium Plan</div>
               </div>
-              <div className="hidden sm:block">
-                <div className="text-sm font-bold text-primary leading-tight font-sans">Alice Student</div>
-                <div className="text-xs text-accent uppercase tracking-widest mt-1 font-bold">Premium Plan</div>
+              <div className="w-12 h-12 bg-primary flex items-center justify-center text-white font-black font-playfair text-xl rounded-2xl shadow-lg border border-primary/20 group-hover:scale-105 transition-transform">
+                S
               </div>
             </div>
           </div>
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto p-6 md:p-10 bg-white">
-          <div className="max-w-7xl mx-auto">
+        <main className="flex-1 overflow-y-auto p-6 md:p-10 bg-transparent">
+          <div className="max-w-7xl mx-auto pb-20">
             {children}
           </div>
         </main>

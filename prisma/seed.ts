@@ -52,13 +52,6 @@ async function main() {
       name: 'Alice Student',
       password: hashedPassword,
       role: 'STUDENT',
-      subscriptions: {
-        create: {
-          planType: '3_SESSIONS',
-          activeSessions: 3,
-          status: 'ACTIVE'
-        }
-      }
     },
   });
 

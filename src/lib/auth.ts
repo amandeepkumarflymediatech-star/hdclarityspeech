@@ -23,6 +23,7 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
+          console.error("Auth error: Missing credentials");
           throw new Error("Invalid credentials");
         }
 
@@ -31,6 +32,7 @@ export const authOptions: NextAuthOptions = {
         });
 
         if (!user || !user.password) {
+          console.error(`Auth error: User not found or has no password for email: ${credentials.email}`);
           throw new Error("Invalid credentials");
         }
 
@@ -40,10 +42,19 @@ export const authOptions: NextAuthOptions = {
         );
 
         if (!isCorrectPassword) {
+          console.error(`Auth error: Incorrect password for email: ${credentials.email}`);
           throw new Error("Invalid credentials");
         }
 
-        return user;
+        console.log(`Auth success for email: ${credentials.email}`);
+        
+        // Return a serializable object (avoids Next.js Date/BigInt errors)
+        return {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: user.role,
+        };
       },
     }),
   ],

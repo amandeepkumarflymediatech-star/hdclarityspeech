@@ -3,11 +3,20 @@
 import React, { useState } from 'react';
 import { CheckCircle2 } from 'lucide-react';
 import Script from 'next/script';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 export default function PricingPage() {
   const [isProcessing, setIsProcessing] = useState(false);
+  const { data: session, status } = useSession();
+  const router = useRouter();
 
   const handlePayment = async (amount: number, planName: string) => {
+    if (status === 'unauthenticated' || !session) {
+      router.push('/login');
+      return;
+    }
+
     setIsProcessing(true);
 
     // Check if script is loaded

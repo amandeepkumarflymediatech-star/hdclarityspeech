@@ -14,6 +14,7 @@ export async function updateProfile(formData: FormData) {
 
   const name = formData.get("name") as string;
   const email = formData.get("email") as string;
+  const bio = formData.get("bio") as string | null;
 
   if (!name || !email) {
     throw new Error("Name and email are required");
@@ -21,7 +22,11 @@ export async function updateProfile(formData: FormData) {
 
   await prisma.user.update({
     where: { id: session.user.id },
-    data: { name, email }
+    data: { 
+      name, 
+      email,
+      ...(bio !== null && { bio })
+    }
   });
 
   revalidatePath("/student/settings");

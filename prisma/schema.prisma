@@ -14,23 +14,59 @@ enum Role {
 }
 
 model User {
-  id            String         @id @default(uuid())
-  email         String         @unique
+  id            String    @id @default(uuid())
+  email         String    @unique
   name          String?
   emailVerified DateTime?
   image         String?
   password      String?        
-  role          Role           @default(STUDENT)
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+  role          Role      @default(STUDENT)
+  isActive      Boolean   @default(true) // For Admin activation/deactivation
+  
+  // Tutor Specific Profile Fields
+  bio           String?   @db.Text
+  experience    String?   @db.Text
+  qualifications String?  @db.Text
+  languages     String?
+  isApproved    Boolean   @default(false)
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
   accounts      Account[]
-  sessions      Session[]
-  subscriptions Subscription[]
-  tutorAppointments   Appointment[]  @relation("TutorAppointments")
-  studentAppointments Appointment[]  @relation("StudentAppointments")
+  sessions      NextAuthSession[]
+
+  // Relations
+  specializations TutorSpecialization[]
+  sessionTypes    TutorSessionType[]
+  
+  // Calendly
+  calendlyConnection CalendlyConnection?
+  
+  // Bookings/Sessions
+  tutorBookings   Booking[] @relation("TutorBookings")
+  studentBookings Booking[] @relation("StudentBookings")
+  
+  tutorSessions   Session[] @relation("TutorSessions")
+  studentSessions Session[] @relation("StudentSessions")
+  
+  // Balances
+  studentPackages StudentPackage[]
+  studentBalances StudentSessionBalance[]
+  
+  // Finance
+  orders          Order[]
+  payments        Payment[]
+  earnings        TutorEarning[]
+  payouts         TutorPayout[]
+  
+  // Notifications
+  notifications   Notification[]
+  activities      ActivityLog[]
+  blogPosts       BlogPost[]
 }
 
+// NextAuth Required Models
 model Account {
   id                 String  @id @default(cuid())
   userId             String
@@ -50,57 +86,354 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
-model Session {
+model NextAuthSession {
   id           String   @id @default(cuid())
   sessionToken String   @unique
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("Session_NextAuth") // Rename to avoid conflict with Platform Session
 }
 
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
+// Platform Core Data
 
-  @@unique([identifier, token])
+model Specialization {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?  @db.Text
+  isActive    Boolean  @default(true)
+  
+  tutors      TutorSpecialization[]
 }
 
-model PasswordResetToken {
-  id      String   @id @default(cuid())
-  email   String
-  token   String   @unique
-  expires DateTime
+model TutorSpecialization {
+  id               String   @id @default(uuid())
+  tutorId          String
+  specializationId String
+  
+  tutor            User           @relation(fields: [tutorId], references: [id], onDelete: Cascade)
+  specialization   Specialization @relation(fields: [specializationId], references: [id], onDelete: Cascade)
 
-  @@unique([email, token])
+  @@unique([tutorId, specializationId])
 }
 
-model Subscription {
-  id            String    @id @default(uuid())
-  userId        String
-  user          User      @relation(fields: [userId], references: [id])
-  planType      String    // e.g., "1_SESSION", "3_SESSIONS"
-  activeSessions Int      @default(0)
-  status        String    @default("ACTIVE") // ACTIVE, CANCELLED, EXPIRED
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+model SessionType {
+  id                 String   @id @default(uuid())
+  name               String
+  description        String?  @db.Text
+  durationMinutes    Int
+  basePrice          Float
+  discountPrice      Float?
+  isActive           Boolean  @default(true)
+  cancellationPolicy String?
+  reschedulingPolicy String?
+  
+  tutors             TutorSessionType[]
+  packages           PackageSessionType[]
+  bookings           Booking[]
+  balances           StudentSessionBalance[]
 }
 
-model Appointment {
+model TutorSessionType {
+  id            String   @id @default(uuid())
+  tutorId       String
+  sessionTypeId String
+  customPrice   Float? // Tutor specific pricing overrides
+  
+  tutor         User        @relation(fields: [tutorId], references: [id], onDelete: Cascade)
+  sessionType   SessionType @relation(fields: [sessionTypeId], references: [id], onDelete: Cascade)
+
+  @@unique([tutorId, sessionTypeId])
+}
+
+model Package {
+  id              String   @id @default(uuid())
+  name            String
+  description     String?  @db.Text
+  totalSessions   Int
+  price           Float
+  discount        Float?
+  validityDays    Int
+  isActive        Boolean  @default(true)
+  
+  sessionTypes    PackageSessionType[]
+  studentPackages StudentPackage[]
+  orders          Order[]
+}
+
+model PackageSessionType {
+  id            String   @id @default(uuid())
+  packageId     String
+  sessionTypeId String
+  
+  package       Package     @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  sessionType   SessionType @relation(fields: [sessionTypeId], references: [id], onDelete: Cascade)
+
+  @@unique([packageId, sessionTypeId])
+}
+
+// Payment & Orders
+
+model Order {
+  id          String   @id @default(uuid())
+  studentId   String
+  packageId   String?
+  bookingId   String?  // If they bought a single session
+  amount      Float
+  currency    String   @default("INR")
+  status      String   @default("PENDING") // PENDING, PROCESSING, PAID, FAILED, REFUNDED
+  
+  student     User     @relation(fields: [studentId], references: [id])
+  package     Package? @relation(fields: [packageId], references: [id])
+  booking     Booking? @relation(fields: [bookingId], references: [id])
+  
+  payment     Payment?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Payment {
+  id                 String   @id @default(uuid())
+  orderId            String   @unique
+  studentId          String
+  amount             Float
+  currency           String
+  razorpayOrderId    String   @unique
+  razorpayPaymentId  String?  @unique
+  status             String   @default("PENDING") // PENDING, PAID, FAILED, REFUNDED
+  
+  order              Order    @relation(fields: [orderId], references: [id])
+  student            User     @relation(fields: [studentId], references: [id])
+  transactions       PaymentTransaction[]
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model PaymentTransaction {
+  id          String   @id @default(uuid())
+  paymentId   String
+  status      String
+  rawData     String   @db.Text // Store full webhook payload
+  createdAt   DateTime @default(now())
+  
+  payment     Payment  @relation(fields: [paymentId], references: [id])
+}
+
+// Booking & Scheduling
+
+model Booking {
+  id               String   @id @default(uuid())
+  studentId        String
+  tutorId          String
+  sessionTypeId    String
+  status           String   @default("PENDING_PAYMENT") // PENDING_PAYMENT, PAID, WAITING_FOR_SCHEDULING, SCHEDULED, COMPLETED, CANCELLED
+  
+  student          User        @relation("StudentBookings", fields: [studentId], references: [id])
+  tutor            User        @relation("TutorBookings", fields: [tutorId], references: [id])
+  sessionType      SessionType @relation(fields: [sessionTypeId], references: [id])
+  
+  orders           Order[]
+  sessions         Session[]
+  
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Session {
+  id                 String   @id @default(uuid())
+  bookingId          String
+  tutorId            String
+  studentId          String
+  calendlyEventUri   String?  @unique
+  calendlyInviteeUri String?  @unique
+  scheduledAt        DateTime
+  endTime            DateTime
+  meetingUrl         String?
+  cancelUrl          String?
+  rescheduleUrl      String?
+  status             String   @default("SCHEDULED") // SCHEDULED, IN_PROGRESS, COMPLETED, CANCELLED, RESCHEDULED, NO_SHOW
+  
+  tutorNotes         String?  @db.Text
+  studentFeedback    String?  @db.Text
+  
+  booking            Booking  @relation(fields: [bookingId], references: [id])
+  tutor              User     @relation("TutorSessions", fields: [tutorId], references: [id])
+  student            User     @relation("StudentSessions", fields: [studentId], references: [id])
+  
+  history            SessionHistory[]
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model SessionHistory {
+  id              String   @id @default(uuid())
+  sessionId       String
+  previousTime    DateTime?
+  newTime         DateTime?
+  action          String   // e.g. RESCHEDULED, CANCELLED, COMPLETED
+  reason          String?  @db.Text
+  actorId         String?  // Who did it
+  createdAt       DateTime @default(now())
+  
+  session         Session  @relation(fields: [sessionId], references: [id])
+}
+
+// Student Balances (Packages & Sessions)
+
+model StudentPackage {
+  id               String   @id @default(uuid())
+  studentId        String
+  packageId        String
+  totalSessions    Int
+  usedSessions     Int      @default(0)
+  remainingSessions Int
+  expiresAt        DateTime
+  status           String   @default("ACTIVE") // ACTIVE, EXPIRED, DEPLETED
+  
+  student          User     @relation(fields: [studentId], references: [id])
+  package          Package  @relation(fields: [packageId], references: [id])
+  
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model StudentSessionBalance {
+  id            String   @id @default(uuid())
+  studentId     String
+  sessionTypeId String
+  balance       Int      @default(0)
+  
+  student       User        @relation(fields: [studentId], references: [id])
+  sessionType   SessionType @relation(fields: [sessionTypeId], references: [id])
+  
+  transactions  SessionBalanceTransaction[]
+
+  @@unique([studentId, sessionTypeId])
+}
+
+model SessionBalanceTransaction {
   id                String   @id @default(uuid())
-  tutorId           String
-  studentId         String
-  calendlyEventId   String?  @unique
-  scheduledAt       DateTime
-  status            String   @default("SCHEDULED") // SCHEDULED, COMPLETED, CANCELLED
-  
-  tutor             User     @relation("TutorAppointments", fields: [tutorId], references: [id])
-  student           User     @relation("StudentAppointments", fields: [studentId], references: [id])
-  
+  balanceId         String
+  amount            Int      // +1 or -1
+  reason            String   // "PACKAGE_PURCHASE", "SESSION_SCHEDULED", "REFUND"
+  relatedEntityId   String?  // e.g. bookingId or orderId
   createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  
+  balance           StudentSessionBalance @relation(fields: [balanceId], references: [id])
 }
 
+// Calendly Integration
+
+model CalendlyConnection {
+  id                String   @id @default(uuid())
+  tutorId           String   @unique
+  accessToken       String?  @db.Text
+  refreshToken      String?  @db.Text
+  userUri           String?  // Calendly User URI
+  schedulingUrl     String?  
+  isActive          Boolean  @default(true)
+  lastSyncAt        DateTime?
+  
+  tutor             User     @relation(fields: [tutorId], references: [id], onDelete: Cascade)
+  eventTypes        CalendlyEventType[]
+}
+
+model CalendlyEventType {
+  id                String   @id @default(uuid())
+  connectionId      String
+  uri               String   @unique
+  name              String
+  duration          Int
+  activeOnPlatform  Boolean  @default(false)
+  
+  connection        CalendlyConnection @relation(fields: [connectionId], references: [id], onDelete: Cascade)
+}
+
+model WebhookEvent {
+  id          String   @id @default(uuid())
+  source      String   // "RAZORPAY" or "CALENDLY"
+  eventId     String   @unique // To prevent duplicate processing
+  eventType   String
+  payload     String   @db.LongText
+  status      String   @default("PENDING") // PENDING, PROCESSED, FAILED
+  error       String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Finance (Tutor Earnings)
+
+model TutorEarning {
+  id            String   @id @default(uuid())
+  tutorId       String
+  sessionId     String?  @unique // Nullable if earning is a manual adjustment
+  amount        Float
+  platformFee   Float
+  netEarning    Float
+  status        String   @default("PENDING") // PENDING, AVAILABLE_FOR_PAYOUT, PAID
+  payoutId      String?
+  
+  tutor         User         @relation(fields: [tutorId], references: [id])
+  payout        TutorPayout? @relation(fields: [payoutId], references: [id])
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model TutorPayout {
+  id            String   @id @default(uuid())
+  tutorId       String
+  amount        Float
+  status        String   @default("PROCESSING") // PROCESSING, PAID, FAILED
+  referenceId   String?  // Bank transaction reference
+  
+  tutor         User           @relation(fields: [tutorId], references: [id])
+  earnings      TutorEarning[]
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+// System Features
+
+model Notification {
+  id          String   @id @default(uuid())
+  userId      String
+  type        String
+  title       String
+  message     String   @db.Text
+  isRead      Boolean  @default(false)
+  relatedId   String?  // ID of booking/payment etc
+  
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+}
+
+model ActivityLog {
+  id          String   @id @default(uuid())
+  actorId     String?  // Null if system
+  action      String
+  entityType  String
+  entityId    String
+  oldValue    String?  @db.Text
+  newValue    String?  @db.Text
+  
+  actor       User?    @relation(fields: [actorId], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+model PlatformSetting {
+  id          String   @id @default(uuid())
+  key         String   @unique
+  value       String   @db.Text
+  description String?
+  updatedAt   DateTime @updatedAt
+}
+
+// Generic contact form (from existing schema)
 model ContactMessage {
   id              String   @id @default(uuid())
   name            String
@@ -109,4 +442,32 @@ model ContactMessage {
   message         String   @db.Text
   createdAt       DateTime @default(now())
   status          String   @default("UNREAD") // UNREAD, READ, RESOLVED
+}
+
+// Blog System
+model BlogPost {
+  id          String   @id @default(uuid())
+  title       String
+  slug        String   @unique
+  content     String   @db.LongText
+  excerpt     String?  @db.Text
+  coverImage  String?
+  published   Boolean  @default(false)
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id])
+  tags        String?  // Comma separated tags
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Global SEO Configuration
+model SeoMetadata {
+  id          String   @id @default(uuid())
+  pagePath    String   @unique // e.g., "/", "/about", "/contact"
+  title       String
+  description String?  @db.Text
+  keywords    String?
+  ogImage     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
