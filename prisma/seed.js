@@ -46,7 +46,7 @@ function main() {
             switch (_a.label) {
                 case 0:
                     console.log('Seeding database...');
-                    return [4 /*yield*/, bcryptjs_1.default.hash('password123', 10)];
+                    return [4 /*yield*/, bcryptjs_1.hash('password123', 10)];
                 case 1:
                     hashedPassword = _a.sent();
                     return [4 /*yield*/, prisma.user.upsert({
