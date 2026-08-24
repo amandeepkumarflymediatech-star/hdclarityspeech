@@ -133,7 +133,7 @@ export default function Navbar() {
                 </Link>
                 <Link
                   href="/login"
-                  className="px-6 py-2.5 bg-accent text-white font-medium text-sm rounded-md shadow-sm hover:bg-primary transition-colors duration-300"
+                  className="hidden md:block px-6 py-2.5 bg-accent text-white font-medium text-sm rounded-md shadow-sm hover:bg-primary transition-colors duration-300"
                 >
                   Get Started
                 </Link>

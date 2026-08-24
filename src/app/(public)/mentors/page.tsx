@@ -49,7 +49,7 @@ export default async function MentorsPage() {
   });
 
   // Fetch student reviews
-  const reviews = await prisma.review.findMany({
+  const reviews = await (prisma as any).review.findMany({
     where: { isActive: true },
     include: {
       student: { select: { name: true } },
@@ -65,7 +65,7 @@ export default async function MentorsPage() {
         
         {/* Header */}
         <div className="text-center mb-20 animate-in fade-in slide-in-from-bottom-8 duration-1000">
-          <h4 className="text-accent font-bold tracking-widest uppercase mb-4 text-sm font-sans">Meet Your Tutor</h4>
+          {/* <h4 className="text-accent font-bold tracking-widest uppercase mb-4 text-sm font-sans">Meet Your Tutor</h4> */}
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-[1.1] text-primary font-playfair mb-6">
             Guidance from the <span className="text-accent italic font-cormorant">Best</span>
           </h1>
@@ -160,7 +160,7 @@ export default async function MentorsPage() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {reviews.map((review) => (
+            {reviews.map((review: any) => (
               <div key={review.id} className="bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-primary/5">
                 <div className="flex text-accent mb-6">
                   {[...Array(review.rating)].map((_, j) => <Star key={j} size={18} fill="currentColor" />)}

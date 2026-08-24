@@ -78,9 +78,9 @@ export default function PricingPage() {
       <Script src="https://checkout.razorpay.com/v1/checkout.js" />
 
       {/* Header */}
-      <section className="px-6 py-20 md:py-24 text-center">
+      <section className="px-6 py-8 md:py-10 text-center">
         <div className="max-w-3xl mx-auto">
-          <h4 className="text-accent font-bold tracking-widest uppercase mb-4 text-sm transition-colors duration-300">Pricing Plans</h4>
+          {/* <h4 className="text-accent font-bold tracking-widest uppercase mb-4 text-sm transition-colors duration-300">Pricing Plans</h4> */}
           <h1 className="text-5xl md:text-6xl font-black text-primary mb-6 transition-all duration-300 font-playfair">Invest In Your Growth</h1>
           <p className="text-lg md:text-xl text-primary/80 leading-relaxed transition-colors duration-300 max-w-2xl mx-auto">
             Choose the coaching package that fits your goals and budget. All sessions are 60 minutes long and personalized to you.

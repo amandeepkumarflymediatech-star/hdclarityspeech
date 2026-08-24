@@ -80,7 +80,7 @@ async function main() {
   });
 
   // 4. Create Reviews
-  const review1 = await prisma.review.create({
+  const review1 = await (prisma as any).review.create({
     data: {
       studentId: student.id,
       tutorId: tutor1.id,
@@ -89,7 +89,7 @@ async function main() {
     }
   });
 
-  const review2 = await prisma.review.create({
+  const review2 = await (prisma as any).review.create({
     data: {
       studentId: student.id,
       tutorId: tutor2.id,

@@ -38,11 +38,11 @@ export default async function AdminDashboard() {
           <h1 className="text-3xl sm:text-4xl font-black text-primary tracking-tight font-playfair">Dashboard</h1>
           <p className="text-primary/70 mt-2 font-sans text-base sm:text-lg">Welcome back. Here's what's happening today.</p>
         </div>
-        <div className="flex gap-4 w-full sm:w-auto">
+        {/* <div className="flex gap-4 w-full sm:w-auto">
           <button className="w-full sm:w-auto px-8 py-3.5 bg-white border border-secondary/50 hover:bg-secondary/10 hover:border-primary text-primary font-bold uppercase tracking-wider text-sm transition-all rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
             Export Report
           </button>
-        </div>
+        </div> */}
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
