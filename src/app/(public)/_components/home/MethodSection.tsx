@@ -80,7 +80,7 @@ export default function MethodSection() {
               </div>
             </div>
             <div className="card-reveal flex-1 w-full relative aspect-square md:aspect-[4/3] overflow-hidden rounded-2xl bg-secondary">
-              <Image src="/3 Steps/Assess & Align.png" alt="Assess" fill className="object-cover" />
+              <Image src="/3 Steps/1.png" alt="Assess" fill className="object-cover" />
             </div>
           </div>
 
