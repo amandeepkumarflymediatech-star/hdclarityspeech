@@ -17,9 +17,11 @@ export async function POST(req: NextRequest) {
 
     const { amount, packageId } = await req.json();
 
+    const conversionRate = 80; // $1 USD = ₹80 INR approx
+
     const order = await razorpay.orders.create({
-      amount: amount * 100, // Razorpay works in paise/cents
-      currency: "USD", // Forcing USD for the demo (or INR if Razorpay test requires it)
+      amount: amount * conversionRate * 100, // Convert USD to INR and then to paise
+      currency: "INR", 
       receipt: `receipt_${Date.now()}`,
       notes: {
         userId: session.user.id,

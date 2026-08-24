@@ -57,7 +57,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
         <div className="mt-auto p-4 border-t border-accent/20">
           <button
-            onClick={() => signOut({ callbackUrl: '/login' })}
+            onClick={() => signOut({ callbackUrl: '/' })}
             className="flex w-full items-center gap-3 px-4 py-3 rounded-sm text-secondary hover:bg-accent/20 hover:text-accent transition-all duration-200 group"
           >
             <LogOut size={20} className="group-hover:-translate-x-1 transition-transform" />

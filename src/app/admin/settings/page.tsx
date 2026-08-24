@@ -5,7 +5,7 @@ import { Settings, User, Bell, Shield, Mail, Globe, Save } from "lucide-react";
 
 export default async function AdminSettingsPage() {
   const session = await getServerSession(authOptions);
-  
+
   if (!session || session.user.role !== "ADMIN") {
     redirect("/login");
   }
@@ -30,7 +30,7 @@ export default async function AdminSettingsPage() {
             { name: "Email", icon: Mail, active: false },
             { name: "Localization", icon: Globe, active: false },
           ].map(tab => (
-            <button 
+            <button
               key={tab.name}
               className={`w-full flex items-center gap-3 px-4 py-3.5 text-left font-bold uppercase tracking-widest text-xs transition-colors rounded-xl ${tab.active ? 'bg-primary text-white shadow-lg' : 'text-primary/70 hover:bg-secondary/30 hover:text-primary'}`}
             >
@@ -44,22 +44,22 @@ export default async function AdminSettingsPage() {
         <div className="md:col-span-3 space-y-6">
           <div className="bg-white border border-secondary/30 p-8 rounded-3xl shadow-sm">
             <h2 className="text-2xl font-black text-primary font-playfair tracking-tight mb-8">General Settings</h2>
-            
+
             <form className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-xs font-bold text-primary uppercase tracking-widest mb-2 ml-1">Platform Name</label>
-                  <input 
-                    type="text" 
-                    defaultValue="HD Clarity Speech" 
+                  <input
+                    type="text"
+                    defaultValue="HD Clarity Speech"
                     className="w-full bg-secondary/5 border border-secondary/50 rounded-xl px-4 py-3 text-sm focus:border-accent focus:ring-1 focus:ring-accent text-primary outline-none transition-all hover:bg-white"
                   />
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-primary uppercase tracking-widest mb-2 ml-1">Support Email</label>
-                  <input 
-                    type="email" 
-                    defaultValue="support@hdclarityspeech.com" 
+                  <input
+                    type="email"
+                    defaultValue="hridey@hdclarityspeech.com"
                     className="w-full bg-secondary/5 border border-secondary/50 rounded-xl px-4 py-3 text-sm focus:border-accent focus:ring-1 focus:ring-accent text-primary outline-none transition-all hover:bg-white"
                   />
                 </div>
@@ -67,8 +67,8 @@ export default async function AdminSettingsPage() {
 
               <div>
                 <label className="block text-xs font-bold text-primary uppercase tracking-widest mb-2 ml-1">Site Description</label>
-                <textarea 
-                  defaultValue="Professional speech therapy services and tutoring." 
+                <textarea
+                  defaultValue="Professional speech therapy services and tutoring."
                   rows={4}
                   className="w-full bg-secondary/5 border border-secondary/50 rounded-xl px-4 py-3 text-sm focus:border-accent focus:ring-1 focus:ring-accent text-primary outline-none transition-all hover:bg-white resize-none"
                 />

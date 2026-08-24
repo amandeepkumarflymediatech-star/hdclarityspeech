@@ -15,13 +15,13 @@ export default async function StudentAppointmentsPage() {
   // Changed from prisma.appointment to prisma.session based on schema
   const appointments = await prisma.session.findMany({
     where: { studentId: session.user.id, status: { in: ['SCHEDULED', 'UPCOMING'] } },
-    include: { tutor: true },
+    include: { tutor: true, booking: { include: { sessionType: true } } },
     orderBy: { scheduledAt: 'asc' }
   });
 
   const pastAppointments = await prisma.session.findMany({
     where: { studentId: session.user.id, status: 'COMPLETED' },
-    include: { tutor: true },
+    include: { tutor: true, booking: { include: { sessionType: true } } },
     orderBy: { scheduledAt: 'desc' }
   });
 
@@ -53,7 +53,7 @@ export default async function StudentAppointmentsPage() {
               <div className="p-6 flex-1">
                 <div className="flex justify-between items-start mb-4">
                   <span className="inline-block px-3 py-1 bg-secondary/10 text-[10px] font-bold uppercase tracking-widest text-primary border border-secondary/20 rounded-full">
-                    Speech Therapy
+                    {apt.booking?.sessionType?.name || 'Therapy Session'}
                   </span>
                   <span className="text-accent text-[10px] font-bold uppercase tracking-widest bg-accent/10 px-3 py-1 rounded-full border border-accent/20">
                     {apt.status}
@@ -78,12 +78,12 @@ export default async function StudentAppointmentsPage() {
               </div>
               
               <div className="flex gap-2 p-4 bg-secondary/5 border-t border-secondary/30">
-                <button className="flex-1 py-3 text-xs font-bold text-primary hover:bg-white bg-secondary/10 border border-secondary/30 transition-colors uppercase tracking-widest rounded-xl">
+                <Link href={apt.rescheduleUrl || '#'} target="_blank" className="flex-1 py-3 text-center text-xs font-bold text-primary hover:bg-white bg-secondary/10 border border-secondary/30 transition-colors uppercase tracking-widest rounded-xl block">
                   Reschedule
-                </button>
-                <button className="flex-1 py-3 bg-accent hover:bg-accent/90 text-white text-xs font-bold uppercase tracking-widest transition-colors flex justify-center items-center gap-2 rounded-xl shadow-sm">
+                </Link>
+                <Link href={apt.meetingUrl || '#'} target="_blank" className="flex-1 py-3 bg-accent hover:bg-accent/90 text-white text-xs font-bold uppercase tracking-widest transition-colors flex justify-center items-center gap-2 rounded-xl shadow-sm">
                   <Video size={16} /> Join Room
-                </button>
+                </Link>
               </div>
             </div>
           ))}
@@ -106,7 +106,7 @@ export default async function StudentAppointmentsPage() {
                    <Clock size={20} />
                  </div>
                  <div>
-                  <h4 className="font-bold text-primary text-base mb-1">Speech Therapy with {apt.tutor?.name || 'Expert Tutor'}</h4>
+                  <h4 className="font-bold text-primary text-base mb-1">{apt.booking?.sessionType?.name || 'Therapy Session'} with {apt.tutor?.name || 'Expert Tutor'}</h4>
                   <p className="text-[10px] font-bold text-primary/50 uppercase tracking-widest mb-1">{new Date(apt.scheduledAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} at {new Date(apt.scheduledAt).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}</p>
                   <p className="text-xs text-primary/70 font-sans flex items-center gap-1.5 mt-2">
                     <FileText size={14} className="text-accent" /> Completed

@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import AppointmentActions from "./_components/AppointmentActions";
 
 export default async function TutorAppointmentsPage() {
   const session = await getServerSession(authOptions);
@@ -24,6 +25,17 @@ export default async function TutorAppointmentsPage() {
       status: { in: ['PENDING_PAYMENT', 'WAITING_FOR_SCHEDULING'] } 
     }
   });
+
+  // Calculate total hours for this week
+  const thisWeekSessions = appointments.filter(a => {
+    const d = new Date(a.scheduledAt);
+    const now = new Date();
+    return d >= new Date(now.setDate(now.getDate() - now.getDay())) && d <= new Date(now.setDate(now.getDate() - now.getDay() + 6));
+  });
+  const totalWeeklyMinutes = thisWeekSessions.reduce((acc, s) => {
+    return acc + (s.endTime.getTime() - s.scheduledAt.getTime()) / 60000;
+  }, 0);
+  const weeklyHours = Math.round(totalWeeklyMinutes / 60);
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 font-sans">
@@ -74,12 +86,14 @@ export default async function TutorAppointmentsPage() {
                   </div>
                 </div>
                 <div className="flex flex-row sm:flex-col gap-3 w-full sm:w-auto">
-                  <button className="flex-1 sm:flex-none px-6 py-2.5 bg-secondary/10 border border-secondary/50 text-primary font-bold uppercase tracking-widest text-xs hover:bg-secondary/30 rounded-xl transition-colors text-center">
-                    Reschedule
-                  </button>
-                  <Link href={`/tutor/live?sessionId=${apt.id}`} className="flex-1 sm:flex-none px-6 py-2.5 bg-accent hover:bg-accent/90 text-white font-bold uppercase tracking-widest text-xs transition-colors rounded-xl flex items-center justify-center gap-2 text-center shadow-sm">
-                    <Video size={16} /> Join Room
-                  </Link>
+                  {apt.status !== 'CANCELLED' && apt.status !== 'COMPLETED' && (
+                    <AppointmentActions sessionId={apt.id} />
+                  )}
+                  {apt.status !== 'CANCELLED' && (
+                    <Link href={`/tutor/live?sessionId=${apt.id}`} className="flex-1 sm:flex-none px-6 py-2.5 bg-accent hover:bg-accent/90 text-white font-bold uppercase tracking-widest text-xs transition-colors rounded-xl flex items-center justify-center gap-2 text-center shadow-sm">
+                      <Video size={16} /> Join Room
+                    </Link>
+                  )}
                 </div>
               </div>
             ))}
@@ -96,7 +110,7 @@ export default async function TutorAppointmentsPage() {
               </div>
               <div className="group">
                 <p className="text-xs font-bold text-primary/50 uppercase tracking-widest mb-1 group-hover:text-accent transition-colors">Weekly Hours</p>
-                <p className="text-3xl font-black text-primary font-playfair">{appointments.length} hr</p>
+                <p className="text-3xl font-black text-primary font-playfair">{weeklyHours} hr</p>
               </div>
               <div className="group">
                 <p className="text-xs font-bold text-primary/50 uppercase tracking-widest mb-1 group-hover:text-accent transition-colors">Pending Requests</p>

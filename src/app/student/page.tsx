@@ -1,12 +1,43 @@
 import { Calendar, Video, Award, Clock, ArrowRight, PlayCircle, Target, BookOpen } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { prisma } from "@/lib/db";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
-export default function StudentDashboard() {
-  const upcomingSessions = [
-    { id: 1, tutor: 'Sarah Tutor', time: 'Tomorrow, 10:00 AM', type: 'Speech Articulation', duration: '60 min', initial: 'S' },
-    { id: 2, tutor: 'John Tutor', time: 'Thursday, 3:30 PM', type: 'Fluency Practice', duration: '45 min', initial: 'J' },
-  ];
+export default async function StudentDashboard() {
+  const session = await getServerSession(authOptions);
+  
+  if (!session || session.user.role !== "STUDENT") {
+    redirect("/login");
+  }
+
+  // Fetch upcoming sessions
+  const upcomingSessionsDB = await prisma.session.findMany({
+    where: { studentId: session.user.id, status: { in: ['SCHEDULED', 'UPCOMING'] } },
+    include: { tutor: true, booking: { include: { sessionType: true } } },
+    orderBy: { scheduledAt: 'asc' },
+    take: 3
+  });
+
+  // Calculate Level based on completed sessions (every 5 sessions = 1 level)
+  const completedCount = await prisma.session.count({
+    where: { studentId: session.user.id, status: 'COMPLETED' }
+  });
+  
+  const currentLevel = Math.floor(completedCount / 5) + 1;
+  const sessionsToNextLevel = 5 - (completedCount % 5);
+
+  const upcomingSessions = upcomingSessionsDB.map(s => ({
+    id: s.id,
+    tutor: s.tutor.name || 'Expert Tutor',
+    time: new Date(s.scheduledAt).toLocaleString('en-US', { weekday: 'short', hour: 'numeric', minute: '2-digit' }),
+    type: s.booking?.sessionType?.name || 'Speech Therapy',
+    duration: s.booking?.sessionType?.durationMinutes ? `${s.booking.sessionType.durationMinutes} min` : '60 min',
+    initial: s.tutor.name ? s.tutor.name[0].toUpperCase() : 'T',
+    url: s.meetingUrl || '#'
+  }));
 
   return (
     <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700 font-sans">
@@ -20,10 +51,10 @@ export default function StudentDashboard() {
           <h1 className="text-4xl font-black text-primary tracking-tight font-playfair">Dashboard</h1>
           <p className="text-primary/70 mt-2 font-sans text-lg">Keep up the great work. Let's hit today's goals.</p>
         </div>
-        <button className="px-8 py-4 bg-accent hover:bg-accent/90 text-white font-bold uppercase tracking-wider text-sm transition-all rounded-2xl flex items-center gap-2 shadow-lg shadow-accent/20 hover:shadow-accent/40 hover:-translate-y-1">
+        <Link href="#practice" className="px-8 py-4 bg-accent hover:bg-accent/90 text-white font-bold uppercase tracking-wider text-sm transition-all rounded-2xl flex items-center gap-2 shadow-lg shadow-accent/20 hover:shadow-accent/40 hover:-translate-y-1">
           <BookOpen size={18} />
           Start Practice
-        </button>
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -37,16 +68,16 @@ export default function StudentDashboard() {
             <div className="flex flex-col sm:flex-row justify-between sm:items-end mb-8 gap-6">
               <div>
                 <span className="inline-block px-4 py-1.5 bg-white/10 text-white border border-white/20 rounded-full text-[10px] font-bold mb-6 uppercase tracking-widest backdrop-blur-md">Weekly Goal</span>
-                <h3 className="text-3xl font-black mb-2 font-playfair tracking-tight">3 / 5 Practice Sessions</h3>
-                <p className="text-white/70 text-base font-sans">You're on a 4-week streak!</p>
+                <h3 className="text-3xl font-black mb-2 font-playfair tracking-tight">{completedCount % 5} / 5 Practice Sessions</h3>
+                <p className="text-white/70 text-base font-sans">Keep practicing to reach your weekly goal!</p>
               </div>
               <div className="w-20 h-20 bg-accent text-white flex items-center justify-center relative font-black text-2xl rounded-2xl shadow-lg border border-accent-light">
-                60%
+                {((completedCount % 5) / 5) * 100}%
               </div>
             </div>
             
             <div className="w-full bg-white/10 h-3 mt-4 rounded-full overflow-hidden backdrop-blur-md border border-white/10">
-              <div className="bg-accent h-3 w-[60%] rounded-full shadow-[0_0_15px_rgba(var(--accent),0.8)] relative">
+              <div className="bg-accent h-3 rounded-full shadow-[0_0_15px_rgba(var(--accent),0.8)] relative transition-all duration-1000" style={{ width: `${((completedCount % 5) / 5) * 100}%` }}>
                 <div className="absolute inset-0 bg-white/20 w-full h-full animate-[shimmer_2s_infinite]"></div>
               </div>
             </div>
@@ -61,10 +92,10 @@ export default function StudentDashboard() {
           <div className="w-20 h-20 bg-accent/10 text-accent flex items-center justify-center mx-auto mb-6 rounded-3xl border border-accent/20 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-inner relative z-10">
             <Award size={40} />
           </div>
-          <h3 className="text-2xl font-black text-primary font-playfair tracking-tight relative z-10">Level 3</h3>
+          <h3 className="text-2xl font-black text-primary font-playfair tracking-tight relative z-10">Level {currentLevel}</h3>
           <p className="text-[10px] font-bold text-accent uppercase tracking-widest mt-2 relative z-10">Articulation Master</p>
           <p className="text-sm text-primary/60 mt-6 font-sans leading-relaxed relative z-10">
-            Complete 2 more speech exercises to unlock Level 4.
+            Complete {sessionsToNextLevel} more speech exercise{sessionsToNextLevel !== 1 ? 's' : ''} to unlock Level {currentLevel + 1}.
           </p>
         </div>
       </div>
@@ -96,9 +127,9 @@ export default function StudentDashboard() {
                     </div>
                   </div>
                 </div>
-                <button className="w-12 h-12 shrink-0 bg-secondary/10 flex items-center justify-center text-primary group-hover:bg-accent group-hover:text-white rounded-xl transition-all duration-300 shadow-sm group-hover:shadow-md hover:scale-105">
+                <Link href={session.url} target="_blank" className="w-12 h-12 shrink-0 bg-secondary/10 flex items-center justify-center text-primary group-hover:bg-accent group-hover:text-white rounded-xl transition-all duration-300 shadow-sm group-hover:shadow-md hover:scale-105">
                   <Video size={18} />
-                </button>
+                </Link>
               </div>
             )) : (
               <div className="p-10 text-center text-primary/50 font-sans italic">No upcoming sessions.</div>
@@ -125,7 +156,7 @@ export default function StudentDashboard() {
             ].map((practice, i) => {
               const Icon = practice.icon;
               return (
-                <div key={i} className="flex items-center justify-between p-4 bg-white border border-secondary/20 hover:border-accent/40 hover:bg-secondary/5 rounded-2xl transition-all duration-300 cursor-pointer group shadow-sm hover:shadow-md hover:-translate-y-0.5">
+                <Link href="#practice" key={i} className="flex items-center justify-between p-4 bg-white border border-secondary/20 hover:border-accent/40 hover:bg-secondary/5 rounded-2xl transition-all duration-300 cursor-pointer group shadow-sm hover:shadow-md hover:-translate-y-0.5">
                   <div className="flex items-center gap-5">
                     <div className="w-12 h-12 bg-secondary/10 flex items-center justify-center text-primary group-hover:text-accent group-hover:bg-accent/10 rounded-xl transition-colors">
                       <Icon size={20} />
@@ -138,7 +169,7 @@ export default function StudentDashboard() {
                   <div className="w-8 h-8 rounded-full bg-secondary/20 flex items-center justify-center text-secondary group-hover:bg-accent group-hover:text-white transition-all duration-300">
                     <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>

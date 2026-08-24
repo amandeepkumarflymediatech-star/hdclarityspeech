@@ -8,7 +8,7 @@ export default function Footer() {
     <footer className="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6 py-16 md:py-20">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
-          
+
           {/* Brand & Intro */}
           <div className="space-y-6 sm:col-span-2 lg:col-span-1">
             <Link href="/" className="inline-block">
@@ -20,7 +20,7 @@ export default function Footer() {
             <div className="flex gap-4">
               <a href="#" className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-900 flex items-center justify-center text-slate-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-all">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 22.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 22.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                 </svg>
               </a>
               <a href="#" className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-900 flex items-center justify-center text-slate-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-all">
@@ -51,9 +51,9 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold text-slate-900 dark:text-white mb-6 uppercase tracking-wider text-sm">Support</h4>
             <ul className="space-y-4">
-              <li><Link href="#" className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm">Help Center</Link></li>
-              <li><Link href="#" className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm">Privacy Policy</Link></li>
-              <li><Link href="#" className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm">Terms of Service</Link></li>
+              <li><Link href="/help-center" className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm">Help Center</Link></li>
+              <li><Link href="/privacy-policy" className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm">Privacy Policy</Link></li>
+              <li><Link href="/terms-of-service" className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm">Terms of Service</Link></li>
             </ul>
           </div>
 
@@ -63,15 +63,15 @@ export default function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-400">
                 <Mail size={18} className="text-blue-500 mt-0.5 shrink-0" />
-                <span>support@hdclarityspeech.com</span>
+                <span>hridey@hdclarityspeech.com</span>
               </li>
               <li className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-400">
                 <Phone size={18} className="text-blue-500 mt-0.5 shrink-0" />
-                <span>+1 (555) 123-4567</span>
+                <span>+91-7986964474</span>
               </li>
               <li className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-400">
                 <MapPin size={18} className="text-blue-500 mt-0.5 shrink-0" />
-                <span>123 Learning Ave, Suite 100<br />New York, NY 10001</span>
+                <span>Shop 113/112, Floor 3, chauda bazaar<br />ludhiana, punjab 141008</span>
               </li>
             </ul>
           </div>

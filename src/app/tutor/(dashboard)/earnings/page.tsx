@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import RequestPayoutButton from "./_components/RequestPayoutButton";
 
 export default async function TutorEarningsPage() {
   const session = await getServerSession(authOptions);
@@ -28,6 +29,10 @@ export default async function TutorEarningsPage() {
   const totalEarned = earnings.reduce((acc, curr) => acc + curr.netEarning, 0);
   const pendingAmount = earnings
     .filter(e => e.status === "PENDING" || e.status === "AVAILABLE_FOR_PAYOUT")
+    .reduce((acc, curr) => acc + curr.netEarning, 0);
+
+  const availableForPayout = earnings
+    .filter(e => e.status === "AVAILABLE_FOR_PAYOUT")
     .reduce((acc, curr) => acc + curr.netEarning, 0);
 
   return (
@@ -63,9 +68,7 @@ export default async function TutorEarningsPage() {
               <p className="text-white/80 text-sm font-sans">Pending processing by platform</p>
             </div>
             <div className="mt-8">
-              <button className="w-full py-4 bg-white text-accent hover:bg-secondary/10 font-bold uppercase tracking-widest text-xs transition-colors rounded-2xl shadow-lg border border-transparent">
-                Request Payout
-              </button>
+              <RequestPayoutButton disabled={availableForPayout <= 0} />
             </div>
           </div>
         </div>

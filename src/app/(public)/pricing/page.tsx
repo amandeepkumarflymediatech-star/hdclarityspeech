@@ -90,98 +90,113 @@ export default function PricingPage() {
 
       {/* Pricing Cards */}
       <section className="px-6 pb-24">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
 
-          {/* Basic Plan */}
-          <div className="bg-white rounded-none p-10 border border-secondary shadow-sm flex flex-col transition-colors duration-300 hover:bg-secondary/20">
-            <h3 className="text-2xl font-bold text-primary mb-2 font-playfair transition-colors duration-300">Basic</h3>
-            <p className="text-primary/70 mb-6 transition-colors duration-300">Perfect for focused, short-term help.</p>
+          {/* Single Class */}
+          <div className="bg-white rounded-none p-8 border border-secondary shadow-sm flex flex-col transition-colors duration-300 hover:bg-secondary/20">
+            <h3 className="text-2xl font-bold text-primary mb-2 font-playfair transition-colors duration-300">Single Class</h3>
+            <p className="text-primary/70 mb-6 transition-colors duration-300 min-h-[48px]">Perfect for trying a class without a monthly commitment.</p>
             <div className="mb-6">
-              <span className="text-4xl font-black text-primary transition-colors duration-300">₹999</span>
-              <span className="text-primary/70 transition-colors duration-300"> / session</span>
+              <span className="text-4xl font-black text-primary transition-colors duration-300">$15</span>
             </div>
             <ul className="space-y-4 mb-8 flex-grow font-medium">
               <li className="flex items-center gap-3 text-primary transition-colors duration-300">
-                <CheckCircle2 className="text-accent" size={18} /> 1 Live Session
+                <CheckCircle2 className="text-accent" size={18} /> 1 Class
               </li>
               <li className="flex items-center gap-3 text-primary transition-colors duration-300">
-                <CheckCircle2 className="text-accent" size={18} /> Topic Specific Focus
-              </li>
-              <li className="flex items-center gap-3 text-primary transition-colors duration-300">
-                <CheckCircle2 className="text-accent" size={18} /> Email Support for 1 Week
+                <CheckCircle2 className="text-accent" size={18} /> $15 per class
               </li>
             </ul>
             <button
               disabled={isProcessing}
-              onClick={() => handlePayment(999, 'Basic Plan (1 Session)')}
-              className="w-full py-4 px-6 bg-secondary hover:bg-primary hover:text-white text-primary font-bold uppercase tracking-wider text-sm rounded-none transition-colors duration-300"
+              onClick={() => handlePayment(15, 'Single Class')}
+              className="w-full py-4 px-6 bg-secondary hover:bg-primary hover:text-white text-primary font-bold uppercase tracking-wider text-sm rounded-none transition-colors duration-300 mt-auto"
             >
               Get Started
             </button>
           </div>
 
-          {/* Pro Plan (Highlighted) */}
-          <div className="bg-primary rounded-none p-10 border-t-8 border-accent shadow-2xl flex flex-col relative transform lg:-translate-y-4 transition-all duration-300">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-accent text-white px-6 py-2 rounded-none text-xs font-bold tracking-widest uppercase">
+          {/* Starter */}
+          <div className="bg-white rounded-none p-8 border border-secondary shadow-sm flex flex-col transition-colors duration-300 hover:bg-secondary/20">
+            <h3 className="text-2xl font-bold text-primary mb-2 font-playfair transition-colors duration-300">Starter</h3>
+            <p className="text-primary/70 mb-6 transition-colors duration-300 min-h-[48px]">Consistent practice to get you started.</p>
+            <div className="mb-6">
+              <span className="text-4xl font-black text-primary transition-colors duration-300">$60</span>
+              <span className="text-primary/70 transition-colors duration-300"> / month</span>
+            </div>
+            <ul className="space-y-4 mb-8 flex-grow font-medium">
+              <li className="flex items-center gap-3 text-primary transition-colors duration-300">
+                <CheckCircle2 className="text-accent" size={18} /> 4 Classes / Month
+              </li>
+              <li className="flex items-center gap-3 text-primary transition-colors duration-300">
+                <CheckCircle2 className="text-accent" size={18} /> $15 per class
+              </li>
+            </ul>
+            <button
+              disabled={isProcessing}
+              onClick={() => handlePayment(60, 'Starter Package')}
+              className="w-full py-4 px-6 bg-secondary hover:bg-primary hover:text-white text-primary font-bold uppercase tracking-wider text-sm rounded-none transition-colors duration-300 mt-auto"
+            >
+              Get Started
+            </button>
+          </div>
+
+          {/* Standard */}
+          <div className="bg-white rounded-none p-8 border border-secondary shadow-sm flex flex-col transition-colors duration-300 hover:bg-secondary/20">
+            <h3 className="text-2xl font-bold text-primary mb-2 font-playfair transition-colors duration-300">Standard</h3>
+            <p className="text-primary/70 mb-6 transition-colors duration-300 min-h-[48px]">Accelerated progress with more sessions.</p>
+            <div className="mb-6">
+              <span className="text-4xl font-black text-primary transition-colors duration-300">$96</span>
+              <span className="text-primary/70 transition-colors duration-300"> / month</span>
+            </div>
+            <ul className="space-y-4 mb-8 flex-grow font-medium">
+              <li className="flex items-center gap-3 text-primary transition-colors duration-300">
+                <CheckCircle2 className="text-accent" size={18} /> 8 Classes / Month
+              </li>
+              <li className="flex items-center gap-3 text-primary transition-colors duration-300">
+                <CheckCircle2 className="text-accent" size={18} /> $12 per class
+              </li>
+              <li className="flex items-center gap-3 text-accent font-bold transition-colors duration-300">
+                <CheckCircle2 className="text-accent" size={18} /> Save 20%
+              </li>
+            </ul>
+            <button
+              disabled={isProcessing}
+              onClick={() => handlePayment(96, 'Standard Package')}
+              className="w-full py-4 px-6 bg-secondary hover:bg-primary hover:text-white text-primary font-bold uppercase tracking-wider text-sm rounded-none transition-colors duration-300 mt-auto"
+            >
+              Get Started
+            </button>
+          </div>
+
+          {/* Premium / Best Value */}
+          <div className="bg-primary rounded-none p-8 border-t-8 border-accent shadow-2xl flex flex-col relative transform lg:-translate-y-4 transition-all duration-300">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-accent text-white px-6 py-2 rounded-none text-xs font-bold tracking-widest uppercase whitespace-nowrap">
               MOST POPULAR
             </div>
-            <h3 className="text-2xl font-bold text-white mb-2 font-playfair">Pro Package</h3>
-            <p className="text-white/70 mb-6">Comprehensive training and ongoing review.</p>
+            <h3 className="text-2xl font-bold text-white mb-2 font-playfair">Premium</h3>
+            <p className="text-white/70 mb-6 min-h-[48px]">Maximum value for serious learners.</p>
             <div className="mb-6">
-              <span className="text-4xl font-black text-white">₹3,499</span>
-              <span className="text-white/70"> / 4 sessions</span>
+              <span className="text-4xl font-black text-white">$120</span>
+              <span className="text-white/70"> / month</span>
             </div>
             <ul className="space-y-4 mb-8 flex-grow font-medium">
               <li className="flex items-center gap-3 text-white">
-                <CheckCircle2 className="text-accent" size={18} /> 4 Live Sessions
+                <CheckCircle2 className="text-accent" size={18} /> 12 Classes / Month
               </li>
               <li className="flex items-center gap-3 text-white">
-                <CheckCircle2 className="text-accent" size={18} /> Full Curriculum Design
+                <CheckCircle2 className="text-accent" size={18} /> $10 per class
               </li>
-              <li className="flex items-center gap-3 text-white">
-                <CheckCircle2 className="text-accent" size={18} /> Priority Scheduling
-              </li>
-              <li className="flex items-center gap-3 text-white">
-                <CheckCircle2 className="text-accent" size={18} /> 24/7 Email & Chat Support
+              <li className="flex items-center gap-3 text-accent font-bold">
+                <CheckCircle2 className="text-accent" size={18} /> Save 33%
               </li>
             </ul>
             <button
               disabled={isProcessing}
-              onClick={() => handlePayment(3499, 'Pro Package (4 Sessions)')}
-              className="w-full py-5 px-6 bg-accent hover:bg-white hover:text-primary text-white font-bold uppercase tracking-wider text-sm rounded-none transition-all duration-300"
+              onClick={() => handlePayment(120, 'Premium Package')}
+              className="w-full py-5 px-6 bg-accent hover:bg-white hover:text-primary text-white font-bold uppercase tracking-wider text-sm rounded-none transition-all duration-300 mt-auto"
             >
-              Choose Pro
-            </button>
-          </div>
-
-          {/* Masterclass Plan */}
-          <div className="bg-white rounded-none p-10 border border-secondary shadow-sm flex flex-col transition-colors duration-300 hover:bg-secondary/20">
-            <h3 className="text-2xl font-bold text-primary mb-2 font-playfair transition-colors duration-300">Masterclass</h3>
-            <p className="text-primary/70 mb-6 transition-colors duration-300">Intensive long-term mentorship program.</p>
-            <div className="mb-6">
-              <span className="text-4xl font-black text-primary transition-colors duration-300">₹7,999</span>
-              <span className="text-primary/70 transition-colors duration-300"> / 10 sessions</span>
-            </div>
-            <ul className="space-y-4 mb-8 flex-grow font-medium">
-              <li className="flex items-center gap-3 text-primary transition-colors duration-300">
-                <CheckCircle2 className="text-accent" size={18} /> 10 Live Sessions
-              </li>
-              <li className="flex items-center gap-3 text-primary transition-colors duration-300">
-                <CheckCircle2 className="text-accent" size={18} /> Custom Growth Roadmap
-              </li>
-              <li className="flex items-center gap-3 text-primary transition-colors duration-300">
-                <CheckCircle2 className="text-accent" size={18} /> Interview/Mock Prep
-              </li>
-              <li className="flex items-center gap-3 text-primary transition-colors duration-300">
-                <CheckCircle2 className="text-accent" size={18} /> Lifetime Access
-              </li>
-            </ul>
-            <button
-              disabled={isProcessing}
-              onClick={() => handlePayment(7999, 'Masterclass (10 Sessions)')}
-              className="w-full py-4 px-6 bg-secondary hover:bg-primary hover:text-white text-primary font-bold uppercase tracking-wider text-sm rounded-none transition-colors duration-300"
-            >
-              Get Started
+              Choose Premium
             </button>
           </div>
 

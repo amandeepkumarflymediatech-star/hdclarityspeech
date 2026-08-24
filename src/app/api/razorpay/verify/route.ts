@@ -26,15 +26,23 @@ export async function POST(req: NextRequest) {
     }
 
     // Payment is valid! Grant the package to the student.
-    // For demo purposes, we'll ensure a generic "Pro Plan" package exists in DB
-    let dbPackage = await prisma.package.findFirst({ where: { name: "Pro Plan" } });
+    const packageDetails = {
+      "single-class": { name: "Single Class", price: 15, totalSessions: 1, validityDays: 30 },
+      "starter-plan": { name: "Starter", price: 60, totalSessions: 4, validityDays: 30 },
+      "standard-plan": { name: "Standard", price: 96, totalSessions: 8, validityDays: 30 },
+      "premium-plan": { name: "Premium", price: 120, totalSessions: 12, validityDays: 30 },
+    };
+
+    const details = packageDetails[packageId as keyof typeof packageDetails] || packageDetails["premium-plan"];
+
+    let dbPackage = await prisma.package.findFirst({ where: { name: details.name } });
     if (!dbPackage) {
       dbPackage = await prisma.package.create({
         data: {
-          name: "Pro Plan",
-          price: 99,
-          totalSessions: 10,
-          validityDays: 30,
+          name: details.name,
+          price: details.price,
+          totalSessions: details.totalSessions,
+          validityDays: details.validityDays,
         }
       });
     }

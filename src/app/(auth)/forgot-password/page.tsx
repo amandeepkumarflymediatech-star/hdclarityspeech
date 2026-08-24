@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import logoImg from "@/../public/logo.png";
-import { ArrowRight, Mail } from 'lucide-react';
+import { ArrowRight, Mail, ArrowLeft } from 'lucide-react';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
@@ -39,7 +39,10 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="min-h-screen bg-secondary flex items-center justify-center p-4 sm:p-8 transition-colors duration-300 font-sans">
-      <div className="max-w-md w-full bg-white rounded-none shadow-xl p-8 sm:p-12 border border-secondary">
+      <div className="max-w-md w-full bg-white rounded-none shadow-xl p-8 sm:p-12 border border-secondary relative">
+        <Link href="/" className="inline-flex items-center gap-2 text-primary/60 hover:text-accent font-bold text-xs tracking-widest uppercase mb-8 transition-colors self-start">
+          <ArrowLeft size={16} /> Back to Home
+        </Link>
         
         <div className="mb-10 text-center">
           <Link href="/" className="mb-8 inline-block">

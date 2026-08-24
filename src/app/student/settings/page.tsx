@@ -3,7 +3,7 @@ import { prisma } from "@/lib/db";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { updateProfile } from "@/actions/user-actions";
+import { updateProfile, updateSecurity } from "@/actions/user-actions";
 
 export default async function StudentSettingsPage() {
   const session = await getServerSession(authOptions);
@@ -17,20 +17,16 @@ export default async function StudentSettingsPage() {
   });
 
   return (
-    <form action={updateProfile} className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 font-sans">
+    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 font-sans">
       
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 border-b border-secondary/30 pb-6">
         <div>
           <h1 className="text-3xl sm:text-4xl font-black text-primary tracking-tight font-playfair">Settings</h1>
           <p className="text-primary/70 mt-2 font-sans text-base sm:text-lg">Manage your personal profile and account security.</p>
         </div>
-        <button type="submit" className="px-8 py-3 bg-accent hover:bg-accent/90 text-white font-bold uppercase tracking-wider text-sm transition-all rounded-2xl flex items-center gap-2 w-full sm:w-auto justify-center shadow-lg shadow-accent/20 hover:shadow-accent/40 hover:-translate-y-1">
-          <Save size={18} />
-          Save Changes
-        </button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <form action={updateProfile} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-1">
           <h3 className="text-xl font-black text-primary font-playfair tracking-tight mb-2">Personal Information</h3>
           <p className="text-sm text-primary/60 font-sans">Update your basic profile details and profile picture.</p>
@@ -76,10 +72,15 @@ export default async function StudentSettingsPage() {
               </div>
             </div>
           </div>
-        </div>
-      </div>
+            <div className="mt-6 flex justify-end">
+              <button type="submit" className="px-8 py-3 bg-accent hover:bg-accent/90 text-white font-bold uppercase tracking-wider text-sm transition-all rounded-2xl flex items-center gap-2 shadow-lg shadow-accent/20 hover:shadow-accent/40 hover:-translate-y-1">
+                <Save size={18} /> Save Profile
+              </button>
+            </div>
+          </div>
+      </form>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <form action={updateSecurity} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-1">
           <h3 className="text-xl font-black text-primary font-playfair tracking-tight mb-2">Security</h3>
           <p className="text-sm text-primary/60 font-sans">Update your password to keep your account secure.</p>
@@ -110,9 +111,15 @@ export default async function StudentSettingsPage() {
               />
             </div>
           </div>
-        </div>
-      </div>
 
-    </form>
+          <div className="mt-6 flex justify-end">
+            <button type="submit" className="px-8 py-3 bg-accent hover:bg-accent/90 text-white font-bold uppercase tracking-wider text-sm transition-all rounded-2xl flex items-center gap-2 shadow-lg shadow-accent/20 hover:shadow-accent/40 hover:-translate-y-1">
+              <Lock size={18} /> Update Password
+            </button>
+          </div>
+        </div>
+      </form>
+
+    </div>
   );
 }

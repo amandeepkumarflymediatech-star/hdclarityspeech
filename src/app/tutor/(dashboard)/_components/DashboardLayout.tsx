@@ -8,7 +8,7 @@ import { signOut } from "next-auth/react";
 import Image from "next/image";
 import logoImg from "@/../public/logo.png";
 
-export default function TutorLayout({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({ children, user }: { children: React.ReactNode, user: any }) {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -20,6 +20,9 @@ export default function TutorLayout({ children }: { children: React.ReactNode })
     { name: 'My Students', href: '/tutor/students', icon: Users },
     { name: 'Settings', href: '/tutor/settings', icon: Settings },
   ];
+
+  const displayName = user?.name || 'Tutor';
+  const displayHeadline = user?.teachingHeadline || 'Speech Therapist';
 
   return (
     <div className="flex h-screen bg-secondary/20 overflow-hidden font-sans selection:bg-accent/20">
@@ -35,10 +38,10 @@ export default function TutorLayout({ children }: { children: React.ReactNode })
       {/* Sidebar */}
       <aside className={`fixed inset-y-0 left-0 w-72 bg-white flex flex-col z-50 transform transition-transform duration-300 md:relative md:translate-x-0 border-r border-secondary/30 shadow-xl md:shadow-none ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="p-6 flex items-center justify-between border-b border-secondary/20">
-          <div className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
             <Image src={logoImg} alt="HD Clarity Logo" className="object-contain w-auto h-8" priority />
             <span className="font-bold text-xl text-primary tracking-tight">Tutor<span className="text-accent">Portal</span></span>
-          </div>
+          </Link>
           <button className="md:hidden text-primary/60 hover:text-primary transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
             <X size={24} />
           </button>
@@ -73,7 +76,7 @@ export default function TutorLayout({ children }: { children: React.ReactNode })
 
         <div className="p-6 border-t border-secondary/20">
           <button 
-            onClick={() => signOut({ callbackUrl: '/login' })}
+            onClick={() => signOut({ callbackUrl: '/' })}
             className="flex w-full items-center gap-4 px-4 py-3.5 rounded-2xl text-primary/70 hover:bg-red-50 hover:text-red-600 transition-all duration-300 group"
           >
             <LogOut size={20} className="group-hover:-translate-x-1 transition-transform text-red-400 group-hover:text-red-600" /> 
@@ -108,11 +111,11 @@ export default function TutorLayout({ children }: { children: React.ReactNode })
             <div className="h-10 w-px bg-secondary/50 hidden sm:block"></div>
             <div className="flex items-center gap-4 cursor-pointer hover:opacity-80 transition-opacity">
               <div className="w-11 h-11 bg-primary flex items-center justify-center text-white font-black font-playfair text-xl rounded-2xl shadow-sm shadow-primary/20">
-                T
+                {displayName.charAt(0).toUpperCase()}
               </div>
               <div className="hidden sm:block">
-                <div className="text-sm font-bold text-primary leading-tight font-sans">Expert Tutor</div>
-                <div className="text-[10px] text-accent uppercase tracking-widest mt-0.5 font-bold">Speech Therapist</div>
+                <div className="text-sm font-bold text-primary leading-tight font-sans">{displayName}</div>
+                <div className="text-[10px] text-accent uppercase tracking-widest mt-0.5 font-bold truncate max-w-[150px]">{displayHeadline}</div>
               </div>
             </div>
           </div>

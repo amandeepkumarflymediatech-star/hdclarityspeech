@@ -46,7 +46,7 @@ export default function Contact() {
       {/* Main Content */}
       <section className="py-20 px-6">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16">
-          
+
           {/* Contact Information */}
           <div className="flex flex-col justify-center">
             <h2 className="text-3xl font-playfair font-bold text-primary mb-8">Contact Information</h2>
@@ -57,18 +57,18 @@ export default function Contact() {
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-primary mb-1">Call Us</h3>
-                  <p className="text-primary/70 mb-1 font-medium hover:text-accent cursor-pointer transition-colors">+1 (555) 123-4567</p>
+                  <p className="text-primary/70 mb-1 font-medium hover:text-accent cursor-pointer transition-colors">+91-7986964474</p>
                   <p className="text-primary/60 text-sm">Mon-Fri, 9am-6pm EST</p>
                 </div>
               </div>
-              
+
               <div className="flex items-start group">
                 <div className="w-14 h-14 bg-secondary/20 rounded-2xl flex items-center justify-center text-primary mr-6 shrink-0 transition-all duration-300 group-hover:bg-accent group-hover:text-white group-hover:shadow-lg group-hover:shadow-accent/30 group-hover:-translate-y-1">
                   <Mail className="w-6 h-6" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-primary mb-1">Email Us</h3>
-                  <p className="text-primary/70 mb-1 font-medium hover:text-accent cursor-pointer transition-colors">support@hdclarityspeech.com</p>
+                  <p className="text-primary/70 mb-1 font-medium hover:text-accent cursor-pointer transition-colors">hridey@hdclarityspeech.com</p>
                   <p className="text-primary/60 text-sm">We reply within 24 hours</p>
                 </div>
               </div>
@@ -87,14 +87,14 @@ export default function Contact() {
 
             {/* Decorative block / Map Placeholder */}
             <div className="bg-secondary/10 w-full h-64 rounded-3xl border border-secondary/30 flex items-center justify-center overflow-hidden relative group">
-               <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')] bg-cover bg-center opacity-30 mix-blend-overlay group-hover:scale-105 transition-transform duration-700"></div>
-               <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
-               <div className="z-10 flex flex-col items-center mt-20">
-                 <div className="bg-white p-3 rounded-full mb-3 shadow-lg shadow-black/20 animate-bounce">
-                   <MapPin className="w-6 h-6 text-accent" />
-                 </div>
-                 <p className="text-white font-bold text-lg tracking-wide">Our Location</p>
-               </div>
+              <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')] bg-cover bg-center opacity-30 mix-blend-overlay group-hover:scale-105 transition-transform duration-700"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
+              <div className="z-10 flex flex-col items-center mt-20">
+                <div className="bg-white p-3 rounded-full mb-3 shadow-lg shadow-black/20 animate-bounce">
+                  <MapPin className="w-6 h-6 text-accent" />
+                </div>
+                <p className="text-white font-bold text-lg tracking-wide">Our Location</p>
+              </div>
             </div>
           </div>
 
@@ -102,7 +102,7 @@ export default function Contact() {
           <div className="bg-white rounded-[2rem] p-8 md:p-10 shadow-2xl shadow-primary/10 border border-secondary/20">
             <h2 className="text-3xl font-playfair font-bold text-primary mb-2">Send a Message</h2>
             <p className="text-primary/60 mb-8 font-sans">Fill out the form below and we'll get back to you as soon as possible.</p>
-            
+
             {isSubmitted ? (
               <div className="h-full min-h-[400px] flex flex-col items-center justify-center text-center animate-in fade-in zoom-in duration-500">
                 <div className="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center text-green-500 mb-6 border-4 border-green-100">

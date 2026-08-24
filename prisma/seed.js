@@ -35,16 +35,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var client_1 = require("@prisma/client");
-var bcryptjs_1 = __importDefault(require("bcryptjs"));
+var bcryptjs_1 = require("bcryptjs");
 var prisma = new client_1.PrismaClient();
 function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var hashedPassword, admin, tutor1, tutor2, student;
+        var hashedPassword, admin, tutor1, tutor2, student, review1, review2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -66,24 +63,48 @@ function main() {
                     admin = _a.sent();
                     return [4 /*yield*/, prisma.user.upsert({
                             where: { email: 'tutor1@hdclarity.com' },
-                            update: { password: hashedPassword },
+                            update: {
+                                password: hashedPassword,
+                                isApproved: true,
+                                bio: 'Expert in corporate communications and accent neutralization with over 10 years of experience.',
+                                experience: '10+ years coaching Fortune 500 executives.',
+                                languages: 'English, Spanish',
+                                image: '/tutor-1.jpg',
+                            },
                             create: {
                                 email: 'tutor1@hdclarity.com',
                                 name: 'Sarah Tutor',
                                 password: hashedPassword,
                                 role: 'TUTOR',
+                                isApproved: true,
+                                bio: 'Expert in corporate communications and accent neutralization with over 10 years of experience.',
+                                experience: '10+ years coaching Fortune 500 executives.',
+                                languages: 'English, Spanish',
+                                image: '/tutor-1.jpg',
                             },
                         })];
                 case 3:
                     tutor1 = _a.sent();
                     return [4 /*yield*/, prisma.user.upsert({
                             where: { email: 'tutor2@hdclarity.com' },
-                            update: { password: hashedPassword },
+                            update: {
+                                password: hashedPassword,
+                                isApproved: true,
+                                bio: 'Specializes in public speaking, stage presence, and overcoming speech anxiety.',
+                                experience: '7 years as a professional speaker and vocal coach.',
+                                languages: 'English, French',
+                                image: '/tutor-2.jpg',
+                            },
                             create: {
                                 email: 'tutor2@hdclarity.com',
                                 name: 'John Tutor',
                                 password: hashedPassword,
                                 role: 'TUTOR',
+                                isApproved: true,
+                                bio: 'Specializes in public speaking, stage presence, and overcoming speech anxiety.',
+                                experience: '7 years as a professional speaker and vocal coach.',
+                                languages: 'English, French',
+                                image: '/tutor-2.jpg',
                             },
                         })];
                 case 4:
@@ -100,7 +121,27 @@ function main() {
                         })];
                 case 5:
                     student = _a.sent();
-                    console.log({ admin: admin, tutor1: tutor1, tutor2: tutor2, student: student });
+                    return [4 /*yield*/, prisma.review.create({
+                            data: {
+                                studentId: student.id,
+                                tutorId: tutor1.id,
+                                rating: 5,
+                                content: 'The 1:1 sessions completely changed my approach. I gained confidence in just 3 weeks!',
+                            }
+                        })];
+                case 6:
+                    review1 = _a.sent();
+                    return [4 /*yield*/, prisma.review.create({
+                            data: {
+                                studentId: student.id,
+                                tutorId: tutor2.id,
+                                rating: 5,
+                                content: 'Flexible scheduling allowed me to learn while working full time. Highly recommend to everyone.',
+                            }
+                        })];
+                case 7:
+                    review2 = _a.sent();
+                    console.log({ admin: admin, tutor1: tutor1, tutor2: tutor2, student: student, review1: review1, review2: review2 });
                     console.log('Database seeded successfully!');
                     return [2 /*return*/];
             }

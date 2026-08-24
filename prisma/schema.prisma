@@ -13,6 +13,14 @@ enum Role {
   STUDENT
 }
 
+enum OnboardingStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  UNDER_REVIEW
+  CHANGES_REQUESTED
+  APPROVED
+}
+
 model User {
   id            String    @id @default(uuid())
   email         String    @unique
@@ -24,10 +32,18 @@ model User {
   isActive      Boolean   @default(true) // For Admin activation/deactivation
   
   // Tutor Specific Profile Fields
+  onboardingStatus OnboardingStatus @default(NOT_STARTED)
+  phone         String?
+  timezone      String?
   bio           String?   @db.Text
   experience    String?   @db.Text
   qualifications String?  @db.Text
   languages     String?
+  teachingHeadline String?
+  teachingLevels   String?
+  teachingAges     String?
+  teachingStyle    String?
+  calendlyUrl      String?
   isApproved    Boolean   @default(false)
 
   createdAt     DateTime  @default(now())
@@ -60,10 +76,14 @@ model User {
   earnings        TutorEarning[]
   payouts         TutorPayout[]
   
-  // Notifications
+  // Notifications & Activities
   notifications   Notification[]
   activities      ActivityLog[]
   blogPosts       BlogPost[]
+  
+  // Reviews
+  studentReviews  Review[] @relation("StudentReviews")
+  tutorReviews    Review[] @relation("TutorReviews")
 }
 
 // NextAuth Required Models
@@ -480,4 +500,19 @@ model PasswordResetToken {
   createdAt DateTime @default(now())
 
   @@unique([email, token])
+}
+
+// Student Reviews & Testimonials
+model Review {
+  id        String   @id @default(uuid())
+  studentId String
+  tutorId   String?  // Optional, if the review is for a specific tutor
+  rating    Int      @default(5)
+  content   String   @db.Text
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  student   User     @relation("StudentReviews", fields: [studentId], references: [id], onDelete: Cascade)
+  tutor     User?    @relation("TutorReviews", fields: [tutorId], references: [id], onDelete: SetNull)
 }

@@ -4,13 +4,14 @@ import { useState } from 'react';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LayoutDashboard, Calendar, CreditCard, Settings, LogOut, Bell, Search, Award, Menu, X } from "lucide-react";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import logoImg from "@/../public/logo.png";
 
 export default function StudentLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { data: session } = useSession();
 
   const navItems = [
     { name: 'Dashboard', href: '/student', icon: LayoutDashboard },
@@ -20,7 +21,7 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
   ];
 
   return (
-    <div className="flex h-screen bg-secondary/10 overflow-hidden font-sans">
+    <div className="flex h-screen print:h-auto bg-secondary/10 print:bg-white overflow-hidden print:overflow-visible font-sans print:block">
       
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
@@ -31,12 +32,12 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
       )}
 
       {/* Sidebar */}
-      <aside className={`fixed inset-y-0 left-0 w-72 bg-white flex flex-col z-50 transform transition-transform duration-300 md:relative md:translate-x-0 border-r border-secondary/30 shadow-2xl md:shadow-none ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <aside className={`print:hidden fixed inset-y-0 left-0 w-72 bg-white flex flex-col z-50 transform transition-transform duration-300 md:relative md:translate-x-0 border-r border-secondary/30 shadow-2xl md:shadow-none ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="p-8 flex items-center justify-between border-b border-secondary/30">
-          <div className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
             <Image src={logoImg} alt="HD Clarity Logo" className="object-contain w-auto h-8" priority />
             <span className="font-bold text-xl text-primary tracking-tight">Student<span className="text-accent">Portal</span></span>
-          </div>
+          </Link>
           <button className="md:hidden text-primary/50 hover:text-primary transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
             <X size={24} />
           </button>
@@ -86,7 +87,7 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
 
         <div className="p-6 border-t border-secondary/30">
           <button 
-            onClick={() => signOut({ callbackUrl: '/login' })}
+            onClick={() => signOut({ callbackUrl: '/' })}
             className="flex w-full items-center gap-4 px-4 py-3.5 text-primary/60 hover:bg-red-50 hover:text-red-600 transition-all duration-300 rounded-2xl group"
           >
             <LogOut size={20} className="group-hover:-translate-x-1 transition-transform" /> 
@@ -96,9 +97,9 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
       </aside>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col h-full overflow-hidden relative">
+      <div className="flex-1 flex flex-col h-full print:h-auto overflow-hidden print:overflow-visible relative print:block">
         {/* Top Navbar */}
-        <header className="h-24 bg-secondary/10 backdrop-blur-md flex items-center justify-between px-6 md:px-10 z-10 sticky top-0">
+        <header className="print:hidden h-24 bg-secondary/10 backdrop-blur-md flex items-center justify-between px-6 md:px-10 z-10 sticky top-0">
           <div className="flex items-center gap-4">
             <button className="md:hidden text-primary p-2 bg-white rounded-xl shadow-sm border border-secondary/30 hover:bg-secondary/10 transition-colors" onClick={() => setIsMobileMenuOpen(true)}>
               <Menu size={24} />
@@ -121,19 +122,19 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
             <div className="h-8 w-px bg-secondary/30 hidden sm:block"></div>
             <div className="flex items-center gap-4 cursor-pointer group">
               <div className="hidden sm:block text-right transition-transform group-hover:-translate-x-1">
-                <div className="text-sm font-bold text-primary leading-tight">Alice Student</div>
-                <div className="text-[10px] text-accent uppercase tracking-widest mt-1 font-bold">Premium Plan</div>
+                <div className="text-sm font-bold text-primary leading-tight">{session?.user?.name || 'Student'}</div>
+                <div className="text-[10px] text-accent uppercase tracking-widest mt-1 font-bold">Student</div>
               </div>
-              <div className="w-12 h-12 bg-primary flex items-center justify-center text-white font-black font-playfair text-xl rounded-2xl shadow-lg border border-primary/20 group-hover:scale-105 transition-transform">
-                S
+              <div className="w-12 h-12 bg-primary flex items-center justify-center text-white font-black font-playfair text-xl rounded-2xl shadow-lg border border-primary/20 group-hover:scale-105 transition-transform uppercase">
+                {session?.user?.name ? session.user.name.charAt(0) : 'S'}
               </div>
             </div>
           </div>
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto p-6 md:p-10 bg-transparent">
-          <div className="max-w-7xl mx-auto pb-20">
+        <main className="flex-1 overflow-y-auto print:overflow-visible p-6 md:p-10 print:p-0 bg-transparent">
+          <div className="max-w-7xl mx-auto pb-20 print:pb-0">
             {children}
           </div>
         </main>
