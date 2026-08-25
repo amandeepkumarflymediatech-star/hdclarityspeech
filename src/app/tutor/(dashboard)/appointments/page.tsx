@@ -89,10 +89,10 @@ export default async function TutorAppointmentsPage() {
                   {apt.status !== 'CANCELLED' && apt.status !== 'COMPLETED' && (
                     <AppointmentActions sessionId={apt.id} />
                   )}
-                  {apt.status !== 'CANCELLED' && (
-                    <Link href={`/tutor/live?sessionId=${apt.id}`} className="flex-1 sm:flex-none px-6 py-2.5 bg-accent hover:bg-accent/90 text-white font-bold uppercase tracking-widest text-xs transition-colors rounded-xl flex items-center justify-center gap-2 text-center shadow-sm">
-                      <Video size={16} /> Join Room
-                    </Link>
+                  {apt.status !== 'CANCELLED' && apt.meetingUrl && (
+                    <a href={apt.meetingUrl} target="_blank" rel="noreferrer" className="flex-1 sm:flex-none px-6 py-2.5 bg-accent hover:bg-accent/90 text-white font-bold uppercase tracking-widest text-xs transition-colors rounded-xl flex items-center justify-center gap-2 text-center shadow-sm">
+                      <Video size={16} /> Join Meet
+                    </a>
                   )}
                 </div>
               </div>

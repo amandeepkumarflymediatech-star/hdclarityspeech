@@ -13,6 +13,7 @@ export async function saveCalendlyUrl(formData: FormData) {
   }
 
   const schedulingUrl = formData.get("schedulingUrl") as string;
+  const accessToken = formData.get("accessToken") as string | null;
   
   if (!schedulingUrl || !schedulingUrl.includes("calendly.com/")) {
     throw new Error("Please provide a valid Calendly URL.");
@@ -21,11 +22,16 @@ export async function saveCalendlyUrl(formData: FormData) {
   // Update or create CalendlyConnection
   await prisma.calendlyConnection.upsert({
     where: { tutorId: session.user.id },
-    update: { schedulingUrl, isActive: true },
+    update: { 
+      schedulingUrl, 
+      isActive: true,
+      ...(accessToken && { accessToken })
+    },
     create: {
       tutorId: session.user.id,
       schedulingUrl,
       isActive: true,
+      ...(accessToken && { accessToken })
     }
   });
 

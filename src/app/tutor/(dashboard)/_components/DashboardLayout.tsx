@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Calendar, Video, Settings, LogOut, Bell, Search, Menu, X, CircleDollarSign, Users } from "lucide-react";
+import { LayoutDashboard, Calendar, Video, Settings, LogOut, Bell, Search, Menu, X, CircleDollarSign, Users, User } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import logoImg from "@/../public/logo.png";
@@ -15,9 +15,10 @@ export default function DashboardLayout({ children, user }: { children: React.Re
   const navItems = [
     { name: 'Dashboard', href: '/tutor', icon: LayoutDashboard },
     { name: 'Appointments', href: '/tutor/appointments', icon: Calendar },
-    { name: 'Live Room', href: '/tutor/live', icon: Video },
     { name: 'Earnings', href: '/tutor/earnings', icon: CircleDollarSign },
     { name: 'My Students', href: '/tutor/students', icon: Users },
+    { name: 'All Tutors', href: '/tutor/allTutors', icon: Users },
+    { name: 'Profile', href: '/tutor/profile', icon: User },
     { name: 'Settings', href: '/tutor/settings', icon: Settings },
   ];
 
@@ -110,8 +111,12 @@ export default function DashboardLayout({ children, user }: { children: React.Re
             </button>
             <div className="h-10 w-px bg-secondary/50 hidden sm:block"></div>
             <div className="flex items-center gap-4 cursor-pointer hover:opacity-80 transition-opacity">
-              <div className="w-11 h-11 bg-primary flex items-center justify-center text-white font-black font-playfair text-xl rounded-2xl shadow-sm shadow-primary/20">
-                {displayName.charAt(0).toUpperCase()}
+              <div className="w-11 h-11 bg-primary flex items-center justify-center text-white font-black font-playfair text-xl rounded-2xl shadow-sm shadow-primary/20 relative overflow-hidden">
+                {user?.image ? (
+                  <Image src={user.image} alt="Profile" fill className="object-cover" />
+                ) : (
+                  displayName.charAt(0).toUpperCase()
+                )}
               </div>
               <div className="hidden sm:block">
                 <div className="text-sm font-bold text-primary leading-tight font-sans">{displayName}</div>

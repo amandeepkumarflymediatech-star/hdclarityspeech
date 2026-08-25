@@ -18,8 +18,7 @@ export async function POST(req: Request) {
     });
 
     if (!user) {
-      // Don't leak whether user exists, just return success
-      return NextResponse.json({ message: "If your email is registered, a reset link has been sent." }, { status: 200 });
+      return NextResponse.json({ error: "Account with this email does not exist." }, { status: 404 });
     }
 
     // Generate a secure token

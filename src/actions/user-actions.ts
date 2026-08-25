@@ -5,6 +5,8 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
+import fs from "fs";
+import path from "path";
 
 export async function updateProfile(formData: FormData) {
   const session = await getServerSession(authOptions);
@@ -16,9 +18,30 @@ export async function updateProfile(formData: FormData) {
   const name = formData.get("name") as string;
   const email = formData.get("email") as string;
   const bio = formData.get("bio") as string | null;
+  const imageFile = formData.get("image") as File | null;
 
   if (!name || !email) {
     throw new Error("Name and email are required");
+  }
+
+  let imageUrl: string | undefined;
+
+  if (imageFile && imageFile.size > 0) {
+    const arrayBuffer = await imageFile.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+    
+    const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
+    if (!fs.existsSync(uploadsDir)) {
+      fs.mkdirSync(uploadsDir, { recursive: true });
+    }
+    
+    // Create a safe filename
+    const safeName = imageFile.name.replace(/[^a-zA-Z0-9.\-_]/g, '');
+    const fileName = `${session.user.id}-${Date.now()}-${safeName}`;
+    const filePath = path.join(uploadsDir, fileName);
+    
+    fs.writeFileSync(filePath, buffer);
+    imageUrl = `/uploads/${fileName}`;
   }
 
   await prisma.user.update({
@@ -26,12 +49,14 @@ export async function updateProfile(formData: FormData) {
     data: { 
       name, 
       email,
-      ...(bio !== null && { bio })
+      ...(bio !== null && { bio }),
+      ...(imageUrl && { image: imageUrl })
     }
   });
 
   revalidatePath("/student/settings");
   revalidatePath("/tutor/settings");
+  revalidatePath("/tutor/profile");
   revalidatePath("/admin/settings");
 }
 

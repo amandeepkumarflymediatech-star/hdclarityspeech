@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, AlertCircle, ShoppingCart } from "lucide-react";
 import CalendlyWidget from "@/components/student/CalendlyWidget";
 
 export default async function TutorBookingPage({ params }: { params: Promise<{ tutorId: string }> }) {
@@ -24,26 +24,43 @@ export default async function TutorBookingPage({ params }: { params: Promise<{ t
     notFound();
   }
 
+  // Check if student has credits in active packages
+  const activePackages = await prisma.studentPackage.findMany({
+    where: { studentId: session.user.id, status: "ACTIVE" }
+  });
+  
+  const totalBalance = activePackages.reduce((acc, curr) => acc + curr.remainingSessions, 0);
+
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 font-sans max-w-4xl mx-auto">
-      
-      <div>
-        <Link href="/student/book" className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-primary/60 hover:text-accent transition-colors mb-6">
-          <ArrowLeft size={16} /> Back to Tutors
-        </Link>
-        <h1 className="text-3xl sm:text-4xl font-black text-primary tracking-tight font-playfair">Book with {tutor.name}</h1>
-        <p className="text-primary/70 mt-2 font-sans text-base sm:text-lg">Select a time that works best for your schedule.</p>
-      </div>
-
-      <div className="bg-white rounded-3xl shadow-xl shadow-primary/5 p-4 sm:p-8 border border-secondary/30">
-        <CalendlyWidget 
-          url={tutor.calendlyConnection.schedulingUrl}
-          prefillName={session.user.name || ""}
-          prefillEmail={session.user.email || ""}
-          tutorId={tutor.id}
-        />
-      </div>
-
+    <div className="animate-in fade-in duration-700 font-sans w-full">
+      {totalBalance > 0 ? (
+        <div className="w-full -mt-6">
+          <CalendlyWidget 
+            url={tutor.calendlyConnection.schedulingUrl}
+            prefillName={session.user.name || ""}
+            prefillEmail={session.user.email || ""}
+            tutorId={tutor.id}
+          />
+        </div>
+      ) : (
+        <div className="bg-white rounded-3xl shadow-xl shadow-primary/5 p-8 border border-secondary/30 text-center max-w-2xl mx-auto mt-12">
+          <div className="w-16 h-16 bg-red-100 text-red-500 rounded-full flex items-center justify-center mx-auto mb-6">
+            <AlertCircle size={32} />
+          </div>
+          <h2 className="text-2xl font-black text-primary font-playfair mb-4">Insufficient Class Credits</h2>
+          <p className="text-primary/70 mb-8 leading-relaxed">
+            You don't have any class credits available. Please purchase a package to continue booking sessions with {tutor.name}.
+          </p>
+          <Link 
+            href="/student/subscriptions" 
+            className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent hover:bg-primary text-white font-bold uppercase tracking-widest text-sm rounded-xl transition-all shadow-md group"
+          >
+            <ShoppingCart size={18} />
+            View Packages
+            <ArrowLeft size={18} className="group-hover:translate-x-1 transition-transform rotate-180 hidden" />
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

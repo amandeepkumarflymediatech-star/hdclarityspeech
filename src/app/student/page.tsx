@@ -51,7 +51,7 @@ export default async function StudentDashboard() {
           <h1 className="text-4xl font-black text-primary tracking-tight font-playfair">Dashboard</h1>
           <p className="text-primary/70 mt-2 font-sans text-lg">Keep up the great work. Let's hit today's goals.</p>
         </div>
-        <Link href="#practice" className="px-8 py-4 bg-accent hover:bg-accent/90 text-white font-bold uppercase tracking-wider text-sm transition-all rounded-2xl flex items-center gap-2 shadow-lg shadow-accent/20 hover:shadow-accent/40 hover:-translate-y-1">
+        <Link href="/student/practice" className="px-8 py-4 bg-accent hover:bg-accent/90 text-white font-bold uppercase tracking-wider text-sm transition-all rounded-2xl flex items-center gap-2 shadow-lg shadow-accent/20 hover:shadow-accent/40 hover:-translate-y-1">
           <BookOpen size={18} />
           Start Practice
         </Link>
@@ -92,7 +92,7 @@ export default async function StudentDashboard() {
           <div className="w-20 h-20 bg-accent/10 text-accent flex items-center justify-center mx-auto mb-6 rounded-3xl border border-accent/20 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-inner relative z-10">
             <Award size={40} />
           </div>
-          <h3 className="text-2xl font-black text-primary font-playfair tracking-tight relative z-10">Level {currentLevel}</h3>
+          <h3 className="text-2xl font-black text-primary font-playfair tracking-tight relative z-10">Level <span className="text-2xl font-bold font-sans-serif ">{currentLevel}</span></h3>
           <p className="text-[10px] font-bold text-accent uppercase tracking-widest mt-2 relative z-10">Articulation Master</p>
           <p className="text-sm text-primary/60 mt-6 font-sans leading-relaxed relative z-10">
             Complete {sessionsToNextLevel} more speech exercise{sessionsToNextLevel !== 1 ? 's' : ''} to unlock Level {currentLevel + 1}.

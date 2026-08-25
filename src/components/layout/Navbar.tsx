@@ -92,8 +92,12 @@ export default function Navbar() {
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   className="flex items-center gap-3 px-3 py-1.5 bg-secondary/10 text-primary hover:bg-secondary/20 transition rounded-full font-bold text-sm border border-secondary/20"
                 >
-                  <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center font-playfair font-black text-sm">
-                    {session.user.name?.charAt(0).toUpperCase() || 'U'}
+                  <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center font-playfair font-black text-sm relative overflow-hidden">
+                    {session.user.image ? (
+                      <Image src={session.user.image} alt="Profile" fill className="object-cover" />
+                    ) : (
+                      session.user.name?.charAt(0).toUpperCase() || 'U'
+                    )}
                   </div>
                   <span className="hidden sm:block">{session.user.name || 'User'}</span>
                   <ChevronDown size={16} className={`transition-transform text-primary/50 ${isDropdownOpen ? 'rotate-180' : ''}`} />

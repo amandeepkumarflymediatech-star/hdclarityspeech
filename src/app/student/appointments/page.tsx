@@ -42,46 +42,49 @@ export default async function StudentAppointmentsPage() {
       <div className="space-y-6">
         <h3 className="text-xl font-black text-primary font-playfair tracking-tight border-b border-secondary/30 pb-2">Upcoming</h3>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="flex flex-col gap-4">
           {appointments.length === 0 && (
-            <div className="col-span-full p-12 text-center text-primary/60 border border-secondary/30 bg-white rounded-3xl shadow-sm">
+            <div className="p-12 text-center text-primary/60 border border-secondary/30 bg-white rounded-3xl shadow-sm">
               No upcoming appointments.
             </div>
           )}
           {appointments.map((apt) => (
-            <div key={apt.id} className="bg-white border border-secondary/30 flex flex-col hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group rounded-3xl overflow-hidden shadow-sm">
-              <div className="p-6 flex-1">
-                <div className="flex justify-between items-start mb-4">
-                  <span className="inline-block px-3 py-1 bg-secondary/10 text-[10px] font-bold uppercase tracking-widest text-primary border border-secondary/20 rounded-full">
-                    {apt.booking?.sessionType?.name || 'Therapy Session'}
-                  </span>
-                  <span className="text-accent text-[10px] font-bold uppercase tracking-widest bg-accent/10 px-3 py-1 rounded-full border border-accent/20">
-                    {apt.status}
-                  </span>
+            <div key={apt.id} className="bg-white border border-secondary/30 p-5 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 group flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+              <div className="flex items-start md:items-center gap-6 flex-1 w-full md:w-auto">
+                <div className="w-14 h-14 bg-primary/5 rounded-2xl flex shrink-0 items-center justify-center border border-secondary/30 group-hover:bg-primary group-hover:text-white transition-colors duration-300 text-accent">
+                  <User size={24} className="group-hover:text-white transition-colors" />
                 </div>
                 
-                <h4 className="font-bold text-primary text-xl flex items-center gap-2 mb-4 font-playfair">
-                  <div className="w-10 h-10 bg-primary/5 rounded-xl flex items-center justify-center border border-secondary/30 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
-                    <User size={18} className="text-accent group-hover:text-white transition-colors" />
+                <div className="flex-1">
+                  <div className="flex flex-wrap items-center gap-3 mb-1.5">
+                    <span className="inline-block px-2.5 py-1 bg-secondary/10 text-[10px] font-bold uppercase tracking-widest text-primary border border-secondary/20 rounded-lg">
+                      {apt.booking?.sessionType?.name || 'Therapy Session'}
+                    </span>
+                    <span className="text-accent text-[10px] font-bold uppercase tracking-widest bg-accent/10 px-2.5 py-1 rounded-lg border border-accent/20">
+                      {apt.status}
+                    </span>
                   </div>
-                  {apt.tutor?.name || 'Expert Tutor'}
-                </h4>
-                
-                <div className="space-y-2.5 mt-6">
-                  <p className="text-sm font-bold text-primary/70 uppercase tracking-widest flex items-center gap-3">
-                    <CalendarIcon size={16} className="text-accent/70" /> {new Date(apt.scheduledAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                  </p>
-                  <p className="text-sm font-bold text-primary/70 uppercase tracking-widest flex items-center gap-3">
-                    <Clock size={16} className="text-accent/70" /> {new Date(apt.scheduledAt).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
-                  </p>
+                  
+                  <h4 className="font-bold text-primary text-xl font-playfair mb-2">
+                    {apt.tutor?.name || 'Expert Tutor'}
+                  </h4>
+                  
+                  <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 text-xs font-bold text-primary/70 uppercase tracking-widest">
+                    <span className="flex items-center gap-2">
+                      <CalendarIcon size={14} className="text-accent" /> {new Date(apt.scheduledAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                    </span>
+                    <span className="flex items-center gap-2">
+                      <Clock size={14} className="text-accent" /> {new Date(apt.scheduledAt).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  </div>
                 </div>
               </div>
               
-              <div className="flex gap-2 p-4 bg-secondary/5 border-t border-secondary/30">
-                <Link href={apt.rescheduleUrl || '#'} target="_blank" className="flex-1 py-3 text-center text-xs font-bold text-primary hover:bg-white bg-secondary/10 border border-secondary/30 transition-colors uppercase tracking-widest rounded-xl block">
+              <div className="flex flex-row sm:flex-col lg:flex-row gap-3 w-full md:w-auto border-t md:border-t-0 md:border-l border-secondary/30 pt-4 md:pt-0 md:pl-6 shrink-0">
+                <Link href={apt.rescheduleUrl || '#'} target="_blank" className="flex-1 sm:flex-none px-6 py-3 text-center text-xs font-bold text-primary hover:bg-white bg-secondary/10 border border-secondary/30 transition-colors uppercase tracking-widest rounded-xl">
                   Reschedule
                 </Link>
-                <Link href={apt.meetingUrl || '#'} target="_blank" className="flex-1 py-3 bg-accent hover:bg-accent/90 text-white text-xs font-bold uppercase tracking-widest transition-colors flex justify-center items-center gap-2 rounded-xl shadow-sm">
+                <Link href={apt.meetingUrl || '#'} target="_blank" className="flex-1 sm:flex-none px-6 py-3 bg-accent hover:bg-accent/90 text-white text-xs font-bold uppercase tracking-widest transition-colors flex justify-center items-center gap-2 rounded-xl shadow-sm">
                   <Video size={16} /> Join Room
                 </Link>
               </div>

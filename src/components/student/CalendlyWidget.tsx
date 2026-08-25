@@ -49,10 +49,10 @@ export default function CalendlyWidget({ url, prefillName, prefillEmail, tutorId
   }
 
   return (
-    <div className="w-full bg-white rounded-3xl overflow-hidden border border-secondary/30 shadow-sm">
+    <div className="w-full">
       <InlineWidget 
         url={url} 
-        styles={{ height: '700px' }}
+        styles={{ height: '800px', width: '100%' }}
         prefill={{
           name: prefillName,
           email: prefillEmail,

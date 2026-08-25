@@ -12,15 +12,42 @@ export async function createSessionFromCalendly(tutorId: string, eventUri: strin
     throw new Error("Unauthorized");
   }
 
-  // To properly integrate, we would usually fetch the event details from Calendly API here
-  // using the eventUri to get the exact start/end times.
-  // For now, since everything is dynamic and we don't have the Calendly PAT on the backend yet,
-  // we will create a placeholder Session or fetch it if we configure the PAT later.
+  // Get tutor's CalendlyConnection
+  const tutorConnection = await prisma.calendlyConnection.findUnique({
+    where: { tutorId }
+  });
+
+  let startTime = new Date(Date.now() + 86400000); // fallback tomorrow
+  let endTime = new Date(Date.now() + 90000000); // fallback +1 hr
+  let meetingUrl: string | null = null;
   
-  // As a quick fallback to ensure the DB record exists:
-  // We'll create a mock booking and session so it appears on the appointments page.
-  // In a full production setup with Calendly API, we would `fetch(eventUri, { headers: { Authorization: Bearer TOKEN } })`
-  
+  // Try to fetch real details if access token exists
+  if (tutorConnection && tutorConnection.accessToken) {
+    try {
+      const response = await fetch(eventUri, {
+        headers: {
+          'Authorization': `Bearer ${tutorConnection.accessToken}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        const resource = data.resource;
+        
+        if (resource.start_time) startTime = new Date(resource.start_time);
+        if (resource.end_time) endTime = new Date(resource.end_time);
+        if (resource.location && resource.location.join_url) {
+          meetingUrl = resource.location.join_url;
+        }
+      } else {
+        console.error("Failed to fetch Calendly event details:", await response.text());
+      }
+    } catch (error) {
+      console.error("Error calling Calendly API:", error);
+    }
+  }
+
   // First ensure there is a SessionType for this (defaulting to the first available or creating one)
   let sessionType = await prisma.sessionType.findFirst({
     where: { isActive: true }
@@ -55,9 +82,10 @@ export async function createSessionFromCalendly(tutorId: string, eventUri: strin
       studentId: session.user.id,
       calendlyEventUri: eventUri,
       calendlyInviteeUri: inviteeUri,
-      scheduledAt: new Date(Date.now() + 86400000), // Mock tomorrow
-      endTime: new Date(Date.now() + 90000000),     // Mock +1 hr
+      scheduledAt: startTime,
+      endTime: endTime,
       status: "SCHEDULED",
+      meetingUrl: meetingUrl
     }
   });
 
@@ -69,7 +97,10 @@ export async function createSessionFromCalendly(tutorId: string, eventUri: strin
   if (activePackage && activePackage.remainingSessions > 0) {
     await prisma.studentPackage.update({
       where: { id: activePackage.id },
-      data: { remainingSessions: activePackage.remainingSessions - 1 }
+      data: { 
+        remainingSessions: activePackage.remainingSessions - 1,
+        usedSessions: activePackage.usedSessions + 1
+      }
     });
   }
 

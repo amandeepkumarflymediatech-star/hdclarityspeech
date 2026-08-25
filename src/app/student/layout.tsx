@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Calendar, CreditCard, Settings, LogOut, Bell, Search, Award, Menu, X } from "lucide-react";
+import { LayoutDashboard, Calendar, CreditCard, Settings, LogOut, Bell, Search, Award, Menu, X, Users, Video, User as UserIcon } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import logoImg from "@/../public/logo.png";
@@ -15,8 +15,12 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
 
   const navItems = [
     { name: 'Dashboard', href: '/student', icon: LayoutDashboard },
+    { name: 'Practice Hub', href: '/student/practice', icon: Award },
+    { name: 'My Class', href: '/student/myClass', icon: Video },
     { name: 'My Sessions', href: '/student/appointments', icon: Calendar },
+    { name: 'All Tutors', href: '/student/allTutors', icon: Users },
     { name: 'Subscription', href: '/student/subscriptions', icon: CreditCard },
+    { name: 'Profile', href: '/student/profile', icon: UserIcon },
     { name: 'Settings', href: '/student/settings', icon: Settings },
   ];
 
@@ -69,7 +73,7 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
         </div>
 
         {/* Progress Widget in Sidebar */}
-        <div className="px-6 mb-8">
+        {/* <div className="px-6 mb-8">
           <div className="bg-secondary/10 rounded-3xl p-5 border border-secondary/30 shadow-sm hover:shadow-md transition-shadow group">
             <div className="flex items-center gap-3 text-accent mb-3">
               <div className="p-1.5 bg-accent/10 rounded-lg group-hover:scale-110 transition-transform">
@@ -83,7 +87,7 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
             </div>
             <p className="text-[10px] text-primary/50 mt-3 text-right uppercase tracking-widest font-bold">65% to Level 4</p>
           </div>
-        </div>
+        </div> */}
 
         <div className="p-6 border-t border-secondary/30">
           <button 
@@ -125,8 +129,12 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
                 <div className="text-sm font-bold text-primary leading-tight">{session?.user?.name || 'Student'}</div>
                 <div className="text-[10px] text-accent uppercase tracking-widest mt-1 font-bold">Student</div>
               </div>
-              <div className="w-12 h-12 bg-primary flex items-center justify-center text-white font-black font-playfair text-xl rounded-2xl shadow-lg border border-primary/20 group-hover:scale-105 transition-transform uppercase">
-                {session?.user?.name ? session.user.name.charAt(0) : 'S'}
+              <div className="w-12 h-12 bg-primary flex items-center justify-center text-white font-black font-playfair text-xl rounded-2xl shadow-lg border border-primary/20 group-hover:scale-105 transition-transform uppercase relative overflow-hidden">
+                {session?.user?.image ? (
+                  <Image src={session.user.image} alt="Profile" fill className="object-cover" />
+                ) : (
+                  session?.user?.name ? session.user.name.charAt(0) : 'S'
+                )}
               </div>
             </div>
           </div>
