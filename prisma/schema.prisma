@@ -200,6 +200,7 @@ model Order {
   studentId   String
   packageId   String?
   bookingId   String?  // If they bought a single session
+  couponId    String?  // Optional applied discount coupon
   amount      Float
   currency    String   @default("INR")
   status      String   @default("PENDING") // PENDING, PROCESSING, PAID, FAILED, REFUNDED
@@ -207,6 +208,7 @@ model Order {
   student     User     @relation(fields: [studentId], references: [id])
   package     Package? @relation(fields: [packageId], references: [id])
   booking     Booking? @relation(fields: [bookingId], references: [id])
+  coupon      Coupon?  @relation(fields: [couponId], references: [id])
   
   payment     Payment?
   createdAt   DateTime @default(now())
@@ -515,4 +517,22 @@ model Review {
 
   student   User     @relation("StudentReviews", fields: [studentId], references: [id], onDelete: Cascade)
   tutor     User?    @relation("TutorReviews", fields: [tutorId], references: [id], onDelete: SetNull)
+}
+
+// Discount & Promo Codes
+model Coupon {
+  id              String   @id @default(uuid())
+  code            String   @unique
+  description     String?  @db.Text
+  discountType    String   // PERCENTAGE, FIXED_AMOUNT
+  discountValue   Float
+  maxUses         Int?     // null means unlimited
+  usedCount       Int      @default(0)
+  validUntil      DateTime?
+  isActive        Boolean  @default(true)
+  
+  orders          Order[]
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }

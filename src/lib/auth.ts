@@ -148,5 +148,25 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
   },
+  events: {
+    async createUser({ user }) {
+      // Intercept new user creation and assign the intended role from cookie
+      try {
+        const { cookies } = require('next/headers');
+        const cookieStore = await cookies();
+        const intendedRole = cookieStore.get('intendedRole')?.value;
+        
+        if (intendedRole && ['STUDENT', 'TUTOR'].includes(intendedRole)) {
+          await prisma.user.update({
+            where: { id: user.id },
+            data: { role: intendedRole as any },
+          });
+          console.log(`Successfully updated newly created Google user ${user.email} to role: ${intendedRole}`);
+        }
+      } catch (error) {
+        console.error("Error setting role in createUser event:", error);
+      }
+    }
+  },
   secret: process.env.NEXTAUTH_SECRET || "fallback_secret_key",
 };

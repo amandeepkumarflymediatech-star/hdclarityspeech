@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, CreditCard, Settings, LogOut, Bell, Search, GraduationCap, MessageSquare, FileText, SearchCode } from "lucide-react";
+import { LayoutDashboard, Users, CreditCard, Settings, LogOut, Bell, Search, GraduationCap, MessageSquare, FileText, SearchCode, BookOpen, Banknote, Tag } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import logoImg from "@/../public/logo.png";
@@ -13,8 +13,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   const navItems = [
     { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
+    { name: 'Enrollments', href: '/admin/enrollments', icon: BookOpen },
+    { name: 'Payments', href: '/admin/payments', icon: Banknote },
+    { name: 'Coupons', href: '/admin/coupons', icon: Tag },
     { name: 'Users', href: '/admin/users', icon: Users },
-    { name: 'Packages', href: '/admin/subscriptions', icon: CreditCard }, // Re-labeled
+    { name: 'Packages', href: '/admin/subscriptions', icon: CreditCard },
     { name: 'Tutors', href: '/admin/tutors', icon: GraduationCap },
     { name: 'Contacts', href: '/admin/contacts', icon: MessageSquare },
     { name: 'Blog', href: '/admin/blog', icon: FileText },
