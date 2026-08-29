@@ -84,7 +84,7 @@ export default async function StudentSubscriptionsPage() {
         {/* Available Plans Section */}
         <div className="pt-8 border-t border-secondary/30">
           <h2 className="text-3xl font-black text-primary font-playfair tracking-tight mb-8">Available Plans</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
             
             {/* Standalone Class */}
             <div className="bg-white border border-secondary/30 p-8 rounded-3xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col">
@@ -121,7 +121,7 @@ export default async function StudentSubscriptionsPage() {
               <p className="text-4xl font-black font-playfair tracking-tight mb-1">$120<span className="text-lg text-white/50 font-sans">/mo</span></p>
               <p className="text-[10px] font-bold text-accent-light uppercase tracking-widest mb-4">$10 per class — Save 33%</p>
               <p className="text-white/80 font-sans text-sm mb-8 flex-1">Includes 12 classes per month. The best value for dedicated learning.</p>
-              <RazorpayCheckoutButton amount={120} packageId="premium-plan" label="Get Premium" />
+              <RazorpayCheckoutButton amount={120} packageId="premium-plan" label="Get Premium" variant="dark" />
             </div>
 
           </div>

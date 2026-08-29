@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import { SearchCode, Search, Edit, Trash2, ArrowUpDown, ChevronLeft, ChevronRight, Plus, X } from "lucide-react";
 import { deleteSeo } from "@/actions/seo-actions";
 import { toast } from "sonner";
+import Swal from "sweetalert2";
 import Link from "next/link";
 
 type SeoMetadata = {
@@ -58,8 +59,19 @@ export default function SeoManagementClient({ seoList }: { seoList: SeoMetadata[
   };
 
   const handleDelete = async (id: string) => {
-    if(confirm("Are you sure you want to delete this SEO configuration?")) {
+    const result = await Swal.fire({
+      title: 'Delete SEO config?',
+      text: 'Are you sure you want to delete this SEO configuration?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ef4444',
+      cancelButtonColor: '#6b7280',
+      confirmButtonText: 'Yes, delete!'
+    });
+
+    if (result.isConfirmed) {
       await deleteSeo(id);
+      toast.success("SEO metadata deleted");
     }
   };
 
@@ -136,11 +148,7 @@ export default function SeoManagementClient({ seoList }: { seoList: SeoMetadata[
                       <Edit size={18} />
                     </Link>
                     <button 
-                      onClick={() => {
-                        toast("Are you sure you want to delete this SEO configuration?", {
-                          action: { label: 'Confirm', onClick: () => handleDelete(seo.id) }
-                        });
-                      }}
+                      onClick={() => handleDelete(seo.id)}
                       className="p-2 text-primary/40 hover:text-accent hover:bg-accent/10 rounded-lg transition-colors"
                       title="Delete SEO"
                     >

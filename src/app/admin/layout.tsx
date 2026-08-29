@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, CreditCard, Settings, LogOut, Bell, Search, GraduationCap, MessageSquare, FileText, SearchCode, BookOpen, Banknote, Tag } from "lucide-react";
+import { useState, useEffect } from "react";
+import { LayoutDashboard, Users, CreditCard, Settings, LogOut, Bell, Search, GraduationCap, MessageSquare, FileText, SearchCode, BookOpen, Banknote, Tag, Menu, X } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import logoImg from "@/../public/logo.png";
@@ -10,15 +11,21 @@ import { Toaster } from "sonner";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  // Close sidebar on route change
+  useEffect(() => {
+    setIsSidebarOpen(false);
+  }, [pathname]);
 
   const navItems = [
     { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
+    { name: 'Users', href: '/admin/users', icon: Users },
+    { name: 'Tutor Applications', href: '/admin/tutors', icon: GraduationCap },
     { name: 'Enrollments', href: '/admin/enrollments', icon: BookOpen },
+    { name: 'Packages', href: '/admin/subscriptions', icon: CreditCard },
     { name: 'Payments', href: '/admin/payments', icon: Banknote },
     { name: 'Coupons', href: '/admin/coupons', icon: Tag },
-    { name: 'Users', href: '/admin/users', icon: Users },
-    { name: 'Packages', href: '/admin/subscriptions', icon: CreditCard },
-    { name: 'Tutors', href: '/admin/tutors', icon: GraduationCap },
     { name: 'Contacts', href: '/admin/contacts', icon: MessageSquare },
     { name: 'Blog', href: '/admin/blog', icon: FileText },
     { name: 'SEO', href: '/admin/seo', icon: SearchCode },
@@ -28,14 +35,30 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div className="flex h-screen bg-white overflow-hidden font-sans text-primary">
       <Toaster position="top-right" richColors />
+      {/* Mobile Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className="w-72 bg-primary flex flex-col shadow-2xl relative z-20 hidden md:flex border-r border-accent/20">
-        <div className="p-6 flex items-center gap-3 border-b border-accent/20">
-          <Image src={logoImg} alt="HD Clarity Logo" className="object-contain w-auto h-8 brightness-200" priority />
-          <span className="font-bold text-xl text-white tracking-tight">Admin<span className="text-accent">Portal</span></span>
+      <aside className={`fixed inset-y-0 left-0 w-72 bg-primary flex flex-col shadow-2xl z-50 transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} border-r border-accent/20`}>
+        <div className="p-6 flex items-center justify-between border-b border-accent/20">
+          <div className="flex items-center gap-3">
+            <Image src={logoImg} alt="HD Clarity Logo" className="object-contain w-auto h-8 brightness-200" priority />
+            <span className="font-bold text-xl text-white tracking-tight">Admin<span className="text-accent">Portal</span></span>
+          </div>
+          <button 
+            className="md:hidden text-white/70 hover:text-white"
+            onClick={() => setIsSidebarOpen(false)}
+          >
+            <X size={24} />
+          </button>
         </div>
 
-        <div className="px-4 py-6">
+        <div className="px-4 py-6 flex-1 overflow-y-auto min-h-0 scrollbar-thin scrollbar-thumb-accent/20 scrollbar-track-transparent">
           <p className="text-xs font-bold text-secondary uppercase tracking-widest mb-4 px-3">Overview</p>
           <nav className="space-y-1.5">
             {navItems.map((item) => {
@@ -72,7 +95,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col h-full overflow-hidden relative">
         {/* Top Navbar */}
-        <header className="h-20 bg-white border-b border-secondary/50 flex items-center justify-end px-8 z-10 shadow-sm">
+        <header className="h-20 bg-white border-b border-secondary/50 flex items-center justify-between md:justify-end px-6 md:px-8 z-10 shadow-sm">
+          <button 
+            className="md:hidden p-2 text-primary/60 hover:text-accent transition-colors"
+            onClick={() => setIsSidebarOpen(true)}
+          >
+            <Menu size={24} />
+          </button>
+          
           <div className="flex items-center gap-5">
             <button className="relative p-2 text-primary/60 hover:text-accent transition-colors">
               <Bell size={22} />

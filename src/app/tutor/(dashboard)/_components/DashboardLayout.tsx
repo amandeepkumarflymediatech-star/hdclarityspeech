@@ -15,7 +15,7 @@ export default function DashboardLayout({ children, user }: { children: React.Re
   const navItems = [
     { name: 'Dashboard', href: '/tutor', icon: LayoutDashboard },
     { name: 'Appointments', href: '/tutor/appointments', icon: Calendar },
-    { name: 'Earnings', href: '/tutor/earnings', icon: CircleDollarSign },
+    // { name: 'Earnings', href: '/tutor/earnings', icon: CircleDollarSign },
     { name: 'My Students', href: '/tutor/students', icon: Users },
     { name: 'All Tutors', href: '/tutor/allTutors', icon: Users },
     { name: 'Profile', href: '/tutor/profile', icon: User },
@@ -120,7 +120,8 @@ export default function DashboardLayout({ children, user }: { children: React.Re
               </div>
               <div className="hidden sm:block">
                 <div className="text-sm font-bold text-primary leading-tight font-sans">{displayName}</div>
-                <div className="text-[10px] text-accent uppercase tracking-widest mt-0.5 font-bold truncate max-w-[150px]">{displayHeadline}</div>
+                <div className="text-[10px] text-accent uppercase tracking-widest mt-0.5 font-bold truncate max-w-[150px]">{user?.role}</div>
+                {/* <div className="text-[10px] text-accent uppercase tracking-widest mt-0.5 font-bold truncate max-w-[150px]">{displayHeadline}</div> */}
               </div>
             </div>
           </div>

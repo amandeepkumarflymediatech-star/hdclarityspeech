@@ -5,6 +5,7 @@ import { Users as UsersIcon, MoreVertical, Search, Filter, X, Edit, Trash2, Chev
 import { createUser, updateUser, deleteUser } from "@/actions/admin-actions";
 import { Role } from "@prisma/client";
 import { toast } from "sonner";
+import Swal from "sweetalert2";
 
 type User = {
   id: string;
@@ -82,8 +83,19 @@ export default function UserManagementClient({ users }: { users: User[] }) {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm("Are you sure you want to delete this user?")) {
+    const result = await Swal.fire({
+      title: 'Delete User?',
+      text: 'Are you sure you want to delete this user?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ef4444',
+      cancelButtonColor: '#6b7280',
+      confirmButtonText: 'Yes, delete!'
+    });
+
+    if (result.isConfirmed) {
       await deleteUser(id);
+      toast.success("User deleted successfully");
     }
   };
 
@@ -175,11 +187,7 @@ export default function UserManagementClient({ users }: { users: User[] }) {
                       <Edit size={18} />
                     </button>
                     <button 
-                      onClick={() => {
-                        toast("Are you sure you want to delete this user?", {
-                          action: { label: 'Confirm', onClick: () => handleDelete(user.id) }
-                        });
-                      }}
+                      onClick={() => handleDelete(user.id)}
                       className="p-2 text-primary/40 hover:text-accent hover:bg-accent/10 rounded-lg transition-colors"
                       title="Delete User"
                     >

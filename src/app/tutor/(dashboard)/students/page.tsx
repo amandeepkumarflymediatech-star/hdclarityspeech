@@ -50,14 +50,6 @@ export default async function TutorStudentsPage() {
           <h1 className="text-3xl sm:text-4xl font-black text-primary tracking-tight font-playfair">Students</h1>
           <p className="text-primary/70 mt-2 font-sans text-base sm:text-lg">Manage and review progress for {students.length} active students.</p>
         </div>
-        <div className="relative w-full sm:w-72">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-primary/40" size={18} />
-          <input 
-            type="text" 
-            placeholder="Search students..." 
-            className="w-full bg-white border border-secondary/40 pl-12 pr-4 py-3 text-sm focus:border-accent focus:ring-1 focus:ring-accent text-primary outline-none transition-all rounded-full shadow-sm hover:shadow-md"
-          />
-        </div>
       </div>
 
       {/* Student Grid */}
@@ -96,15 +88,6 @@ export default async function TutorStudentsPage() {
                     <p className="text-sm font-bold text-primary">{new Date(student.lastSession).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
                   </div>
                 </div>
-              </div>
-
-              <div className="flex gap-2 p-4 bg-secondary/5 border-t border-secondary/30 mt-auto">
-                <button className="flex-1 py-3 bg-white border border-secondary/30 text-primary font-bold uppercase tracking-widest text-[10px] hover:border-accent hover:text-accent transition-colors rounded-xl shadow-sm flex items-center justify-center gap-2">
-                  <Mail size={14} /> Message
-                </button>
-                <button className="flex-1 py-3 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-widest text-[10px] transition-colors rounded-xl shadow-sm flex items-center justify-center gap-2">
-                  Notes <ArrowUpRight size={14} />
-                </button>
               </div>
             </div>
           ))

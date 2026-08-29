@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, packageId } = body;
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, packageId, couponCode } = body;
 
     // Verify Signature
     const secret = process.env.RAZORPAY_KEY_SECRET!;
@@ -35,6 +35,35 @@ export async function POST(req: NextRequest) {
 
     const details = packageDetails[packageId as keyof typeof packageDetails] || packageDetails["premium-plan"];
 
+    let finalAmount = details.price;
+    let couponId = null;
+
+    if (couponCode) {
+      const coupon = await prisma.coupon.findUnique({
+        where: { code: couponCode.toUpperCase() },
+      });
+
+      if (
+        coupon &&
+        coupon.isActive &&
+        (!coupon.validUntil || new Date(coupon.validUntil) >= new Date()) &&
+        (coupon.maxUses === null || coupon.usedCount < coupon.maxUses)
+      ) {
+        couponId = coupon.id;
+        if (coupon.discountType === "PERCENTAGE") {
+          finalAmount = details.price - (details.price * coupon.discountValue) / 100;
+        } else if (coupon.discountType === "FIXED_AMOUNT") {
+          finalAmount = Math.max(0, details.price - coupon.discountValue);
+        }
+
+        // Increment coupon used count
+        await prisma.coupon.update({
+          where: { id: coupon.id },
+          data: { usedCount: { increment: 1 } },
+        });
+      }
+    }
+
     let dbPackage = await prisma.package.findFirst({ where: { name: details.name } });
     if (!dbPackage) {
       dbPackage = await prisma.package.create({
@@ -52,9 +81,10 @@ export async function POST(req: NextRequest) {
       data: {
         studentId: session.user.id,
         packageId: dbPackage.id,
-        amount: dbPackage.price,
+        amount: finalAmount,
         currency: "USD",
         status: "PAID",
+        couponId: couponId,
       }
     });
 
@@ -62,7 +92,7 @@ export async function POST(req: NextRequest) {
       data: {
         orderId: order.id,
         studentId: session.user.id,
-        amount: dbPackage.price,
+        amount: finalAmount,
         currency: "USD",
         razorpayOrderId: razorpay_order_id,
         razorpayPaymentId: razorpay_payment_id,

@@ -158,7 +158,7 @@ function LoginContent() {
               <button
                 type="submit"
                 disabled={status === 'loading'}
-                className="w-full flex items-center justify-center gap-2 bg-accent hover:bg-primary text-white font-bold py-5 px-8 transition-colors duration-200 shadow-sm group disabled:opacity-70 mt-8 uppercase tracking-widest text-sm rounded-none"
+                className="w-full cursor-pointer flex items-center justify-center gap-2 bg-accent hover:bg-primary text-white font-bold py-5 px-8 transition-colors duration-200 shadow-sm group disabled:opacity-70 mt-8 uppercase tracking-widest text-sm rounded-none"
               >
                 <span>{status === 'loading' ? 'Signing in...' : 'Sign In'}</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -170,7 +170,7 @@ function LoginContent() {
                   document.cookie = `intendedRole=${role}; path=/; max-age=300`;
                   signIn('google', { callbackUrl: '/auth-callback' });
                 }}
-                className="w-full bg-white border-2 border-secondary text-primary py-3.5 font-bold uppercase tracking-widest text-xs hover:border-primary transition-colors flex items-center justify-center gap-2"
+                className="w-full cursor-pointer bg-white border-2 border-secondary text-primary py-3.5 font-bold uppercase tracking-widest text-xs hover:border-primary transition-colors flex items-center justify-center gap-2"
               >
                 <svg viewBox="0 0 24 24" className="w-5 h-5" xmlns="http://www.w3.org/2000/svg">
                   <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />

@@ -45,20 +45,12 @@ export default async function TutorAppointmentsPage() {
           <h1 className="text-3xl sm:text-4xl font-black text-primary tracking-tight font-playfair">Appointments</h1>
           <p className="text-primary/70 mt-2 font-sans text-base sm:text-lg">Manage your upcoming therapy sessions.</p>
         </div>
-        <button className="px-8 py-4 bg-accent hover:bg-accent/90 text-white font-bold uppercase tracking-wider text-sm transition-all rounded-2xl flex items-center justify-center gap-2 w-full sm:w-auto shadow-lg shadow-accent/20 hover:shadow-accent/40 hover:-translate-y-1">
-          <Plus size={18} />
-          New Availability
-        </button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
           <div className="flex justify-between items-center pb-4 border-b border-secondary/30">
             <h3 className="text-xl font-black text-primary font-playfair tracking-tight">Upcoming Sessions</h3>
-            <div className="flex gap-2 bg-secondary/10 p-1 rounded-2xl border border-secondary/30">
-              <button className="px-5 py-2 bg-white text-primary text-xs font-bold uppercase tracking-widest rounded-xl shadow-sm transition-all">List</button>
-              <button className="px-5 py-2 text-primary/50 hover:text-primary hover:bg-white/50 text-xs font-bold uppercase tracking-widest rounded-xl transition-all">Calendar</button>
-            </div>
           </div>
 
           <div className="space-y-4">

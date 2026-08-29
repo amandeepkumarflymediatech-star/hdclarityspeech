@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Mic, Square, Play, RotateCcw, Volume2 } from "lucide-react";
+import Swal from "sweetalert2";
 
 export default function VoiceRecorder() {
   const [isRecording, setIsRecording] = useState(false);
@@ -47,7 +48,7 @@ export default function VoiceRecorder() {
       }, 1000);
     } catch (err) {
       console.error("Error accessing microphone:", err);
-      alert("Microphone access is required to use the voice recorder.");
+      Swal.fire('Microphone Required', 'Microphone access is required to use the voice recorder.', 'error');
     }
   };
 

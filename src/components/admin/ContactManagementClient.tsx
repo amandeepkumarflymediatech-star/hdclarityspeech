@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import { MessageSquare, Search, CheckCircle, Clock, Trash2, ArrowUpDown, ChevronLeft, ChevronRight, Mail } from "lucide-react";
 import { updateContactStatus, deleteContact } from "@/actions/contact-actions";
 import { toast } from "sonner";
+import Swal from "sweetalert2";
 
 type Contact = {
   id: string;
@@ -67,8 +68,19 @@ export default function ContactManagementClient({ contacts }: { contacts: Contac
   };
 
   const handleDelete = async (id: string) => {
-    if(confirm("Are you sure you want to delete this message?")) {
+    const result = await Swal.fire({
+      title: 'Delete Message?',
+      text: 'Are you sure you want to delete this message?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ef4444',
+      cancelButtonColor: '#6b7280',
+      confirmButtonText: 'Yes, delete!'
+    });
+
+    if (result.isConfirmed) {
       await deleteContact(id);
+      toast.success("Message deleted");
     }
   };
 
@@ -182,11 +194,7 @@ export default function ContactManagementClient({ contacts }: { contacts: Contac
                       </button>
                     )}
                     <button 
-                      onClick={() => {
-                        toast("Are you sure you want to delete this message?", {
-                          action: { label: 'Confirm', onClick: () => handleDelete(contact.id) }
-                        });
-                      }}
+                      onClick={() => handleDelete(contact.id)}
                       className="p-2 text-primary/40 hover:text-accent hover:bg-accent/10 rounded-lg transition-colors"
                       title="Delete Message"
                     >

@@ -77,9 +77,9 @@ export default function LiveClassPage() {
         <div className="anim-right lg:col-span-7 w-full relative">
            
            <div className="relative bg-white p-2 sm:p-4 md:p-6 rounded-[30px] sm:rounded-[40px] shadow-2xl border border-primary/5 mt-8 lg:mt-0">
-             <div className="bg-[#F7F5F0]/50 rounded-[20px] sm:rounded-[28px] overflow-hidden min-h-[500px] sm:min-h-[700px] flex flex-col justify-center relative z-10 border border-primary/5">
+             <div className="bg-[#F7F5F0]/50 rounded-[20px] sm:rounded-[28px] overflow-hidden min-h-[700px] flex flex-col relative z-10 border border-primary/5">
                {calendlyUrl ? (
-                 <InlineWidget url={calendlyUrl} styles={{ height: '100%', minHeight: '500px', width: '100%' }} />
+                 <InlineWidget url={calendlyUrl} styles={{ height: '700px', width: '100%' }} />
                ) : (
                  <div className="text-center py-16 sm:py-24 px-4 sm:px-8 text-primary">
                    <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto mb-8 border border-primary/10 shadow-lg shadow-primary/5">

@@ -81,12 +81,24 @@ export default async function StudentAppointmentsPage() {
               </div>
               
               <div className="flex flex-row sm:flex-col lg:flex-row gap-3 w-full md:w-auto border-t md:border-t-0 md:border-l border-secondary/30 pt-4 md:pt-0 md:pl-6 shrink-0">
-                <Link href={apt.rescheduleUrl || '#'} target="_blank" className="flex-1 sm:flex-none px-6 py-3 text-center text-xs font-bold text-primary hover:bg-white bg-secondary/10 border border-secondary/30 transition-colors uppercase tracking-widest rounded-xl">
-                  Reschedule
-                </Link>
-                <Link href={apt.meetingUrl || '#'} target="_blank" className="flex-1 sm:flex-none px-6 py-3 bg-accent hover:bg-accent/90 text-white text-xs font-bold uppercase tracking-widest transition-colors flex justify-center items-center gap-2 rounded-xl shadow-sm">
-                  <Video size={16} /> Join Room
-                </Link>
+                {apt.rescheduleUrl ? (
+                  <Link href={apt.rescheduleUrl} target="_blank" className="flex-1 sm:flex-none px-6 py-3 text-center text-xs font-bold text-primary hover:bg-white bg-secondary/10 border border-secondary/30 transition-colors uppercase tracking-widest rounded-xl">
+                    Reschedule
+                  </Link>
+                ) : (
+                  <button disabled className="flex-1 sm:flex-none px-6 py-3 text-center text-xs font-bold text-primary/40 bg-secondary/5 border border-secondary/20 uppercase tracking-widest rounded-xl cursor-not-allowed" title="No reschedule link available">
+                    Reschedule
+                  </button>
+                )}
+                {apt.meetingUrl ? (
+                  <Link href={apt.meetingUrl} target="_blank" className="flex-1 sm:flex-none px-6 py-3 bg-accent hover:bg-accent/90 text-white text-xs font-bold uppercase tracking-widest transition-colors flex justify-center items-center gap-2 rounded-xl shadow-sm">
+                    <Video size={16} /> Join Room
+                  </Link>
+                ) : (
+                  <button disabled className="flex-1 sm:flex-none px-6 py-3 bg-accent/50 text-white/70 text-xs font-bold uppercase tracking-widest flex justify-center items-center gap-2 rounded-xl shadow-sm cursor-not-allowed" title="Meeting link not generated yet">
+                    <Video size={16} /> Join Room
+                  </button>
+                )}
               </div>
             </div>
           ))}

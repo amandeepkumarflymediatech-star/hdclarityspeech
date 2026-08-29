@@ -15,7 +15,7 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
 
   const navItems = [
     { name: 'Dashboard', href: '/student', icon: LayoutDashboard },
-    { name: 'Practice Hub', href: '/student/practice', icon: Award },
+    // { name: 'Practice Hub', href: '/student/practice', icon: Award },
     { name: 'My Class', href: '/student/myClass', icon: Video },
     { name: 'My Sessions', href: '/student/appointments', icon: Calendar },
     { name: 'All Tutors', href: '/student/allTutors', icon: Users },

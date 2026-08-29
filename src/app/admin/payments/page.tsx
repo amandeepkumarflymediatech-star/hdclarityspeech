@@ -1,26 +1,50 @@
+// Force cache invalidation
 import React from 'react';
 import { prisma } from '@/lib/db';
 import { Banknote, TrendingUp, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { format } from 'date-fns';
 
+import Pagination from '@/components/admin/Pagination';
+
 export const dynamic = 'force-dynamic';
 
-export default async function AdminPaymentsPage() {
-  const orders = await prisma.order.findMany({
-    include: {
-      student: { select: { name: true, email: true } },
-      package: { select: { name: true } },
-      coupon: { select: { code: true } },
-      payment: true,
-    },
-    orderBy: { createdAt: 'desc' },
-  });
+export default async function AdminPaymentsPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
+  const params = await searchParams;
+  const page = Number(params.page) || 1;
+  const pageSize = 10;
+  
+  const [orders, totalOrders] = await Promise.all([
+    prisma.order.findMany({
+      include: {
+        student: { select: { name: true, email: true } },
+        package: { select: { name: true } },
+        coupon: { select: { code: true } },
+        payment: true,
+      },
+      orderBy: { createdAt: 'desc' },
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+    }),
+    prisma.order.count()
+  ]);
 
-  const totalRevenue = orders
-    .filter((o) => o.status === 'PAID')
-    .reduce((sum, order) => sum + order.amount, 0);
+  const totalPages = Math.ceil(totalOrders / pageSize);
 
-  const pendingPayments = orders.filter((o) => o.status === 'PENDING').length;
+
+  // We might want to calculate total pending/revenue across ALL orders, not just this page.
+  // But for now, we'll keep it as is or query aggregates if needed. Let's do a quick aggregate for accuracy.
+  const [revenueAgg, pendingAgg] = await Promise.all([
+    prisma.order.aggregate({
+      where: { status: 'PAID' },
+      _sum: { amount: true }
+    }),
+    prisma.order.count({
+      where: { status: 'PENDING' }
+    })
+  ]);
+
+  const totalRevenue = revenueAgg._sum.amount || 0;
+  const pendingPayments = pendingAgg;
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
@@ -33,7 +57,7 @@ export default async function AdminPaymentsPage() {
         <div className="bg-white p-6 border-l-4 border-green-500 shadow-sm rounded-r-xl flex items-center justify-between">
           <div>
             <p className="text-xs font-bold text-primary/50 uppercase tracking-widest mb-1">Total Revenue</p>
-            <h3 className="text-3xl font-black text-primary">₹{totalRevenue.toLocaleString()}</h3>
+            <h3 className="text-3xl font-black text-primary">${totalRevenue.toLocaleString()}</h3>
           </div>
           <div className="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center">
             <TrendingUp className="w-6 h-6 text-green-500" />
@@ -94,7 +118,7 @@ export default async function AdminPaymentsPage() {
                       )}
                     </td>
                     <td className="px-6 py-4 font-black">
-                      ₹{order.amount.toLocaleString()}
+                      ${order.amount.toLocaleString()}
                     </td>
                     <td className="px-6 py-4">
                       <span className={`flex items-center w-fit gap-1 px-2 py-1 rounded-md text-xs font-bold ${
@@ -113,6 +137,7 @@ export default async function AdminPaymentsPage() {
             </tbody>
           </table>
         </div>
+        <Pagination totalPages={totalPages} />
       </div>
     </div>
   );

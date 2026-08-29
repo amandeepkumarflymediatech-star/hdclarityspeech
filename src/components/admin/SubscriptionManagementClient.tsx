@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import { CreditCard, Download, Search, Check, X, Edit, Trash2, Plus, ArrowUpDown, ChevronLeft, ChevronRight, Filter } from "lucide-react";
 import { createSubscription, updateSubscription, deleteSubscription } from "@/actions/admin-actions";
 import { toast } from "sonner";
+import Swal from "sweetalert2";
 
 type Subscription = {
   id: string;
@@ -97,8 +98,19 @@ export default function SubscriptionManagementClient({ subscriptions, users }: {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm("Are you sure you want to delete this subscription?")) {
+    const result = await Swal.fire({
+      title: 'Delete Package?',
+      text: 'Are you sure you want to delete this package?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ef4444',
+      cancelButtonColor: '#6b7280',
+      confirmButtonText: 'Yes, delete!'
+    });
+
+    if (result.isConfirmed) {
       await deleteSubscription(id);
+      toast.success("Package deleted successfully");
     }
   };
 
@@ -220,11 +232,7 @@ export default function SubscriptionManagementClient({ subscriptions, users }: {
                       <Edit size={18} />
                     </button>
                     <button 
-                      onClick={() => {
-                        toast("Are you sure you want to delete this package?", {
-                          action: { label: 'Confirm', onClick: () => handleDelete(sub.id) }
-                        });
-                      }}
+                      onClick={() => handleDelete(sub.id)}
                       className="p-2 text-primary/40 hover:text-accent hover:bg-accent/10 rounded-lg transition-colors"
                       title="Delete Package"
                     >

@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import { FileText, Search, Edit, Trash2, ArrowUpDown, ChevronLeft, ChevronRight, Check, X, Plus } from "lucide-react";
 import { deleteBlogPost } from "@/actions/blog-actions";
 import { toast } from "sonner";
+import Swal from "sweetalert2";
 import Link from "next/link";
 
 type BlogPost = {
@@ -66,8 +67,19 @@ export default function BlogManagementClient({ posts }: { posts: BlogPost[] }) {
   };
 
   const handleDelete = async (id: string) => {
-    if(confirm("Are you sure you want to delete this post?")) {
+    const result = await Swal.fire({
+      title: 'Delete Post?',
+      text: 'Are you sure you want to delete this post?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ef4444',
+      cancelButtonColor: '#6b7280',
+      confirmButtonText: 'Yes, delete!'
+    });
+
+    if (result.isConfirmed) {
       await deleteBlogPost(id);
+      toast.success("Post deleted");
     }
   };
 
@@ -172,11 +184,7 @@ export default function BlogManagementClient({ posts }: { posts: BlogPost[] }) {
                       <Edit size={18} />
                     </Link>
                     <button 
-                      onClick={() => {
-                        toast("Are you sure you want to delete this post?", {
-                          action: { label: 'Confirm', onClick: () => handleDelete(post.id) }
-                        });
-                      }}
+                      onClick={() => handleDelete(post.id)}
                       className="p-2 text-primary/40 hover:text-accent hover:bg-accent/10 rounded-lg transition-colors"
                       title="Delete Post"
                     >

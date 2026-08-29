@@ -101,24 +101,24 @@ export default async function MentorProfilePage({ params }: Props) {
 
               <div className="flex flex-col gap-4 text-primary/70 font-sans mb-10">
                 {mentor.languages && (
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-accent">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 shrink-0 rounded-full bg-secondary flex items-center justify-center text-accent">
                       <Languages className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className="text-xs font-bold uppercase tracking-wider text-primary/50">Languages</p>
-                      <p className="font-medium text-primary">{mentor.languages}</p>
+                      <p className="text-xs font-bold uppercase tracking-wider text-primary/50 mb-1">Languages</p>
+                      <p className="font-medium text-primary whitespace-pre-wrap text-sm leading-relaxed">{mentor.languages}</p>
                     </div>
                   </div>
                 )}
                 {mentor.experience && (
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-accent">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 shrink-0 rounded-full bg-secondary flex items-center justify-center text-accent">
                       <Clock className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className="text-xs font-bold uppercase tracking-wider text-primary/50">Experience</p>
-                      <p className="font-medium text-primary">{mentor.experience}</p>
+                      <p className="text-xs font-bold uppercase tracking-wider text-primary/50 mb-1">Experience</p>
+                      <p className="font-medium text-primary whitespace-pre-wrap text-sm leading-relaxed">{mentor.experience}</p>
                     </div>
                   </div>
                 )}

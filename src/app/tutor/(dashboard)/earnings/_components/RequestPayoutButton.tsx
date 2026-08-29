@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { requestPayout } from '../actions';
+import Swal from 'sweetalert2';
 
 export default function RequestPayoutButton({ disabled }: { disabled: boolean }) {
   const [loading, setLoading] = useState(false);
@@ -10,9 +11,9 @@ export default function RequestPayoutButton({ disabled }: { disabled: boolean })
     setLoading(true);
     try {
       await requestPayout();
-      alert('Payout requested successfully. Processing may take up to 3 business days.');
+      Swal.fire('Requested', 'Payout requested successfully. Processing may take up to 3 business days.', 'success');
     } catch (e: any) {
-      alert(e.message || 'Failed to request payout.');
+      Swal.fire('Error', e.message || 'Failed to request payout.', 'error');
     } finally {
       setLoading(false);
     }

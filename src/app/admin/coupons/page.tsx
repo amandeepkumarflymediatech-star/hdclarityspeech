@@ -1,22 +1,38 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Tag, Plus, CheckCircle2, XCircle, Trash2 } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
+import { Tag, Plus, CheckCircle2, XCircle, Trash2, Pencil } from 'lucide-react';
+import Pagination from '@/components/admin/Pagination';
 import CreateCouponModal from './_components/CreateCouponModal';
+import EditCouponModal from './_components/EditCouponModal';
 import { toggleCouponStatus, deleteCoupon } from './actions';
 import { toast } from 'sonner';
+import Swal from 'sweetalert2';
 
 export default function AdminCouponsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingCoupon, setEditingCoupon] = useState<any>(null);
   const [coupons, setCoupons] = useState<any[]>([]);
+  const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
+  
+  const searchParams = useSearchParams();
+  const page = searchParams.get('page') || '1';
 
   const fetchCoupons = async () => {
     try {
-      const res = await fetch('/api/admin/coupons');
+      setLoading(true);
+      const res = await fetch(`/api/admin/coupons?page=${page}`);
       if (res.ok) {
         const data = await res.json();
-        setCoupons(data);
+        if (Array.isArray(data)) {
+          setCoupons(data);
+          setTotalPages(1);
+        } else {
+          setCoupons(data.coupons || []);
+          setTotalPages(data.totalPages || 1);
+        }
       }
     } catch (error) {
       console.error(error);
@@ -27,7 +43,7 @@ export default function AdminCouponsPage() {
 
   useEffect(() => {
     fetchCoupons();
-  }, [isModalOpen]); // Refetch when modal closes
+  }, [isModalOpen, editingCoupon, page]); // Refetch when modal closes or page changes
 
   const handleToggle = async (id: string, currentStatus: boolean) => {
     const res = await toggleCouponStatus(id, currentStatus);
@@ -40,7 +56,17 @@ export default function AdminCouponsPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm('Are you sure you want to delete this coupon?')) {
+    const result = await Swal.fire({
+      title: 'Delete Coupon?',
+      text: 'Are you sure you want to delete this coupon? This cannot be undone.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ef4444',
+      cancelButtonColor: '#6b7280',
+      confirmButtonText: 'Yes, delete it!'
+    });
+
+    if (result.isConfirmed) {
       const res = await deleteCoupon(id);
       if (res.success) {
         toast.success('Coupon deleted');
@@ -118,13 +144,22 @@ export default function AdminCouponsPage() {
                       </button>
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <button 
-                        onClick={() => handleDelete(coupon.id)}
-                        className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-                        title="Delete Coupon"
-                      >
-                        <Trash2 size={18} />
-                      </button>
+                      <div className="flex justify-end gap-2">
+                        <button 
+                          onClick={() => setEditingCoupon(coupon)}
+                          className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
+                          title="Edit Coupon"
+                        >
+                          <Pencil size={18} />
+                        </button>
+                        <button 
+                          onClick={() => handleDelete(coupon.id)}
+                          className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                          title="Delete Coupon"
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -132,9 +167,11 @@ export default function AdminCouponsPage() {
             </tbody>
           </table>
         </div>
+        <Pagination totalPages={totalPages} />
       </div>
 
       {isModalOpen && <CreateCouponModal onClose={() => setIsModalOpen(false)} />}
+      {editingCoupon && <EditCouponModal coupon={editingCoupon} onClose={() => setEditingCoupon(null)} />}
     </div>
   );
 }

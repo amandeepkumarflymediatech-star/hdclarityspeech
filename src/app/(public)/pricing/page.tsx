@@ -5,6 +5,7 @@ import { CheckCircle2 } from 'lucide-react';
 import Script from 'next/script';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import Swal from 'sweetalert2';
 
 export default function PricingPage() {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -21,7 +22,7 @@ export default function PricingPage() {
 
     // Check if script is loaded
     if (!(window as any).Razorpay) {
-      alert("Razorpay SDK failed to load. Are you online?");
+      Swal.fire('Error', 'Razorpay SDK failed to load. Are you online?', 'error');
       setIsProcessing(false);
       return;
     }
@@ -49,7 +50,7 @@ export default function PricingPage() {
         description: `Purchase: ${planName}`,
         order_id: order.id,
         handler: function (response: any) {
-          alert(`Payment Successful! Payment ID: ${response.razorpay_payment_id}`);
+          Swal.fire('Success', `Payment Successful! Payment ID: ${response.razorpay_payment_id}`, 'success');
           // Here you would typically verify the signature on your backend via webhook or another API route
         },
         prefill: {
@@ -67,7 +68,7 @@ export default function PricingPage() {
 
     } catch (error: any) {
       console.error(error);
-      alert(error.message || 'Something went wrong during checkout!');
+      Swal.fire('Checkout Error', error.message || 'Something went wrong during checkout!', 'error');
     } finally {
       setIsProcessing(false);
     }
