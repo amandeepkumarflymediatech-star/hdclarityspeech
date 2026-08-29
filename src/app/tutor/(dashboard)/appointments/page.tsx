@@ -5,6 +5,7 @@ import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import AppointmentActions from "./_components/AppointmentActions";
+import { cleanupPastSessions } from "@/actions/session-actions";
 
 export default async function TutorAppointmentsPage() {
   const session = await getServerSession(authOptions);
@@ -12,6 +13,9 @@ export default async function TutorAppointmentsPage() {
   if (!session || session.user.role !== "TUTOR") {
     redirect("/login");
   }
+
+  // Lazy evaluation: Cleanup any past sessions before fetching the UI lists
+  await cleanupPastSessions(session.user.id);
 
   const appointments = await prisma.session.findMany({
     where: { tutorId: session.user.id },

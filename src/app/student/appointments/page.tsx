@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { cleanupPastSessions } from "@/actions/session-actions";
 
 export default async function StudentAppointmentsPage() {
   const session = await getServerSession(authOptions);
@@ -11,6 +12,9 @@ export default async function StudentAppointmentsPage() {
   if (!session || session.user.role !== "STUDENT") {
     redirect("/login");
   }
+
+  // Lazy evaluation: Cleanup any past sessions before fetching the UI lists
+  await cleanupPastSessions(session.user.id);
 
   // Changed from prisma.appointment to prisma.session based on schema
   const appointments = await prisma.session.findMany({

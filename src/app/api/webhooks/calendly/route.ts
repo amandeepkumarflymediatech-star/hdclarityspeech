@@ -85,14 +85,16 @@ export async function POST(req: Request) {
       });
 
       if (session) {
+        const newStatus = payload.rescheduled ? "RESCHEDULED" : "CANCELLED";
+        
         await prisma.session.update({
           where: { id: session.id },
-          data: { status: "CANCELLED" }
+          data: { status: newStatus }
         });
         
         await prisma.booking.update({
           where: { id: session.bookingId },
-          data: { status: "CANCELLED" }
+          data: { status: newStatus }
         });
 
         // Refund the credit to active package

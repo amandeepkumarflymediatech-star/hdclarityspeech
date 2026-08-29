@@ -108,14 +108,6 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
             <button className="md:hidden text-primary p-2 bg-white rounded-xl shadow-sm border border-secondary/30 hover:bg-secondary/10 transition-colors" onClick={() => setIsMobileMenuOpen(true)}>
               <Menu size={24} />
             </button>
-            <div className="relative hidden sm:block w-64 md:w-96">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-primary/40" size={18} />
-              <input 
-                type="text" 
-                placeholder="Search anything..." 
-                className="w-full bg-white border border-secondary/30 pl-12 pr-4 py-3 text-sm focus:border-accent text-primary outline-none transition-all placeholder-primary/40 rounded-2xl shadow-sm hover:shadow-md focus:shadow-md"
-              />
-            </div>
           </div>
           
           <div className="flex items-center gap-6">
