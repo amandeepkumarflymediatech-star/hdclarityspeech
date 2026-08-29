@@ -10,7 +10,7 @@ import { toggleCouponStatus, deleteCoupon } from './actions';
 import { toast } from 'sonner';
 import Swal from 'sweetalert2';
 
-export default function AdminCouponsPage() {
+function CouponsContent() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCoupon, setEditingCoupon] = useState<any>(null);
   const [coupons, setCoupons] = useState<any[]>([]);
@@ -173,5 +173,13 @@ export default function AdminCouponsPage() {
       {isModalOpen && <CreateCouponModal onClose={() => setIsModalOpen(false)} />}
       {editingCoupon && <EditCouponModal coupon={editingCoupon} onClose={() => setEditingCoupon(null)} />}
     </div>
+  );
+}
+
+export default function AdminCouponsPage() {
+  return (
+    <React.Suspense fallback={<div className="p-8 text-center text-primary/50 font-bold">Loading coupons...</div>}>
+      <CouponsContent />
+    </React.Suspense>
   );
 }

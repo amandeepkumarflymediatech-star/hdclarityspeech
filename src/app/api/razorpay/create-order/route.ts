@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
       notes: {
         userId: session.user.id,
         packageId: packageId,
-        couponId: couponId || undefined,
+        couponId: couponId || null,
       },
     });
 
