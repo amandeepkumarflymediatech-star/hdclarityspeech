@@ -7,20 +7,35 @@ import Link from "next/link";
 import AppointmentActions from "./_components/AppointmentActions";
 import { cleanupPastSessions } from "@/actions/session-actions";
 
-export default async function TutorAppointmentsPage() {
+export default async function TutorAppointmentsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ filter?: string }>;
+}) {
   const session = await getServerSession(authOptions);
   
   if (!session || session.user.role !== "TUTOR") {
     redirect("/login");
   }
 
+  const resolvedSearchParams = await searchParams;
+  const filter = resolvedSearchParams.filter || 'upcoming';
+
   // Lazy evaluation: Cleanup any past sessions before fetching the UI lists
   await cleanupPastSessions(session.user.id);
 
+  let statusFilter: string | string[] = ['SCHEDULED', 'IN_PROGRESS'];
+  if (filter === 'complete') statusFilter = 'COMPLETED';
+  if (filter === 'cancelled') statusFilter = 'CANCELLED';
+  if (filter === 'missing') statusFilter = 'NO_SHOW';
+
   const appointments = await prisma.session.findMany({
-    where: { tutorId: session.user.id },
+    where: { 
+      tutorId: session.user.id,
+      status: Array.isArray(statusFilter) ? { in: statusFilter } : statusFilter
+    },
     include: { student: true },
-    orderBy: { scheduledAt: 'asc' }
+    orderBy: { scheduledAt: filter === 'upcoming' ? 'asc' : 'desc' }
   });
 
   const pendingRequests = await prisma.booking.count({
@@ -53,14 +68,20 @@ export default async function TutorAppointmentsPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
-          <div className="flex justify-between items-center pb-4 border-b border-secondary/30">
-            <h3 className="text-xl font-black text-primary font-playfair tracking-tight">Upcoming Sessions</h3>
+          <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center pb-4 border-b border-secondary/30 gap-4">
+            <h3 className="text-xl font-black text-primary font-playfair tracking-tight capitalize">{filter} Sessions</h3>
+            <div className="flex gap-2 overflow-x-auto pb-2 xl:pb-0 w-full xl:w-auto">
+              <Link href="?filter=upcoming" className={`shrink-0 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-colors ${filter === 'upcoming' ? 'bg-primary text-white' : 'bg-secondary/10 text-primary hover:bg-secondary/20'}`}>Upcoming</Link>
+              <Link href="?filter=complete" className={`shrink-0 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-colors ${filter === 'complete' ? 'bg-primary text-white' : 'bg-secondary/10 text-primary hover:bg-secondary/20'}`}>Completed</Link>
+              <Link href="?filter=cancelled" className={`shrink-0 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-colors ${filter === 'cancelled' ? 'bg-primary text-white' : 'bg-secondary/10 text-primary hover:bg-secondary/20'}`}>Cancelled</Link>
+              <Link href="?filter=missing" className={`shrink-0 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-colors ${filter === 'missing' ? 'bg-primary text-white' : 'bg-secondary/10 text-primary hover:bg-secondary/20'}`}>Missing</Link>
+            </div>
           </div>
 
           <div className="space-y-4">
             {appointments.length === 0 && (
               <div className="bg-white border border-secondary/30 rounded-3xl p-12 text-center text-primary/50 font-medium">
-                No upcoming sessions found.
+                No {filter} sessions found.
               </div>
             )}
             {appointments.map((apt) => (
@@ -82,10 +103,10 @@ export default async function TutorAppointmentsPage() {
                   </div>
                 </div>
                 <div className="flex flex-row sm:flex-col gap-3 w-full sm:w-auto">
-                  {apt.status !== 'CANCELLED' && apt.status !== 'COMPLETED' && (
+                  {['SCHEDULED', 'IN_PROGRESS'].includes(apt.status) && (
                     <AppointmentActions sessionId={apt.id} />
                   )}
-                  {apt.status !== 'CANCELLED' && apt.meetingUrl && (
+                  {['SCHEDULED', 'IN_PROGRESS'].includes(apt.status) && apt.meetingUrl && (
                     <a href={apt.meetingUrl} target="_blank" rel="noreferrer" className="flex-1 sm:flex-none px-6 py-2.5 bg-accent hover:bg-accent/90 text-white font-bold uppercase tracking-widest text-xs transition-colors rounded-xl flex items-center justify-center gap-2 text-center shadow-sm">
                       <Video size={16} /> Join Meet
                     </a>

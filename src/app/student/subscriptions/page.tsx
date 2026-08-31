@@ -13,8 +13,8 @@ export default async function StudentSubscriptionsPage() {
     redirect("/login");
   }
 
-  const activePackages = await prisma.studentPackage.findMany({
-    where: { studentId: session.user.id, status: 'ACTIVE' },
+  const myPackages = await prisma.studentPackage.findMany({
+    where: { studentId: session.user.id, status: { in: ['ACTIVE', 'DEPLETED'] } },
     include: { package: true },
     orderBy: { createdAt: 'desc' }
   });
@@ -36,7 +36,7 @@ export default async function StudentSubscriptionsPage() {
 
       <div className="space-y-12">
         <div className="space-y-8">
-          {activePackages.length === 0 ? (
+          {myPackages.length === 0 ? (
             <div className="bg-white border border-secondary/30 p-8 rounded-3xl shadow-sm relative overflow-hidden flex flex-col items-center justify-center text-center py-16">
               <div className="w-16 h-16 bg-secondary/20 rounded-full flex items-center justify-center text-primary/40 mb-4">
                 <CreditCard size={24} />
@@ -46,36 +46,65 @@ export default async function StudentSubscriptionsPage() {
             </div>
           ) : (
             <div className="flex flex-col gap-4">
-              {activePackages.map((pkg) => (
-                <div key={pkg.id} className="bg-white border border-accent/20 p-5 rounded-2xl shadow-sm hover:shadow-md relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                  <div className="absolute top-0 right-0 bg-accent text-white px-3 py-1 text-[9px] font-bold uppercase tracking-widest rounded-bl-xl shadow-sm">
-                    Active
-                  </div>
-                  
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center text-accent shrink-0">
-                      <Shield size={24} />
-                    </div>
-                    <div>
-                      <h2 className="text-xl font-black text-primary font-playfair mb-1">
-                        {pkg.package.name}
-                      </h2>
-                      <p className="text-primary/60 font-sans text-xs">Subscribed on {new Date(pkg.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
-                    </div>
-                  </div>
+              {myPackages.map((pkg) => {
+                const isDepleted = pkg.remainingSessions <= 0 || pkg.status === 'DEPLETED';
+                
+                if (isDepleted) {
+                  return (
+                    <div key={pkg.id} className="bg-secondary/5 border border-secondary/20 p-5 rounded-2xl shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4 opacity-75 grayscale-[20%]">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-secondary/20 rounded-xl flex items-center justify-center text-primary/40 shrink-0">
+                          <Shield size={24} />
+                        </div>
+                        <div>
+                          <h2 className="text-xl font-bold text-primary/70 font-playfair mb-1">
+                            {pkg.package.name} <span className="text-xs font-sans text-primary/50 ml-2 uppercase tracking-widest">(Depleted)</span>
+                          </h2>
+                          <p className="text-primary/50 font-sans text-xs">Used all credits by {new Date(pkg.updatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
+                        </div>
+                      </div>
 
-                  <div className="flex items-center gap-6 w-full md:w-auto">
-                    <div className="text-left md:text-right flex-1 md:flex-none">
-                      <p className="text-primary/50 text-xs font-bold uppercase tracking-widest mb-1">Remaining</p>
-                      <p className="font-bold text-accent text-xl">{pkg.remainingSessions} <span className="text-sm text-primary/40">/ {pkg.totalSessions}</span></p>
+                      <div className="flex items-center gap-6 w-full md:w-auto">
+                        <div className="text-left md:text-right flex-1 md:flex-none">
+                          <p className="text-primary/40 text-xs font-bold uppercase tracking-widest mb-1">Remaining</p>
+                          <p className="font-bold text-primary/40 text-xl">{pkg.remainingSessions} <span className="text-sm">/ {pkg.totalSessions}</span></p>
+                        </div>
+                      </div>
                     </div>
-                    <div className="text-right hidden md:block">
-                      <p className="text-primary/50 text-xs font-bold uppercase tracking-widest mb-1">Price</p>
-                      <p className="text-xl font-black text-primary">${pkg.package.price}</p>
+                  );
+                }
+
+                return (
+                  <div key={pkg.id} className="bg-white border border-accent/20 p-5 rounded-2xl shadow-sm hover:shadow-md relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div className="absolute top-0 right-0 bg-accent text-white px-3 py-1 text-[9px] font-bold uppercase tracking-widest rounded-bl-xl shadow-sm">
+                      Active
+                    </div>
+                    
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center text-accent shrink-0">
+                        <Shield size={24} />
+                      </div>
+                      <div>
+                        <h2 className="text-xl font-black text-primary font-playfair mb-1">
+                          {pkg.package.name}
+                        </h2>
+                        <p className="text-primary/60 font-sans text-xs">Subscribed on {new Date(pkg.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-6 w-full md:w-auto">
+                      <div className="text-left md:text-right flex-1 md:flex-none">
+                        <p className="text-primary/50 text-xs font-bold uppercase tracking-widest mb-1">Remaining</p>
+                        <p className="font-bold text-accent text-xl">{pkg.remainingSessions} <span className="text-sm text-primary/40">/ {pkg.totalSessions}</span></p>
+                      </div>
+                      <div className="text-right hidden md:block">
+                        <p className="text-primary/50 text-xs font-bold uppercase tracking-widest mb-1">Price</p>
+                        <p className="text-xl font-black text-primary">${pkg.package.price}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
 

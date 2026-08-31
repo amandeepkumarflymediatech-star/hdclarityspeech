@@ -56,7 +56,7 @@ export async function createSessionFromCalendly(tutorId: string, eventUri: strin
   if (!sessionType) {
     sessionType = await prisma.sessionType.create({
       data: {
-        name: "Standard Therapy Session",
+        name: "Session",
         durationMinutes: 60,
         basePrice: 100,
         isActive: true,
@@ -89,23 +89,28 @@ export async function createSessionFromCalendly(tutorId: string, eventUri: strin
     }
   });
 
-  // Deduct from active package if available
+  // Deduct from active package if available (oldest first)
   const activePackage = await prisma.studentPackage.findFirst({
-    where: { studentId: session.user.id, status: "ACTIVE" }
+    where: { studentId: session.user.id, status: "ACTIVE", remainingSessions: { gt: 0 } },
+    orderBy: { createdAt: 'asc' }
   });
 
   if (activePackage && activePackage.remainingSessions > 0) {
+    const newRemaining = activePackage.remainingSessions - 1;
     await prisma.studentPackage.update({
       where: { id: activePackage.id },
       data: { 
-        remainingSessions: activePackage.remainingSessions - 1,
-        usedSessions: activePackage.usedSessions + 1
+        remainingSessions: newRemaining,
+        usedSessions: activePackage.usedSessions + 1,
+        status: newRemaining === 0 ? "DEPLETED" : "ACTIVE"
       }
     });
   }
 
   revalidatePath("/student/appointments");
   revalidatePath("/tutor/appointments");
+  revalidatePath("/student/subscriptions");
+  revalidatePath("/student/book");
   
   return { success: true };
 }

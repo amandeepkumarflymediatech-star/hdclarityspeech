@@ -20,9 +20,10 @@ export async function POST(req: Request) {
         return NextResponse.json({ message: "Student not found" }, { status: 404 });
       }
 
-      // Deduct one class credit (find first available active package)
+      // Deduct one class credit (find first available active package, oldest first)
       const activePackage = await prisma.studentPackage.findFirst({
-        where: { studentId: student.id, status: "ACTIVE", remainingSessions: { gt: 0 } }
+        where: { studentId: student.id, status: "ACTIVE", remainingSessions: { gt: 0 } },
+        orderBy: { createdAt: 'asc' }
       });
 
       if (!activePackage) {
