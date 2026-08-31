@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import { sendAdminNewStudentAlert } from "@/lib/email";
 
 const prisma = new PrismaClient();
 
@@ -33,6 +34,10 @@ export async function POST(req: Request) {
         role: role === 'TUTOR' ? 'TUTOR' : 'STUDENT',
       },
     });
+
+    if (user.role === "STUDENT") {
+      sendAdminNewStudentAlert(user.email, user.name || "Unknown").catch(err => console.error("Failed to send student alert", err));
+    }
 
     return NextResponse.json(
       { message: "User registered successfully", user: { id: user.id, email: user.email, name: user.name } },

@@ -64,5 +64,13 @@ export async function submitTutorApplication(formData: FormData) {
     });
   }
 
+  // Send email notifications
+  import('@/lib/email').then(({ sendTutorApplicationConfirmation, sendAdminNewTutorAlert }) => {
+    Promise.all([
+      sendTutorApplicationConfirmation(email, name),
+      sendAdminNewTutorAlert(email, name)
+    ]).catch(err => console.error("Failed to send tutor application emails", err));
+  });
+
   return { success: true, userId: user.id };
 }

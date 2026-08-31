@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
+import { sendContactUserConfirmation, sendContactAdminNotification } from '@/lib/email';
 
 export async function POST(req: Request) {
   try {
@@ -18,6 +19,12 @@ export async function POST(req: Request) {
         message,
       },
     });
+
+    // Send email notifications (non-blocking)
+    Promise.all([
+      sendContactUserConfirmation(email),
+      sendContactAdminNotification({ name, email, studyPreference, message })
+    ]).catch(err => console.error("Failed to send contact emails", err));
 
     return NextResponse.json({ success: true, contactMessage }, { status: 201 });
   } catch (error) {

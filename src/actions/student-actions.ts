@@ -107,6 +107,31 @@ export async function createSessionFromCalendly(tutorId: string, eventUri: strin
     });
   }
 
+  const tutor = await prisma.user.findUnique({ where: { id: tutorId } });
+  
+  // Send email notifications
+  import('@/lib/email').then(({ sendClassScheduledEmail, sendTutorClassScheduledEmail }) => {
+    const dateStr = startTime.toLocaleDateString();
+    const timeStr = startTime.toLocaleTimeString();
+    
+    Promise.all([
+      sendClassScheduledEmail(
+        session.user.email || "", 
+        session.user.name || "Student", 
+        tutor?.name || "Your Tutor", 
+        dateStr, 
+        timeStr
+      ),
+      ...(tutor?.email ? [sendTutorClassScheduledEmail(
+        tutor.email,
+        tutor.name || "Tutor",
+        session.user.name || "Student",
+        dateStr,
+        timeStr
+      )] : [])
+    ]).catch(err => console.error("Failed to send class scheduled emails", err));
+  });
+
   revalidatePath("/student/appointments");
   revalidatePath("/tutor/appointments");
   revalidatePath("/student/subscriptions");
