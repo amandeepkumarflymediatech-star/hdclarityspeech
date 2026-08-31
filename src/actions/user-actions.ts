@@ -18,6 +18,15 @@ export async function updateProfile(formData: FormData) {
   const name = formData.get("name") as string;
   const email = formData.get("email") as string;
   const bio = formData.get("bio") as string | null;
+  const phone = formData.get("phone") as string | null;
+  const timezone = formData.get("timezone") as string | null;
+  const experience = formData.get("experience") as string | null;
+  const qualifications = formData.get("qualifications") as string | null;
+  const languages = formData.get("languages") as string | null;
+  const teachingHeadline = formData.get("teachingHeadline") as string | null;
+  const teachingLevels = formData.get("teachingLevels") as string | null;
+  const teachingAges = formData.get("teachingAges") as string | null;
+  const teachingStyle = formData.get("teachingStyle") as string | null;
   const imageFile = formData.get("image") as File | null;
 
   if (!name || !email) {
@@ -35,7 +44,6 @@ export async function updateProfile(formData: FormData) {
       fs.mkdirSync(uploadsDir, { recursive: true });
     }
     
-    // Create a safe filename
     const safeName = imageFile.name.replace(/[^a-zA-Z0-9.\-_]/g, '');
     const fileName = `${session.user.id}-${Date.now()}-${safeName}`;
     const filePath = path.join(uploadsDir, fileName);
@@ -50,10 +58,20 @@ export async function updateProfile(formData: FormData) {
       name, 
       email,
       ...(bio !== null && { bio }),
+      ...(phone !== null && { phone }),
+      ...(timezone !== null && { timezone }),
+      ...(experience !== null && { experience }),
+      ...(qualifications !== null && { qualifications }),
+      ...(languages !== null && { languages }),
+      ...(teachingHeadline !== null && { teachingHeadline }),
+      ...(teachingLevels !== null && { teachingLevels }),
+      ...(teachingAges !== null && { teachingAges }),
+      ...(teachingStyle !== null && { teachingStyle }),
       ...(imageUrl && { image: imageUrl })
     }
   });
 
+  revalidatePath("/student/profile");
   revalidatePath("/student/settings");
   revalidatePath("/tutor/settings");
   revalidatePath("/tutor/profile");

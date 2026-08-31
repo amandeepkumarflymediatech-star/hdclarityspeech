@@ -44,8 +44,21 @@ export default function EnrollmentsFilter({ currentTab }: EnrollmentsFilterProps
     router.push(`?${params.toString()}`);
   };
 
+  const timeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newQuery = e.target.value;
+    setQuery(newQuery);
+    
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
+      applyFilters(newQuery, undefined, undefined);
+    }, 400);
+  };
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
     applyFilters(query, undefined, undefined);
   };
 
@@ -67,7 +80,7 @@ export default function EnrollmentsFilter({ currentTab }: EnrollmentsFilterProps
           type="text" 
           placeholder="Search name or email..." 
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={handleQueryChange}
           className="w-full pl-10 pr-4 py-2 text-sm bg-white border border-secondary/30 rounded-lg focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors"
         />
       </form>

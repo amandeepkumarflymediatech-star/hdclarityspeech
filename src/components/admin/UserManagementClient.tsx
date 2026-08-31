@@ -262,6 +262,8 @@ export default function UserManagementClient({ users }: { users: User[] }) {
                   name="name"
                   defaultValue={selectedUser?.name || ""}
                   required
+                  pattern="^[a-zA-Z\s]+$"
+                  title="Name can only contain letters and spaces."
                   className="w-full bg-secondary/5 border border-secondary/50 rounded-xl px-4 py-3 text-sm focus:border-accent focus:ring-1 focus:ring-accent text-primary outline-none transition-all hover:bg-white"
                 />
               </div>

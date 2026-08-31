@@ -12,6 +12,11 @@ export default async function AdminUsersPage() {
   }
 
   const users = await prisma.user.findMany({
+    where: {
+      id: {
+        not: session.user.id
+      }
+    },
     orderBy: { createdAt: 'desc' }
   });
 

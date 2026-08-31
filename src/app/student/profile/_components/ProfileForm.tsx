@@ -115,6 +115,28 @@ export default function ProfileForm({ user }: { user: any }) {
         </div>
       </div>
 
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+        <div className="space-y-2 group">
+          <label className="block text-[11px] font-black text-primary/70 uppercase tracking-widest ml-1 group-focus-within:text-accent transition-colors">Phone Number</label>
+          <input 
+            type="tel" 
+            name="phone"
+            defaultValue={user?.phone || ""}
+            className="w-full bg-secondary/5 border-2 border-transparent focus:border-accent/20 focus:bg-white px-4 py-3.5 text-sm font-medium text-primary outline-none transition-all rounded-2xl shadow-sm hover:bg-secondary/10"
+          />
+        </div>
+        <div className="space-y-2 group">
+          <label className="block text-[11px] font-black text-primary/70 uppercase tracking-widest ml-1 group-focus-within:text-accent transition-colors">Timezone</label>
+          <input 
+            type="text" 
+            name="timezone"
+            defaultValue={user?.timezone || ""}
+            placeholder="e.g. EST, GMT+1"
+            className="w-full bg-secondary/5 border-2 border-transparent focus:border-accent/20 focus:bg-white px-4 py-3.5 text-sm font-medium text-primary outline-none transition-all rounded-2xl shadow-sm hover:bg-secondary/10"
+          />
+        </div>
+      </div>
+
       <div className="pt-6 border-t border-secondary/30 flex justify-end">
         <button 
           type="submit" 

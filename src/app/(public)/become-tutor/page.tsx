@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Briefcase, Clock, DollarSign, Users, CheckCircle2, ArrowRight, UploadCloud } from 'lucide-react';
 import gsap from 'gsap';
 import Image from 'next/image';
+import { submitTutorApplication } from '@/actions/tutor-onboarding-actions';
 
 export default function BecomeTutorPage() {
   const [formData, setFormData] = useState({
@@ -12,6 +13,8 @@ export default function BecomeTutorPage() {
     experience: '',
     bio: ''
   });
+  const [file, setFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -40,15 +43,33 @@ export default function BecomeTutorPage() {
     );
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!file) {
+      alert("Please upload your Resume/CV.");
+      return;
+    }
+    
     setIsSubmitting(true);
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
+    
+    try {
+      const form = new FormData();
+      form.append("name", formData.name);
+      form.append("email", formData.email);
+      form.append("experience", formData.experience);
+      form.append("bio", formData.bio);
+      form.append("resume", file);
+      
+      await submitTutorApplication(form);
+      
       setIsSuccess(true);
       setFormData({ name: '', email: '', experience: '', bio: '' });
-    }, 1500);
+      setFile(null);
+    } catch (error: any) {
+      alert(error.message || "Something went wrong.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const benefits = [
@@ -172,12 +193,26 @@ export default function BecomeTutorPage() {
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-primary uppercase tracking-widest mb-3">Resume / CV</label>
-                  <div className="border-2 border-dashed border-secondary p-8 flex flex-col items-center justify-center text-center hover:border-accent hover:bg-secondary/30 transition cursor-pointer group bg-white">
-                    <div className="w-12 h-12 bg-secondary flex items-center justify-center text-accent mb-4 group-hover:scale-110 transition shadow-sm">
-                      <UploadCloud size={24} />
+                  <div 
+                    onClick={() => fileInputRef.current?.click()}
+                    className="border-2 border-dashed border-secondary p-8 flex flex-col items-center justify-center text-center hover:border-accent hover:bg-secondary/30 transition cursor-pointer group bg-white relative overflow-hidden"
+                  >
+                    <div className={`w-12 h-12 flex items-center justify-center mb-4 transition shadow-sm ${file ? 'bg-primary text-white rounded-xl' : 'bg-secondary text-accent group-hover:scale-110 rounded-none'}`}>
+                      {file ? <CheckCircle2 size={24} /> : <UploadCloud size={24} />}
                     </div>
-                    <p className="text-sm font-bold text-primary uppercase tracking-wider">Click to upload</p>
-                    <p className="text-xs text-primary/70 mt-2">PDF, DOCX up to 10MB</p>
+                    <p className="text-sm font-bold text-primary uppercase tracking-wider">
+                      {file ? file.name : "Click to upload"}
+                    </p>
+                    <p className="text-xs text-primary/70 mt-2">
+                      {file ? `${(file.size / 1024 / 1024).toFixed(2)} MB` : "PDF, DOCX up to 10MB"}
+                    </p>
+                    <input 
+                      type="file" 
+                      ref={fileInputRef} 
+                      onChange={(e) => setFile(e.target.files?.[0] || null)}
+                      className="hidden" 
+                      accept=".pdf,.doc,.docx"
+                    />
                   </div>
                 </div>
                 <div>

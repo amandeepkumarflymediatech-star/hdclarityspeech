@@ -207,7 +207,7 @@ export default function SubscriptionManagementClient({ subscriptions, users }: {
                     {sub.planType}
                   </td>
                   <td className="p-6 text-sm font-bold text-primary">
-                    {sub.planType === 'PREMIUM' ? '$49.00' : (sub.planType === 'BASIC' ? '$19.00' : '$99.00')}
+                    {sub.planType === 'Premium' ? '$120.00' : (sub.planType === 'Standard' ? '$96.00' : (sub.planType === 'Starter' ? '$60.00' : '$15.00'))}
                   </td>
                   <td className="p-6">
                     {sub.status === 'ACTIVE' ? (
@@ -320,12 +320,13 @@ export default function SubscriptionManagementClient({ subscriptions, users }: {
                 <label className="block text-xs font-bold text-primary uppercase tracking-widest mb-2 ml-1">Plan Type</label>
                 <select 
                   name="planType"
-                  defaultValue={selectedSub?.planType || "BASIC"}
+                  defaultValue={selectedSub?.planType || "Single Class"}
                   className="w-full bg-secondary/5 border border-secondary/50 rounded-xl px-4 py-3 text-sm focus:border-accent focus:ring-1 focus:ring-accent text-primary outline-none transition-all hover:bg-white appearance-none cursor-pointer"
                 >
-                  <option value="BASIC">Basic ($19/mo)</option>
-                  <option value="PREMIUM">Premium ($49/mo)</option>
-                  <option value="PRO">Pro ($99/mo)</option>
+                  <option value="Single Class">Single Class ($15/session)</option>
+                  <option value="Starter">Starter ($60/mo)</option>
+                  <option value="Standard">Standard ($96/mo)</option>
+                  <option value="Premium">Premium ($120/mo)</option>
                 </select>
               </div>
 

@@ -8,15 +8,98 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 
 export async function createSubscription(formData: FormData) {
-  throw new Error("Subscription system is being upgraded. Please manage packages from the Packages tab.");
+  const session = await getServerSession(authOptions);
+  if (!session || session.user.role !== "ADMIN") throw new Error("Unauthorized");
+
+  const userId = formData.get("userId") as string;
+  const planType = formData.get("planType") as string;
+  const status = formData.get("status") as string;
+
+  const packageDetails: Record<string, { price: number, totalSessions: number, validityDays: number }> = {
+    "Single Class": { price: 15, totalSessions: 1, validityDays: 30 },
+    "Starter": { price: 60, totalSessions: 4, validityDays: 30 },
+    "Standard": { price: 96, totalSessions: 8, validityDays: 30 },
+    "Premium": { price: 120, totalSessions: 12, validityDays: 30 },
+  };
+
+  const details = packageDetails[planType] || packageDetails["Starter"];
+
+  let dbPackage = await prisma.package.findFirst({ where: { name: planType } });
+  if (!dbPackage) {
+    dbPackage = await prisma.package.create({
+      data: {
+        name: planType,
+        price: details.price,
+        totalSessions: details.totalSessions,
+        validityDays: details.validityDays,
+      }
+    });
+  }
+
+  await prisma.studentPackage.create({
+    data: {
+      studentId: userId,
+      packageId: dbPackage.id,
+      totalSessions: dbPackage.totalSessions,
+      remainingSessions: dbPackage.totalSessions,
+      expiresAt: new Date(Date.now() + dbPackage.validityDays * 24 * 60 * 60 * 1000),
+      status: status
+    }
+  });
+
+  revalidatePath("/admin/subscriptions");
 }
 
 export async function updateSubscription(id: string, formData: FormData) {
-  throw new Error("Subscription system is being upgraded. Please manage packages from the Packages tab.");
+  const session = await getServerSession(authOptions);
+  if (!session || session.user.role !== "ADMIN") throw new Error("Unauthorized");
+
+  const planType = formData.get("planType") as string;
+  const status = formData.get("status") as string;
+
+  const packageDetails: Record<string, { price: number, totalSessions: number, validityDays: number }> = {
+    "Single Class": { price: 15, totalSessions: 1, validityDays: 30 },
+    "Starter": { price: 60, totalSessions: 4, validityDays: 30 },
+    "Standard": { price: 96, totalSessions: 8, validityDays: 30 },
+    "Premium": { price: 120, totalSessions: 12, validityDays: 30 },
+  };
+  const details = packageDetails[planType] || packageDetails["Starter"];
+
+  let dbPackage = await prisma.package.findFirst({ where: { name: planType } });
+  if (!dbPackage) {
+    dbPackage = await prisma.package.create({
+      data: {
+        name: planType,
+        price: details.price,
+        totalSessions: details.totalSessions,
+        validityDays: details.validityDays,
+      }
+    });
+  }
+
+  const existingPackage = await prisma.studentPackage.findUnique({ where: { id } });
+  if (existingPackage) {
+    await prisma.studentPackage.update({
+      where: { id },
+      data: {
+        packageId: dbPackage.id,
+        status: status,
+      }
+    });
+  }
+
+  revalidatePath("/admin/subscriptions");
 }
 
 export async function deleteSubscription(id: string) {
-  throw new Error("Subscription system is being upgraded. Please manage packages from the Packages tab.");
+  const session = await getServerSession(authOptions);
+  if (!session || session.user.role !== "ADMIN") throw new Error("Unauthorized");
+
+  await prisma.studentPackage.delete({
+    where: { id }
+  });
+
+  revalidatePath("/admin/subscriptions");
 }
 
 export async function createUser(formData: FormData) {

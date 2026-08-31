@@ -11,6 +11,9 @@ type Tutor = {
   email: string;
   createdAt: Date;
   isApproved: boolean;
+  experience?: string | null;
+  bio?: string | null;
+  qualifications?: string | null;
 };
 
 export default function TutorManagementClient({ tutors }: { tutors: Tutor[] }) {
@@ -18,6 +21,7 @@ export default function TutorManagementClient({ tutors }: { tutors: Tutor[] }) {
   const [statusFilter, setStatusFilter] = useState<string>("ALL");
   const [sortConfig, setSortConfig] = useState<{ key: keyof Tutor; direction: 'asc' | 'desc' } | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedTutor, setSelectedTutor] = useState<Tutor | null>(null);
   const itemsPerPage = 10;
 
   const processedTutors = useMemo(() => {
@@ -144,7 +148,13 @@ export default function TutorManagementClient({ tutors }: { tutors: Tutor[] }) {
                       </span>
                     )}
                   </td>
-                  <td className="p-6 text-right relative">
+                  <td className="p-6 text-right relative space-x-2 whitespace-nowrap">
+                    <button 
+                      onClick={() => setSelectedTutor(tutor)}
+                      className="px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-primary/70 bg-secondary/10 hover:bg-secondary/30 border border-secondary/50 rounded-lg transition-colors"
+                    >
+                      View Details
+                    </button>
                     {!tutor.isApproved ? (
                       <button 
                         onClick={() => {
@@ -187,6 +197,50 @@ export default function TutorManagementClient({ tutors }: { tutors: Tutor[] }) {
           </div>
         )}
       </div>
+
+      {selectedTutor && (
+        <div className="fixed inset-0 z-50 bg-primary/20 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl shadow-xl border border-secondary/30 max-w-2xl w-full p-8 relative animate-in fade-in zoom-in duration-300">
+            <button 
+              onClick={() => setSelectedTutor(null)}
+              className="absolute top-6 right-6 p-2 bg-secondary/20 hover:bg-secondary/40 text-primary rounded-full transition-colors"
+            >
+              <XCircle size={20} />
+            </button>
+            <h2 className="text-2xl font-black text-primary font-playfair mb-6">Tutor Details</h2>
+            <div className="space-y-4">
+              <div>
+                <p className="text-xs font-bold text-primary/50 uppercase tracking-widest">Name</p>
+                <p className="text-primary font-medium">{selectedTutor.name || 'N/A'}</p>
+              </div>
+              <div>
+                <p className="text-xs font-bold text-primary/50 uppercase tracking-widest">Email</p>
+                <p className="text-primary font-medium">{selectedTutor.email}</p>
+              </div>
+              <div>
+                <p className="text-xs font-bold text-primary/50 uppercase tracking-widest">Experience</p>
+                <p className="text-primary font-medium">{selectedTutor.experience || 'Not provided'}</p>
+              </div>
+              <div>
+                <p className="text-xs font-bold text-primary/50 uppercase tracking-widest">Bio / Why join?</p>
+                <p className="text-primary font-medium whitespace-pre-wrap">{selectedTutor.bio || 'Not provided'}</p>
+              </div>
+              {selectedTutor.qualifications && selectedTutor.qualifications.startsWith('CV: ') && (
+                <div>
+                  <p className="text-xs font-bold text-primary/50 uppercase tracking-widest">Resume / CV</p>
+                  <a 
+                    href={selectedTutor.qualifications.replace('CV: ', '')} 
+                    target="_blank"
+                    className="inline-block mt-1 px-4 py-2 bg-accent text-white text-xs font-bold uppercase tracking-widest rounded-lg hover:bg-primary transition-colors"
+                  >
+                    Download CV
+                  </a>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

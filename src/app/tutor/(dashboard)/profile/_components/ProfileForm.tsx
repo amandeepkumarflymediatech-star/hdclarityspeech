@@ -117,6 +117,87 @@ export default function ProfileForm({ user }: { user: any }) {
 
       <div className="space-y-2 group">
         <div className="flex justify-between items-end">
+          <label className="block text-[11px] font-black text-primary/70 uppercase tracking-widest ml-1 group-focus-within:text-accent transition-colors">Teaching Headline</label>
+        </div>
+        <input 
+          type="text" 
+          name="teachingHeadline"
+          defaultValue={user?.teachingHeadline || ""}
+          placeholder="e.g. Expert in Accent Neutralization"
+          className="w-full bg-secondary/5 border-2 border-transparent focus:border-accent/20 focus:bg-white px-4 py-3.5 text-sm font-medium text-primary outline-none transition-all rounded-2xl shadow-sm hover:bg-secondary/10"
+        />
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+        <div className="space-y-2 group">
+          <label className="block text-[11px] font-black text-primary/70 uppercase tracking-widest ml-1 group-focus-within:text-accent transition-colors">Phone Number</label>
+          <input 
+            type="tel" 
+            name="phone"
+            defaultValue={user?.phone || ""}
+            className="w-full bg-secondary/5 border-2 border-transparent focus:border-accent/20 focus:bg-white px-4 py-3.5 text-sm font-medium text-primary outline-none transition-all rounded-2xl shadow-sm hover:bg-secondary/10"
+          />
+        </div>
+        <div className="space-y-2 group">
+          <label className="block text-[11px] font-black text-primary/70 uppercase tracking-widest ml-1 group-focus-within:text-accent transition-colors">Timezone</label>
+          <input 
+            type="text" 
+            name="timezone"
+            defaultValue={user?.timezone || ""}
+            placeholder="e.g. EST, GMT+1"
+            className="w-full bg-secondary/5 border-2 border-transparent focus:border-accent/20 focus:bg-white px-4 py-3.5 text-sm font-medium text-primary outline-none transition-all rounded-2xl shadow-sm hover:bg-secondary/10"
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+        <div className="space-y-2 group">
+          <label className="block text-[11px] font-black text-primary/70 uppercase tracking-widest ml-1 group-focus-within:text-accent transition-colors">Languages Spoken</label>
+          <input 
+            type="text" 
+            name="languages"
+            defaultValue={user?.languages || ""}
+            placeholder="e.g. English, Spanish"
+            className="w-full bg-secondary/5 border-2 border-transparent focus:border-accent/20 focus:bg-white px-4 py-3.5 text-sm font-medium text-primary outline-none transition-all rounded-2xl shadow-sm hover:bg-secondary/10"
+          />
+        </div>
+        <div className="space-y-2 group">
+          <label className="block text-[11px] font-black text-primary/70 uppercase tracking-widest ml-1 group-focus-within:text-accent transition-colors">Teaching Levels</label>
+          <input 
+            type="text" 
+            name="teachingLevels"
+            defaultValue={user?.teachingLevels || ""}
+            placeholder="e.g. Beginner, Intermediate, Advanced"
+            className="w-full bg-secondary/5 border-2 border-transparent focus:border-accent/20 focus:bg-white px-4 py-3.5 text-sm font-medium text-primary outline-none transition-all rounded-2xl shadow-sm hover:bg-secondary/10"
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+        <div className="space-y-2 group">
+          <label className="block text-[11px] font-black text-primary/70 uppercase tracking-widest ml-1 group-focus-within:text-accent transition-colors">Teaching Ages</label>
+          <input 
+            type="text" 
+            name="teachingAges"
+            defaultValue={user?.teachingAges || ""}
+            placeholder="e.g. Adults, Children"
+            className="w-full bg-secondary/5 border-2 border-transparent focus:border-accent/20 focus:bg-white px-4 py-3.5 text-sm font-medium text-primary outline-none transition-all rounded-2xl shadow-sm hover:bg-secondary/10"
+          />
+        </div>
+        <div className="space-y-2 group">
+          <label className="block text-[11px] font-black text-primary/70 uppercase tracking-widest ml-1 group-focus-within:text-accent transition-colors">Teaching Style</label>
+          <input 
+            type="text" 
+            name="teachingStyle"
+            defaultValue={user?.teachingStyle || ""}
+            placeholder="e.g. Interactive, Formal"
+            className="w-full bg-secondary/5 border-2 border-transparent focus:border-accent/20 focus:bg-white px-4 py-3.5 text-sm font-medium text-primary outline-none transition-all rounded-2xl shadow-sm hover:bg-secondary/10"
+          />
+        </div>
+      </div>
+
+      <div className="space-y-2 group">
+        <div className="flex justify-between items-end">
           <label className="block text-[11px] font-black text-primary/70 uppercase tracking-widest ml-1 group-focus-within:text-accent transition-colors">Professional Bio</label>
           <span className="text-[10px] text-primary/40 font-bold uppercase tracking-widest">Supports formatting</span>
         </div>
@@ -125,6 +206,28 @@ export default function ProfileForm({ user }: { user: any }) {
           name="bio"
           defaultValue={user?.bio || ""}
           placeholder="I am a certified speech-language pathologist..."
+          className="w-full bg-secondary/5 border-2 border-transparent focus:border-accent/20 focus:bg-white p-5 text-sm font-medium text-primary outline-none transition-all resize-none rounded-2xl shadow-sm hover:bg-secondary/10 leading-relaxed"
+        ></textarea>
+      </div>
+
+      <div className="space-y-2 group">
+        <label className="block text-[11px] font-black text-primary/70 uppercase tracking-widest ml-1 group-focus-within:text-accent transition-colors">Experience</label>
+        <textarea 
+          rows={4}
+          name="experience"
+          defaultValue={user?.experience || ""}
+          placeholder="Detail your professional experience..."
+          className="w-full bg-secondary/5 border-2 border-transparent focus:border-accent/20 focus:bg-white p-5 text-sm font-medium text-primary outline-none transition-all resize-none rounded-2xl shadow-sm hover:bg-secondary/10 leading-relaxed"
+        ></textarea>
+      </div>
+
+      <div className="space-y-2 group">
+        <label className="block text-[11px] font-black text-primary/70 uppercase tracking-widest ml-1 group-focus-within:text-accent transition-colors">Qualifications</label>
+        <textarea 
+          rows={4}
+          name="qualifications"
+          defaultValue={user?.qualifications || ""}
+          placeholder="List your degrees, certifications, etc."
           className="w-full bg-secondary/5 border-2 border-transparent focus:border-accent/20 focus:bg-white p-5 text-sm font-medium text-primary outline-none transition-all resize-none rounded-2xl shadow-sm hover:bg-secondary/10 leading-relaxed"
         ></textarea>
       </div>
