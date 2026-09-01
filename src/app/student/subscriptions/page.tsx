@@ -24,6 +24,15 @@ export default async function StudentSubscriptionsPage() {
     orderBy: { createdAt: 'desc' }
   });
 
+  const packages = await prisma.package.findMany({
+    where: { isActive: true },
+    orderBy: { price: 'asc' }
+  });
+
+  const standaloneSession = await prisma.sessionType.findFirst({
+    where: { name: '1 Hour Session', isActive: true }
+  });
+
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 font-sans">
       
@@ -116,43 +125,49 @@ export default async function StudentSubscriptionsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
             
             {/* Standalone Class */}
-            <div className="bg-white border border-secondary/30 p-8 rounded-3xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col">
-              <h3 className="text-xl font-black text-primary font-playfair mb-2">Single Class</h3>
-              <p className="text-4xl font-black text-primary font-playfair tracking-tight mb-4">$15</p>
-              <p className="text-primary/70 font-sans text-sm mb-8 flex-1">Perfect for trying a class without a monthly commitment. Includes 1 class.</p>
-              <RazorpayCheckoutButton amount={15} packageId="single-class" label="Buy Single Class" />
-            </div>
-
-            {/* Starter */}
-            <div className="bg-white border border-secondary/30 p-8 rounded-3xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col">
-              <h3 className="text-xl font-black text-primary font-playfair mb-2">Starter</h3>
-              <p className="text-4xl font-black text-primary font-playfair tracking-tight mb-1">$60<span className="text-lg text-primary/50 font-sans">/mo</span></p>
-              <p className="text-[10px] font-bold text-accent uppercase tracking-widest mb-4">$15 per class</p>
-              <p className="text-primary/70 font-sans text-sm mb-8 flex-1">Includes 4 classes per month.</p>
-              <RazorpayCheckoutButton amount={60} packageId="starter-plan" label="Get Starter" />
-            </div>
-
-            {/* Standard */}
-            <div className="bg-white border border-secondary/30 p-8 rounded-3xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col">
-              <h3 className="text-xl font-black text-primary font-playfair mb-2">Standard</h3>
-              <p className="text-4xl font-black text-primary font-playfair tracking-tight mb-1">$96<span className="text-lg text-primary/50 font-sans">/mo</span></p>
-              <p className="text-[10px] font-bold text-accent uppercase tracking-widest mb-4">$12 per class — Save 20%</p>
-              <p className="text-primary/70 font-sans text-sm mb-8 flex-1">Includes 8 classes per month.</p>
-              <RazorpayCheckoutButton amount={96} packageId="standard-plan" label="Get Standard" />
-            </div>
-
-            {/* Premium */}
-            <div className="bg-gradient-to-br from-primary to-primary/90 text-white p-8 rounded-3xl shadow-xl border border-primary-light/10 relative overflow-hidden flex flex-col transform md:scale-105 z-10 hover:-translate-y-1 transition-all duration-300 mt-4 md:mt-0">
-              <div className="absolute top-0 right-0 bg-accent text-white px-4 py-1 text-[8px] font-bold uppercase tracking-widest rounded-bl-xl shadow-sm">
-                MOST POPULAR
+            {standaloneSession && (
+              <div className="bg-white border border-secondary/30 p-8 rounded-3xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                <h3 className="text-xl font-black text-primary font-playfair mb-2">{standaloneSession.name}</h3>
+                <p className="text-4xl font-black text-primary font-playfair tracking-tight mb-4">${standaloneSession.basePrice}</p>
+                <p className="text-primary/70 font-sans text-sm mb-8 flex-1">{standaloneSession.description}</p>
+                <RazorpayCheckoutButton amount={standaloneSession.basePrice} packageId={standaloneSession.id} label="Buy Single Class" />
               </div>
-              <h3 className="text-xl font-black font-playfair mb-2 mt-2">Premium</h3>
-              <p className="text-4xl font-black font-playfair tracking-tight mb-1">$120<span className="text-lg text-white/50 font-sans">/mo</span></p>
-              <p className="text-[10px] font-bold text-accent-light uppercase tracking-widest mb-4">$10 per class — Save 33%</p>
-              <p className="text-white/80 font-sans text-sm mb-8 flex-1">Includes 12 classes per month. The best value for dedicated learning.</p>
-              <RazorpayCheckoutButton amount={120} packageId="premium-plan" label="Get Premium" variant="dark" />
-            </div>
+            )}
 
+            {/* Packages */}
+            {packages.map((pkg) => {
+              const isPopular = pkg.isPopular;
+              const perClass = pkg.totalSessions > 0 ? Math.round(pkg.price / pkg.totalSessions) : pkg.price;
+              
+              return (
+                <div key={pkg.id} className={isPopular
+                  ? "bg-gradient-to-br from-primary to-primary/90 text-white p-8 rounded-3xl shadow-xl border border-primary-light/10 relative overflow-hidden flex flex-col transform md:scale-105 z-10 hover:-translate-y-1 transition-all duration-300 mt-4 md:mt-0"
+                  : "bg-white border border-secondary/30 p-8 rounded-3xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col"
+                }>
+                  {isPopular && (
+                    <div className="absolute top-0 right-0 bg-accent text-white px-4 py-1 text-[8px] font-bold uppercase tracking-widest rounded-bl-xl shadow-sm">
+                      MOST POPULAR
+                    </div>
+                  )}
+                  <h3 className={`text-xl font-black font-playfair mb-2 ${isPopular ? "mt-2" : "text-primary"}`}>{pkg.name}</h3>
+                  <p className={`text-4xl font-black font-playfair tracking-tight mb-1 ${!isPopular && 'text-primary'}`}>
+                    ${pkg.price}<span className={`text-lg font-sans ${isPopular ? 'text-white/50' : 'text-primary/50'}`}>/mo</span>
+                  </p>
+                  <p className={`text-[10px] font-bold uppercase tracking-widest mb-4 ${isPopular ? 'text-accent-light' : 'text-accent'}`}>
+                    ${perClass} per class
+                  </p>
+                  <p className={`font-sans text-sm mb-8 flex-1 ${isPopular ? 'text-white/80' : 'text-primary/70'}`}>
+                    {pkg.description}
+                  </p>
+                  <RazorpayCheckoutButton 
+                    amount={pkg.price} 
+                    packageId={pkg.id} 
+                    label={`Get ${pkg.name.split(' ')[0]}`} 
+                    variant={isPopular ? "dark" : "default"} 
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
 
