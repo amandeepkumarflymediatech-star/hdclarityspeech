@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import Razorpay from "razorpay";
 import crypto from "crypto";
+import { getUsdToInrRate } from "@/lib/exchange-rate";
 
 export async function POST(req: Request) {
   const keyId = process.env.RAZORPAY_KEY_ID;
@@ -25,8 +26,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Amount is required" }, { status: 400 });
     }
 
+    const conversionRate = await getUsdToInrRate();
+
     const options = {
-      amount: amount * 100, // Razorpay works in smallest currency unit (paise)
+      amount: Math.round(amount * conversionRate * 100), // Convert USD to INR and then to paise
       currency,
       receipt: `rcpt_${crypto.randomBytes(10).toString("hex")}`,
     };

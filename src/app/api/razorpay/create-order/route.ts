@@ -3,6 +3,7 @@ import Razorpay from "razorpay";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { getUsdToInrRate } from "@/lib/exchange-rate";
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID!,
@@ -41,7 +42,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const conversionRate = 80; // $1 USD = ₹80 INR approx
+    const conversionRate = await getUsdToInrRate();
 
     const order = await razorpay.orders.create({
       amount: Math.round(finalAmount * conversionRate * 100), // Convert USD to INR and then to paise
