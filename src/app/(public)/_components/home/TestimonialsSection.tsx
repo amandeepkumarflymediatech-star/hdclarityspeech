@@ -3,8 +3,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Star, ChevronLeft, ChevronRight, BadgeCheck } from 'lucide-react';
 
-export default function TestimonialsSection() {
-  const testimonials = [
+export default function TestimonialsSection({ initialTestimonials }: { initialTestimonials?: any[] }) {
+  const defaultTestimonials = [
     { name: 'Mazin', role: 'Sales Director', time: '2 months ago', text: 'I avoided presentations and feared losing the room. Now I lead global meetings with absolute confidence.', stars: 5 },
     { name: 'Tarun', role: 'Product Manager', time: '3 months ago', text: 'My ideas were great, but my delivery made them sound weak. The 1:1 sessions completely changed my professional presence.', stars: 5 },
     { name: 'Sarah', role: 'Founder', time: '4 months ago', text: 'Pitching to investors always made me second-guess myself. I command the room now. My last pitch secured full funding.', stars: 5 },
@@ -12,6 +12,8 @@ export default function TestimonialsSection() {
     { name: 'David', role: 'Software Engineer', time: '5 months ago', text: 'I got passed over for promotions because I was too quiet. My communication skills are now my biggest career asset.', stars: 5 },
     { name: 'Elena', role: 'Marketing Head', time: '2 weeks ago', text: 'English isn\'t my first language. I felt insecure speaking up. I present to international clients without a second thought.', stars: 5 },
   ];
+
+  const testimonials = initialTestimonials && initialTestimonials.length > 0 ? initialTestimonials : defaultTestimonials;
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);

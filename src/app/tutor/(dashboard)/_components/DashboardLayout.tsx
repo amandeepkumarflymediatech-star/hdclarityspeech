@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Calendar, Video, Settings, LogOut, Bell, Search, Menu, X, CircleDollarSign, Users, User } from "lucide-react";
+import { LayoutDashboard, Calendar, Video, Settings, LogOut, Bell, Menu, X, CircleDollarSign, Users, User } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import logoImg from "@/../public/logo.png";
@@ -94,14 +94,7 @@ export default function DashboardLayout({ children, user }: { children: React.Re
             <button className="md:hidden text-primary/70 p-2 hover:bg-secondary/30 rounded-xl transition-colors" onClick={() => setIsMobileMenuOpen(true)}>
               <Menu size={24} />
             </button>
-            <div className="relative hidden sm:block w-64 md:w-96">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-primary/40" size={18} />
-              <input 
-                type="text" 
-                placeholder="Search anything..." 
-                className="w-full bg-secondary/10 border border-secondary/40 pl-12 pr-4 py-2.5 text-sm focus:border-accent focus:ring-1 focus:ring-accent text-primary outline-none transition-all placeholder-primary/40 rounded-full"
-              />
-            </div>
+
           </div>
           
           <div className="flex items-center gap-6">

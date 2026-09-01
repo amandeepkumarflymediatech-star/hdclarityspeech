@@ -545,8 +545,25 @@ import MethodSection from './_components/home/MethodSection';
 import ProgramsSection from './_components/home/ProgramsSection';
 import TestimonialsSection from './_components/home/TestimonialsSection';
 import FinalCtaSection from './_components/home/FinalCtaSection';
+import { prisma } from '@/lib/db';
+import { formatDistanceToNow } from 'date-fns';
 
-export default function HomePage() {
+export default async function HomePage() {
+  const reviews = await prisma.review.findMany({
+    where: { isActive: true },
+    include: { student: true },
+    orderBy: { createdAt: 'desc' },
+    take: 10,
+  });
+
+  const dynamicTestimonials = reviews.map(r => ({
+    name: r.student?.name || 'Anonymous',
+    role: 'Student',
+    time: formatDistanceToNow(r.createdAt, { addSuffix: true }),
+    text: r.content,
+    stars: r.rating
+  }));
+
   return (
     <div className="w-full bg-[#F7F5F0]">
       <HeroSection />
@@ -554,7 +571,7 @@ export default function HomePage() {
       <TransformationSection />
       <MethodSection />
       <ProgramsSection />
-      <TestimonialsSection />
+      <TestimonialsSection initialTestimonials={dynamicTestimonials} />
       <FinalCtaSection />
     </div>
   );

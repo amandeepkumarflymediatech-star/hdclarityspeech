@@ -14,9 +14,14 @@ export async function createSeo(formData: FormData) {
   const description = formData.get("description") as string;
   const keywords = formData.get("keywords") as string;
   const ogImage = formData.get("ogImage") as string;
+  const canonicalUrl = formData.get("canonicalUrl") as string;
+  const ogTitle = formData.get("ogTitle") as string;
+  const ogDescription = formData.get("ogDescription") as string;
+  const headerScripts = formData.get("headerScripts") as string;
+  const footerScripts = formData.get("footerScripts") as string;
 
   await prisma.seoMetadata.create({
-    data: { pagePath, title, description, keywords, ogImage }
+    data: { pagePath, title, description, keywords, ogImage, canonicalUrl, ogTitle, ogDescription, headerScripts, footerScripts }
   });
 
   revalidatePath("/admin/seo");
@@ -31,10 +36,15 @@ export async function updateSeo(id: string, formData: FormData) {
   const description = formData.get("description") as string;
   const keywords = formData.get("keywords") as string;
   const ogImage = formData.get("ogImage") as string;
+  const canonicalUrl = formData.get("canonicalUrl") as string;
+  const ogTitle = formData.get("ogTitle") as string;
+  const ogDescription = formData.get("ogDescription") as string;
+  const headerScripts = formData.get("headerScripts") as string;
+  const footerScripts = formData.get("footerScripts") as string;
 
   await prisma.seoMetadata.update({
     where: { id },
-    data: { pagePath, title, description, keywords, ogImage }
+    data: { pagePath, title, description, keywords, ogImage, canonicalUrl, ogTitle, ogDescription, headerScripts, footerScripts }
   });
 
   revalidatePath("/admin/seo");

@@ -80,7 +80,7 @@ export default function MethodSection() {
               </div>
             </div>
             <div className="card-reveal flex-1 w-full relative aspect-square md:aspect-[4/3] overflow-hidden rounded-2xl bg-secondary">
-              <Image src="/3 Steps/1.png" alt="Assess" fill className="object-cover" />
+              <Image src="/3 Steps/1.png" alt="Assess" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
             </div>
           </div>
 
@@ -95,7 +95,7 @@ export default function MethodSection() {
               </div>
             </div>
             <div className="card-reveal flex-1 w-full relative aspect-square md:aspect-[4/3] overflow-hidden rounded-2xl bg-white/5">
-              <Image src="/3 Steps/The 11 Crucible.png" alt="1:1 Coaching" fill className="object-cover" />
+              <Image src="/3 Steps/The 11 Crucible.png" alt="1:1 Coaching" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
             </div>
           </div>
 
@@ -110,7 +110,7 @@ export default function MethodSection() {
               </div>
             </div>
             <div className="card-reveal flex-1 w-full relative aspect-square md:aspect-[4/3] overflow-hidden rounded-2xl bg-white/10">
-              <Image src="/3 Steps/Execute in HD.png" alt="Perform" fill className="object-cover" />
+              <Image src="/3 Steps/Execute in HD.png" alt="Perform" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
             </div>
           </div>
         </div>

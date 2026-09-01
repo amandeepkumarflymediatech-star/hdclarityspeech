@@ -484,14 +484,19 @@ model BlogPost {
 
 // Global SEO Configuration
 model SeoMetadata {
-  id          String   @id @default(uuid())
-  pagePath    String   @unique // e.g., "/", "/about", "/contact"
-  title       String
-  description String?  @db.Text
-  keywords    String?
-  ogImage     String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id            String   @id @default(uuid())
+  pagePath      String   @unique // e.g., "/", "/about", "/contact"
+  title         String
+  description   String?  @db.Text
+  keywords      String?
+  ogImage       String?
+  canonicalUrl  String?
+  ogTitle       String?
+  ogDescription String?  @db.Text
+  headerScripts String?  @db.Text
+  footerScripts String?  @db.Text
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 model PasswordResetToken {

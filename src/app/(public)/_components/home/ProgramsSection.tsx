@@ -88,7 +88,7 @@ export default function ProgramsSection() {
                 {/* Background Image */}
                 <div className={`absolute inset-0 z-0 transition-opacity duration-1000 ${isActive ? 'opacity-50 mix-blend-multiply grayscale' : 'opacity-0'}`}>
                    {program.bgImage && (
-                     <Image src={program.bgImage} alt={program.title} fill className="object-cover" />
+                     <Image src={program.bgImage} alt={program.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
                    )}
                 </div>
 
