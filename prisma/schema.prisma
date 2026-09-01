@@ -171,11 +171,13 @@ model Package {
   id              String   @id @default(uuid())
   name            String
   description     String?  @db.Text
+  features        String?  @db.Text // JSON string for bullet points
   totalSessions   Int
   price           Float
   discount        Float?
   validityDays    Int
   isActive        Boolean  @default(true)
+  isPopular       Boolean  @default(false)
   
   sessionTypes    PackageSessionType[]
   studentPackages StudentPackage[]

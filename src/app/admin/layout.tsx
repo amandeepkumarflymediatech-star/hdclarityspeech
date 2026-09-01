@@ -23,7 +23,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { name: 'Users', href: '/admin/users', icon: Users },
     { name: 'Tutor Applications', href: '/admin/tutors', icon: GraduationCap },
     { name: 'Enrollments', href: '/admin/enrollments', icon: BookOpen },
-    { name: 'Packages', href: '/admin/subscriptions', icon: CreditCard },
+    { name: 'Pricing Tiers', href: '/admin/pricing', icon: CreditCard },
     { name: 'Payments', href: '/admin/payments', icon: Banknote },
     { name: 'Coupons', href: '/admin/coupons', icon: Tag },
     { name: 'Contacts', href: '/admin/contacts', icon: MessageSquare },
