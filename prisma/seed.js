@@ -8,158 +8,181 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
-    return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (g && (g = 0, op[0] && (_ = 0)), _) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var client_1 = require("@prisma/client");
-var bcryptjs_1 = require("bcryptjs");
-var prisma = new client_1.PrismaClient();
+const client_1 = require("@prisma/client");
+const bcrypt = require('bcryptjs');
+const prisma = new client_1.PrismaClient();
 function main() {
-    return __awaiter(this, void 0, void 0, function () {
-        var hashedPassword, admin, tutor1, tutor2, student, review1, review2;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    console.log('Seeding database...');
-                    return [4 /*yield*/, bcryptjs_1.hash('password123', 10)];
-                case 1:
-                    hashedPassword = _a.sent();
-                    return [4 /*yield*/, prisma.user.upsert({
-                            where: { email: 'admin@hdclarity.com' },
-                            update: { password: hashedPassword },
-                            create: {
-                                email: 'admin@hdclarity.com',
-                                name: 'Admin User',
-                                password: hashedPassword,
-                                role: 'ADMIN',
-                            },
-                        })];
-                case 2:
-                    admin = _a.sent();
-                    return [4 /*yield*/, prisma.user.upsert({
-                            where: { email: 'tutor1@hdclarity.com' },
-                            update: {
-                                password: hashedPassword,
-                                isApproved: true,
-                                bio: 'Expert in corporate communications and accent neutralization with over 10 years of experience.',
-                                experience: '10+ years coaching Fortune 500 executives.',
-                                languages: 'English, Spanish',
-                                image: '/tutor-1.jpg',
-                            },
-                            create: {
-                                email: 'tutor1@hdclarity.com',
-                                name: 'Sarah Tutor',
-                                password: hashedPassword,
-                                role: 'TUTOR',
-                                isApproved: true,
-                                bio: 'Expert in corporate communications and accent neutralization with over 10 years of experience.',
-                                experience: '10+ years coaching Fortune 500 executives.',
-                                languages: 'English, Spanish',
-                                image: '/tutor-1.jpg',
-                            },
-                        })];
-                case 3:
-                    tutor1 = _a.sent();
-                    return [4 /*yield*/, prisma.user.upsert({
-                            where: { email: 'tutor2@hdclarity.com' },
-                            update: {
-                                password: hashedPassword,
-                                isApproved: true,
-                                bio: 'Specializes in public speaking, stage presence, and overcoming speech anxiety.',
-                                experience: '7 years as a professional speaker and vocal coach.',
-                                languages: 'English, French',
-                                image: '/tutor-2.jpg',
-                            },
-                            create: {
-                                email: 'tutor2@hdclarity.com',
-                                name: 'John Tutor',
-                                password: hashedPassword,
-                                role: 'TUTOR',
-                                isApproved: true,
-                                bio: 'Specializes in public speaking, stage presence, and overcoming speech anxiety.',
-                                experience: '7 years as a professional speaker and vocal coach.',
-                                languages: 'English, French',
-                                image: '/tutor-2.jpg',
-                            },
-                        })];
-                case 4:
-                    tutor2 = _a.sent();
-                    return [4 /*yield*/, prisma.user.upsert({
-                            where: { email: 'student@example.com' },
-                            update: { password: hashedPassword },
-                            create: {
-                                email: 'student@example.com',
-                                name: 'Alice Student',
-                                password: hashedPassword,
-                                role: 'STUDENT',
-                            },
-                        })];
-                case 5:
-                    student = _a.sent();
-                    return [4 /*yield*/, prisma.review.create({
-                            data: {
-                                studentId: student.id,
-                                tutorId: tutor1.id,
-                                rating: 5,
-                                content: 'The 1:1 sessions completely changed my approach. I gained confidence in just 3 weeks!',
-                            }
-                        })];
-                case 6:
-                    review1 = _a.sent();
-                    return [4 /*yield*/, prisma.review.create({
-                            data: {
-                                studentId: student.id,
-                                tutorId: tutor2.id,
-                                rating: 5,
-                                content: 'Flexible scheduling allowed me to learn while working full time. Highly recommend to everyone.',
-                            }
-                        })];
-                case 7:
-                    review2 = _a.sent();
-                    console.log({ admin: admin, tutor1: tutor1, tutor2: tutor2, student: student, review1: review1, review2: review2 });
-                    console.log('Database seeded successfully!');
-                    return [2 /*return*/];
-            }
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log('Seeding database...');
+        const hashedPassword = yield bcrypt.hash('password123', 10);
+        // 1. Create Admin
+        const admin = yield prisma.user.upsert({
+            where: { email: 'admin@hdclarity.com' },
+            update: { password: hashedPassword },
+            create: {
+                email: 'admin@hdclarity.com',
+                name: 'Admin User',
+                password: hashedPassword,
+                role: 'ADMIN',
+            },
         });
+        // 2. Create Tutors
+        const tutor1 = yield prisma.user.upsert({
+            where: { email: 'tutor1@hdclarity.com' },
+            update: {
+                password: hashedPassword,
+                isApproved: true,
+                bio: 'Expert in corporate communications and accent neutralization with over 10 years of experience.',
+                experience: '10+ years coaching Fortune 500 executives.',
+                languages: 'English, Spanish',
+                image: '/tutor-1.jpg',
+            },
+            create: {
+                email: 'tutor1@hdclarity.com',
+                name: 'Sarah Tutor',
+                password: hashedPassword,
+                role: 'TUTOR',
+                isApproved: true,
+                bio: 'Expert in corporate communications and accent neutralization with over 10 years of experience.',
+                experience: '10+ years coaching Fortune 500 executives.',
+                languages: 'English, Spanish',
+                image: '/tutor-1.jpg',
+            },
+        });
+        const tutor2 = yield prisma.user.upsert({
+            where: { email: 'tutor2@hdclarity.com' },
+            update: {
+                password: hashedPassword,
+                isApproved: true,
+                bio: 'Specializes in public speaking, stage presence, and overcoming speech anxiety.',
+                experience: '7 years as a professional speaker and vocal coach.',
+                languages: 'English, French',
+                image: '/tutor-2.jpg',
+            },
+            create: {
+                email: 'tutor2@hdclarity.com',
+                name: 'John Tutor',
+                password: hashedPassword,
+                role: 'TUTOR',
+                isApproved: true,
+                bio: 'Specializes in public speaking, stage presence, and overcoming speech anxiety.',
+                experience: '7 years as a professional speaker and vocal coach.',
+                languages: 'English, French',
+                image: '/tutor-2.jpg',
+            },
+        });
+        // 3. Create Student
+        const student = yield prisma.user.upsert({
+            where: { email: 'student@example.com' },
+            update: { password: hashedPassword },
+            create: {
+                email: 'student@example.com',
+                name: 'Alice Student',
+                password: hashedPassword,
+                role: 'STUDENT',
+            },
+        });
+        // 4. Create Standalone SessionType
+        console.log('Checking for existing SessionType (Standalone)...');
+        let standaloneSession = yield prisma.sessionType.findFirst({
+            where: { name: '1 Hour Session' }
+        });
+        if (!standaloneSession) {
+            console.log('Creating SessionType (Standalone)...');
+            standaloneSession = yield prisma.sessionType.create({
+                data: {
+                    name: '1 Hour Session',
+                    description: 'A 60-minute standalone 1-on-1 coaching session.',
+                    durationMinutes: 60,
+                    basePrice: 15.00,
+                    isActive: true,
+                }
+            });
+        }
+        // 5. Create Packages
+        console.log('Checking and Creating Packages...');
+        // Package 1: 96 USD for 8 classes (12 USD/hr)
+        let package1 = yield prisma.package.findFirst({ where: { name: '8 Classes / Month' } });
+        if (!package1) {
+            package1 = yield prisma.package.create({
+                data: {
+                    name: '8 Classes / Month',
+                    description: 'Get 8 classes a month with an effective rate of 12 USD/hr.',
+                    totalSessions: 8,
+                    price: 96.00,
+                    validityDays: 30,
+                    isActive: true,
+                    features: JSON.stringify([
+                        "8 Sessions included",
+                        "Effective rate: 12 USD/hr",
+                        "Valid for 1 month"
+                    ]),
+                    sessionTypes: {
+                        create: [
+                            { sessionTypeId: standaloneSession.id }
+                        ]
+                    }
+                }
+            });
+        }
+        // Package 2: 120 USD for 12 classes (10 USD/hr)
+        let package2 = yield prisma.package.findFirst({ where: { name: '12 Classes / Month' } });
+        if (!package2) {
+            package2 = yield prisma.package.create({
+                data: {
+                    name: '12 Classes / Month',
+                    description: 'Our best value! Get 12 classes a month with an effective rate of 10 USD/hr.',
+                    totalSessions: 12,
+                    price: 120.00,
+                    validityDays: 30,
+                    isActive: true,
+                    isPopular: true,
+                    features: JSON.stringify([
+                        "12 Sessions included",
+                        "Effective rate: 10 USD/hr",
+                        "Valid for 1 month"
+                    ]),
+                    sessionTypes: {
+                        create: [
+                            { sessionTypeId: standaloneSession.id }
+                        ]
+                    }
+                }
+            });
+        }
+        // Package 3: 60 USD for 4 classes (15 USD/hr)
+        let package3 = yield prisma.package.findFirst({ where: { name: '4 Classes / Month' } });
+        if (!package3) {
+            package3 = yield prisma.package.create({
+                data: {
+                    name: '4 Classes / Month',
+                    description: 'Get 4 classes a month with an effective rate of 15 USD/hr.',
+                    totalSessions: 4,
+                    price: 60.00,
+                    validityDays: 30,
+                    isActive: true,
+                    features: JSON.stringify([
+                        "4 Sessions included",
+                        "Effective rate: 15 USD/hr",
+                        "Valid for 1 month"
+                    ]),
+                    sessionTypes: {
+                        create: [
+                            { sessionTypeId: standaloneSession.id }
+                        ]
+                    }
+                }
+            });
+        }
+        console.log('Database seeded successfully with new packages!');
     });
 }
 main()
-    .catch(function (e) {
+    .catch((e) => {
     console.error(e);
     process.exit(1);
 })
-    .finally(function () { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, prisma.$disconnect()];
-            case 1:
-                _a.sent();
-                return [2 /*return*/];
-        }
-    });
-}); });
+    .finally(() => __awaiter(void 0, void 0, void 0, function* () {
+    yield prisma.$disconnect();
+}));

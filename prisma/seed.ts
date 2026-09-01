@@ -67,7 +67,7 @@ async function main() {
     },
   });
 
-  // 3. Create Student and Subscription
+  // 3. Create Student
   const student = await prisma.user.upsert({
     where: { email: 'student@example.com' },
     update: { password: hashedPassword },
@@ -79,27 +79,105 @@ async function main() {
     },
   });
 
-  // 4. Create Reviews
-  const review1 = await (prisma as any).review.create({
-    data: {
-      studentId: student.id,
-      tutorId: tutor1.id,
-      rating: 5,
-      content: 'The 1:1 sessions completely changed my approach. I gained confidence in just 3 weeks!',
-    }
+  // 4. Create Standalone SessionType
+  console.log('Checking for existing SessionType (Standalone)...');
+  let standaloneSession = await prisma.sessionType.findFirst({
+    where: { name: '1 Hour Session' }
   });
 
-  const review2 = await (prisma as any).review.create({
-    data: {
-      studentId: student.id,
-      tutorId: tutor2.id,
-      rating: 5,
-      content: 'Flexible scheduling allowed me to learn while working full time. Highly recommend to everyone.',
-    }
-  });
+  if (!standaloneSession) {
+    console.log('Creating SessionType (Standalone)...');
+    standaloneSession = await prisma.sessionType.create({
+      data: {
+        name: '1 Hour Session',
+        description: 'A 60-minute standalone 1-on-1 coaching session.',
+        durationMinutes: 60,
+        basePrice: 15.00,
+        isActive: true,
+      }
+    });
+  }
 
-  console.log({ admin, tutor1, tutor2, student, review1, review2 });
-  console.log('Database seeded successfully!');
+  // 5. Create Packages
+  console.log('Checking and Creating Packages...');
+  
+  // Package 1: 96 USD for 8 classes (12 USD/hr)
+  let package1 = await prisma.package.findFirst({ where: { name: '8 Classes / Month' } });
+  if (!package1) {
+    package1 = await prisma.package.create({
+      data: {
+        name: '8 Classes / Month',
+        description: 'Get 8 classes a month with an effective rate of 12 USD/hr.',
+        totalSessions: 8,
+        price: 96.00,
+        validityDays: 30,
+        isActive: true,
+        features: JSON.stringify([
+          "8 Sessions included",
+          "Effective rate: 12 USD/hr",
+          "Valid for 1 month"
+        ]),
+        sessionTypes: {
+          create: [
+            { sessionTypeId: standaloneSession.id }
+          ]
+        }
+      }
+    });
+  }
+
+  // Package 2: 120 USD for 12 classes (10 USD/hr)
+  let package2 = await prisma.package.findFirst({ where: { name: '12 Classes / Month' } });
+  if (!package2) {
+    package2 = await prisma.package.create({
+      data: {
+        name: '12 Classes / Month',
+        description: 'Our best value! Get 12 classes a month with an effective rate of 10 USD/hr.',
+        totalSessions: 12,
+        price: 120.00,
+        validityDays: 30,
+        isActive: true,
+        isPopular: true,
+        features: JSON.stringify([
+          "12 Sessions included",
+          "Effective rate: 10 USD/hr",
+          "Valid for 1 month"
+        ]),
+        sessionTypes: {
+          create: [
+            { sessionTypeId: standaloneSession.id }
+          ]
+        }
+      }
+    });
+  }
+
+  // Package 3: 60 USD for 4 classes (15 USD/hr)
+  let package3 = await prisma.package.findFirst({ where: { name: '4 Classes / Month' } });
+  if (!package3) {
+    package3 = await prisma.package.create({
+      data: {
+        name: '4 Classes / Month',
+        description: 'Get 4 classes a month with an effective rate of 15 USD/hr.',
+        totalSessions: 4,
+        price: 60.00,
+        validityDays: 30,
+        isActive: true,
+        features: JSON.stringify([
+          "4 Sessions included",
+          "Effective rate: 15 USD/hr",
+          "Valid for 1 month"
+        ]),
+        sessionTypes: {
+          create: [
+            { sessionTypeId: standaloneSession.id }
+          ]
+        }
+      }
+    });
+  }
+
+  console.log('Database seeded successfully with new packages!');
 }
 
 main()
