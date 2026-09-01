@@ -137,7 +137,7 @@ export default function UserManagementClient({ users }: { users: User[] }) {
               <option value="ALL">All Roles</option>
               <option value="STUDENT">Student</option>
               <option value="TUTOR">Tutor</option>
-              <option value="ADMIN">Admin</option>
+              {/* <option value="ADMIN">Admin</option> */}
             </select>
           </div>
         </div>

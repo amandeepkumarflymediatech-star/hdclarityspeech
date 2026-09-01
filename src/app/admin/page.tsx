@@ -3,6 +3,8 @@ import { prisma } from "@/lib/db";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import Link from "next/link";
+import RevenueChart from "@/components/admin/RevenueChart";
 
 export default async function AdminDashboard() {
   const session = await getServerSession(authOptions);
@@ -29,6 +31,64 @@ export default async function AdminDashboard() {
     { name: 'Upcoming Sessions', value: activeSessions.toString(), change: 'Current', icon: Activity },
   ];
 
+  // Get all orders for the current year to calculate monthly revenue
+  const currentYear = new Date().getFullYear();
+  const yearlyOrders = await prisma.order.findMany({
+    where: { 
+      status: 'PAID',
+      createdAt: {
+        gte: new Date(`${currentYear}-01-01T00:00:00.000Z`),
+        lte: new Date(`${currentYear}-12-31T23:59:59.999Z`)
+      }
+    }
+  });
+
+  const monthlyRevenueData = Array(12).fill(0);
+  yearlyOrders.forEach(order => {
+    const monthIndex = new Date(order.createdAt).getMonth();
+    monthlyRevenueData[monthIndex] += order.amount;
+  });
+  
+  const maxRevenue = Math.max(...monthlyRevenueData, 100);
+
+  // Fetch recent activity
+  const recentOrders = await prisma.order.findMany({
+    take: 5,
+    orderBy: { createdAt: 'desc' },
+    include: { student: true, package: true }
+  });
+
+  const recentUsers = await prisma.user.findMany({
+    take: 5,
+    orderBy: { createdAt: 'desc' }
+  });
+
+  const formatTimeAgo = (date: Date) => {
+    const hours = Math.floor((new Date().getTime() - date.getTime()) / (1000 * 60 * 60));
+    if (hours < 1) return 'Just now';
+    if (hours < 24) return `${hours} hrs ago`;
+    return `${Math.floor(hours / 24)} days ago`;
+  };
+
+  const combinedActivity = [
+    ...recentOrders.map(o => ({
+      title: o.status === 'PAID' ? 'New package purchase' : (o.status === 'FAILED' ? 'Payment failed' : 'Order pending'),
+      desc: o.package 
+        ? `${o.student?.name || o.student?.email} ordered ${o.package.name}` 
+        : `${o.student?.name || o.student?.email} ordered a session`,
+      time: formatTimeAgo(o.createdAt),
+      timestamp: o.createdAt.getTime(),
+      icon: o.status === 'FAILED' ? DollarSign : CreditCard
+    })),
+    ...recentUsers.map(u => ({
+      title: 'New user registered',
+      desc: `${u.name || u.email} joined as ${u.role}`,
+      time: formatTimeAgo(u.createdAt),
+      timestamp: u.createdAt.getTime(),
+      icon: Users
+    }))
+  ].sort((a, b) => b.timestamp - a.timestamp).slice(0, 4);
+
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 font-sans">
       
@@ -38,11 +98,6 @@ export default async function AdminDashboard() {
           <h1 className="text-3xl sm:text-4xl font-black text-primary tracking-tight font-playfair">Dashboard</h1>
           <p className="text-primary/70 mt-2 font-sans text-base sm:text-lg">Welcome back. Here's what's happening today.</p>
         </div>
-        {/* <div className="flex gap-4 w-full sm:w-auto">
-          <button className="w-full sm:w-auto px-8 py-3.5 bg-white border border-secondary/50 hover:bg-secondary/10 hover:border-primary text-primary font-bold uppercase tracking-wider text-sm transition-all rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
-            Export Report
-          </button>
-        </div> */}
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -71,19 +126,9 @@ export default async function AdminDashboard() {
             <h3 className="text-xl font-black text-primary font-playfair tracking-tight">Revenue Analytics</h3>
             <select className="bg-secondary/10 border border-secondary/50 rounded-xl px-4 py-2 text-xs font-bold text-primary outline-none uppercase tracking-widest focus:border-accent focus:ring-1 focus:ring-accent transition-all hover:bg-white cursor-pointer">
               <option>This Year</option>
-              <option>Last Year</option>
             </select>
           </div>
-          <div className="h-64 flex items-end justify-between gap-2 sm:gap-4 px-2">
-            {[40, 70, 45, 90, 65, 85, 120, 95, 110, 80, 130, 100].map((h, i) => (
-              <div key={i} className="w-full bg-secondary/20 border border-secondary/30 rounded-t-xl relative group hover:bg-secondary/40 transition-colors overflow-hidden" style={{ height: '100%' }}>
-                <div className="absolute bottom-0 w-full bg-primary rounded-t-xl transition-all duration-500 group-hover:bg-accent" style={{ height: `${(h / 150) * 100}%` }}></div>
-              </div>
-            ))}
-          </div>
-          <div className="flex justify-between mt-6 text-[10px] sm:text-xs font-bold text-primary/50 px-2 uppercase tracking-widest">
-            <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span>
-          </div>
+          <RevenueChart monthlyData={monthlyRevenueData} />
         </div>
 
         <div className="bg-white border border-secondary/30 rounded-3xl flex flex-col shadow-sm overflow-hidden">
@@ -91,27 +136,26 @@ export default async function AdminDashboard() {
              <h3 className="text-xl font-black text-primary font-playfair tracking-tight">Recent Activity</h3>
           </div>
           <div className="space-y-0 flex-1">
-            {[
-              { title: 'New package purchase', desc: 'Alice bought Premium Plan', time: '2 hrs ago', icon: CreditCard },
-              { title: 'New user registered', desc: 'John Doe joined the platform', time: '5 hrs ago', icon: Users },
-              { title: 'Session completed', desc: 'Sarah finished a 1hr session', time: '1 day ago', icon: Activity },
-              { title: 'Payment failed', desc: 'Failed charge for Mark', time: '2 days ago', icon: DollarSign },
-            ].map((item, i) => (
-              <div key={i} className="flex gap-4 p-6 border-b border-secondary/30 last:border-0 hover:bg-gray-50 transition-colors group">
-                <div className={`p-3 rounded-2xl shrink-0 bg-secondary/30 text-primary border border-secondary/50 group-hover:bg-accent group-hover:text-white group-hover:border-accent transition-colors duration-300 shadow-sm`}>
-                  <item.icon size={18} />
+            {combinedActivity.length === 0 ? (
+              <div className="p-6 text-center text-sm text-primary/50">No recent activity.</div>
+            ) : (
+              combinedActivity.map((item, i) => (
+                <div key={i} className="flex gap-4 p-6 border-b border-secondary/30 last:border-0 hover:bg-gray-50 transition-colors group">
+                  <div className={`p-3 rounded-2xl shrink-0 bg-secondary/30 text-primary border border-secondary/50 group-hover:bg-accent group-hover:text-white group-hover:border-accent transition-colors duration-300 shadow-sm`}>
+                    <item.icon size={18} />
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-primary">{item.title}</p>
+                    <p className="text-xs text-primary/70 mt-1 font-sans">{item.desc}</p>
+                    <p className="text-[10px] text-accent mt-2 font-bold uppercase tracking-widest">{item.time}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm font-bold text-primary">{item.title}</p>
-                  <p className="text-xs text-primary/70 mt-1 font-sans">{item.desc}</p>
-                  <p className="text-[10px] text-accent mt-2 font-bold uppercase tracking-widest">{item.time}</p>
-                </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
-          <button className="w-full py-5 text-xs font-bold text-primary bg-secondary/10 border-t border-secondary/30 hover:text-accent hover:bg-secondary/20 transition uppercase tracking-widest">
+          <Link href="/admin/payments" className="block text-center w-full py-5 text-xs font-bold text-primary bg-secondary/10 border-t border-secondary/30 hover:text-accent hover:bg-secondary/20 transition uppercase tracking-widest">
             View All Activity
-          </button>
+          </Link>
         </div>
       </div>
     </div>
