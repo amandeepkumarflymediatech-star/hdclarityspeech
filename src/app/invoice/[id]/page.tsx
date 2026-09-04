@@ -26,9 +26,37 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
     include: {
       package: true,
       student: true,
-      payment: true
+      payment: true,
+      coupon: true
     }
   });
+
+  if (!order) {
+    return (
+      <div className="p-8 max-w-3xl mx-auto text-center mt-20">
+        <h1 className="text-2xl font-black text-primary font-playfair mb-4">Invoice Not Found</h1>
+        <p className="text-primary/70 font-sans mb-8">We couldn't find the requested invoice or you don't have access to it.</p>
+        <Link href="/student/subscriptions" className="text-accent font-bold hover:underline">Return to Subscriptions</Link>
+      </div>
+    );
+  }
+
+  let basePrice = order.package?.price || 0;
+  let discountAmount = 0;
+  
+  if (order.coupon) {
+    if (order.coupon.discountType === "PERCENTAGE") {
+      discountAmount = (basePrice * order.coupon.discountValue) / 100;
+    } else if (order.coupon.discountType === "FIXED_AMOUNT") {
+      discountAmount = order.coupon.discountValue;
+    }
+  }
+  
+  const expectedPreTaxAmount = Math.max(0, basePrice - discountAmount);
+  const isIndianStudent = order.amount > expectedPreTaxAmount + 0.1;
+  
+  const preTaxAmount = isIndianStudent ? order.amount / 1.18 : order.amount;
+  const gstAmount = isIndianStudent ? order.amount - preTaxAmount : 0;
 
   if (!order) {
     return (
@@ -104,7 +132,7 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
                   <p className="text-xs text-primary/60 mt-1">Valid for {order.package?.validityDays || 0} days</p>
                 </td>
                 <td className="py-6 text-center font-bold text-primary/80">{order.package?.totalSessions || 1}</td>
-                <td className="py-6 text-right font-bold text-primary">${order.amount.toFixed(2)}</td>
+                <td className="py-6 text-right font-bold text-primary">${basePrice.toFixed(2)}</td>
               </tr>
             </tbody>
           </table>
@@ -114,12 +142,25 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
             <div className="w-1/2">
               <div className="flex justify-between py-3 border-b border-gray-100 text-sm text-primary/70">
                 <span>Subtotal</span>
-                <span>${order.amount.toFixed(2)}</span>
+                <span>${basePrice.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between py-3 border-b border-gray-100 text-sm text-primary/70">
-                <span>Tax (0%)</span>
-                <span>$0.00</span>
-              </div>
+              {discountAmount > 0 && (
+                <div className="flex justify-between py-3 border-b border-gray-100 text-sm text-primary/70">
+                  <span>Discount</span>
+                  <span className="text-green-600">-${discountAmount.toFixed(2)}</span>
+                </div>
+              )}
+              {isIndianStudent ? (
+                <div className="flex justify-between py-3 border-b border-gray-100 text-sm text-primary/70">
+                  <span>Tax (18% GST)</span>
+                  <span>${gstAmount.toFixed(2)}</span>
+                </div>
+              ) : (
+                <div className="flex justify-between py-3 border-b border-gray-100 text-sm text-primary/70">
+                  <span>Tax (0%)</span>
+                  <span>$0.00</span>
+                </div>
+              )}
               <div className="flex justify-between py-4 text-xl font-black text-primary font-playfair">
                 <span>Total Paid</span>
                 <span className="text-accent">${order.amount.toFixed(2)}</span>

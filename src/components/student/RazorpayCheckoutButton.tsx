@@ -19,7 +19,7 @@ const loadRazorpayScript = () => {
   });
 };
 
-export default function RazorpayCheckoutButton({ amount, packageId, label, variant = "default" }: { amount: number, packageId: string, label: string, variant?: "default" | "dark" }) {
+export default function RazorpayCheckoutButton({ amount, packageId, label, variant = "default", isIndianStudent = false }: { amount: number, packageId: string, label: string, variant?: "default" | "dark", isIndianStudent?: boolean }) {
   const [loading, setLoading] = useState(false);
   const [couponCode, setCouponCode] = useState("");
   const [discountAmount, setDiscountAmount] = useState(0);
@@ -51,7 +51,9 @@ export default function RazorpayCheckoutButton({ amount, packageId, label, varia
     }
   };
 
-  const finalAmount = Math.max(0, amount - discountAmount);
+  const discountedAmount = Math.max(0, amount - discountAmount);
+  const gstAmount = isIndianStudent ? discountedAmount * 0.18 : 0;
+  const finalAmount = discountedAmount + gstAmount;
   const appliedCoupon = discountAmount > 0 ? couponCode : undefined;
 
   const handleCheckout = async () => {
@@ -70,7 +72,7 @@ export default function RazorpayCheckoutButton({ amount, packageId, label, varia
       const response = await fetch("/api/razorpay/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount, packageId, couponCode: appliedCoupon }),
+        body: JSON.stringify({ amount: finalAmount, packageId, couponCode: appliedCoupon }),
       });
       
       const data = await response.json();
@@ -163,6 +165,13 @@ export default function RazorpayCheckoutButton({ amount, packageId, label, varia
         <div className="flex justify-between items-center text-sm px-1">
           <span className="text-primary/70 font-bold uppercase tracking-widest text-[10px]">Discount</span>
           <span className="text-accent font-bold">-${discountAmount.toFixed(2)}</span>
+        </div>
+      )}
+
+      {isIndianStudent && (
+        <div className="flex justify-between items-center text-sm px-1">
+          <span className="text-primary/70 font-bold uppercase tracking-widest text-[10px]">18% GST</span>
+          <span className="text-accent font-bold">+${gstAmount.toFixed(2)}</span>
         </div>
       )}
 

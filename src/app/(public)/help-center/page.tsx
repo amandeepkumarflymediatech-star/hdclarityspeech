@@ -38,7 +38,7 @@ export default function HelpCenterPage() {
           </p>
           <ul className="list-disc pl-6 space-y-2 mt-4">
             <li>Email: hridey@hdclarityspeech.com</li>
-            <li>Phone: +91-7986964474</li>
+            <li>Phone: +91 83608-58527</li>
           </ul>
         </div>
       </div>

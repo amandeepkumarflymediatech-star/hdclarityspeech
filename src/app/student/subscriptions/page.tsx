@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import RazorpayCheckoutButton from "@/components/student/RazorpayCheckoutButton";
+import AvailablePlans from "./_components/AvailablePlans";
 
 export default async function StudentSubscriptionsPage() {
   const session = await getServerSession(authOptions);
@@ -120,56 +120,7 @@ export default async function StudentSubscriptionsPage() {
         </div>
 
         {/* Available Plans Section */}
-        <div className="pt-8 border-t border-secondary/30">
-          <h2 className="text-3xl font-black text-primary font-playfair tracking-tight mb-8">Available Plans</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
-            
-            {/* Standalone Class */}
-            {standaloneSession && (
-              <div className="bg-white border border-secondary/30 p-8 rounded-3xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col">
-                <h3 className="text-xl font-black text-primary font-playfair mb-2">{standaloneSession.name}</h3>
-                <p className="text-4xl font-black text-primary font-playfair tracking-tight mb-4">${standaloneSession.basePrice}</p>
-                <p className="text-primary/70 font-sans text-sm mb-8 flex-1">{standaloneSession.description}</p>
-                <RazorpayCheckoutButton amount={standaloneSession.basePrice} packageId={standaloneSession.id} label="Buy Single Class" />
-              </div>
-            )}
-
-            {/* Packages */}
-            {packages.map((pkg) => {
-              const isPopular = pkg.isPopular;
-              const perClass = pkg.totalSessions > 0 ? Math.round(pkg.price / pkg.totalSessions) : pkg.price;
-              
-              return (
-                <div key={pkg.id} className={isPopular
-                  ? "bg-gradient-to-br from-primary to-primary/90 text-white p-8 rounded-3xl shadow-xl border border-primary-light/10 relative overflow-hidden flex flex-col transform md:scale-105 z-10 hover:-translate-y-1 transition-all duration-300 mt-4 md:mt-0"
-                  : "bg-white border border-secondary/30 p-8 rounded-3xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col"
-                }>
-                  {isPopular && (
-                    <div className="absolute top-0 right-0 bg-accent text-white px-4 py-1 text-[8px] font-bold uppercase tracking-widest rounded-bl-xl shadow-sm">
-                      MOST POPULAR
-                    </div>
-                  )}
-                  <h3 className={`text-xl font-black font-playfair mb-2 ${isPopular ? "mt-2" : "text-primary"}`}>{pkg.name}</h3>
-                  <p className={`text-4xl font-black font-playfair tracking-tight mb-1 ${!isPopular && 'text-primary'}`}>
-                    ${pkg.price}<span className={`text-lg font-sans ${isPopular ? 'text-white/50' : 'text-primary/50'}`}>/mo</span>
-                  </p>
-                  <p className={`text-[10px] font-bold uppercase tracking-widest mb-4 ${isPopular ? 'text-accent-light' : 'text-accent'}`}>
-                    ${perClass} per class
-                  </p>
-                  <p className={`font-sans text-sm mb-8 flex-1 ${isPopular ? 'text-white/80' : 'text-primary/70'}`}>
-                    {pkg.description}
-                  </p>
-                  <RazorpayCheckoutButton 
-                    amount={pkg.price} 
-                    packageId={pkg.id} 
-                    label={`Get ${pkg.name.split(' ')[0]}`} 
-                    variant={isPopular ? "dark" : "default"} 
-                  />
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        <AvailablePlans packages={packages} standaloneSession={standaloneSession} />
 
         {/* Billing History */}
         <div className="pt-8 border-t border-secondary/30">
