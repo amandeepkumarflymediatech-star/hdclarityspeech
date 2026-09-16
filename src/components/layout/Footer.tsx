@@ -85,12 +85,14 @@ export default function Footer() {
             <p className="text-sm text-slate-500 dark:text-slate-400">
               © {new Date().getFullYear()} HD Clarity Speech. All rights reserved.
             </p>
-            <p className="text-sm text-slate-500 dark:text-slate-400">
-              Design and Developed by <a href="https://flymediatech.com/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline font-medium">Fly Media Technology</a>
+            <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
+              Speak Clearly. Live Boldly.
             </p>
           </div>
           <div className="flex gap-6 justify-center">
-            <span className="text-sm font-medium text-slate-500 dark:text-slate-400">Speak Clearly. Live Boldly.</span>
+            <span className="text-sm text-slate-500 dark:text-slate-400">
+              Design and Developed by <a href="https://flymediatech.com/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline font-medium">Fly Media Technology</a>
+            </span>
           </div>
         </div>
       </div>
