@@ -54,7 +54,7 @@ export default async function StudentBookPage() {
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-primary">{tutor.name || 'Tutor'}</h3>
-                  <p className="text-xs font-bold text-accent uppercase tracking-widest mt-1">Speech Therapist</p>
+                  <p className="text-xs font-bold text-accent uppercase tracking-widest mt-1">Communication Coach</p>
                 </div>
               </div>
 

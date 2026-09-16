@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CheckCircle2 } from 'lucide-react';
 import Script from 'next/script';
 import { useSession } from 'next-auth/react';
@@ -171,8 +171,27 @@ const PricingCardItem = ({ pkg, isIndianStudent, isProcessing, handlePayment }: 
 export default function PricingCards({ packages }: { packages: any[] }) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isIndianStudent, setIsIndianStudent] = useState(false);
+  const [locationStatus, setLocationStatus] = useState("Detecting location...");
   const { data: session, status } = useSession();
   const router = useRouter();
+
+  useEffect(() => {
+    fetch('https://get.geojs.io/v1/ip/country.json')
+      .then(res => res.json())
+      .then(data => {
+        if (data.country === 'IN') {
+          setIsIndianStudent(true);
+          setLocationStatus("Location: India (18% GST Applicable)");
+        } else {
+          setIsIndianStudent(false);
+          setLocationStatus("Location: International (No GST)");
+        }
+      })
+      .catch(err => {
+        console.error('Failed to get location', err);
+        setLocationStatus("Location detection failed. Defaulting to International.");
+      });
+  }, []);
 
   const handlePayment = async (amount: number, planName: string, packageId: string, appliedCouponCode?: string) => {
     if (status === 'unauthenticated' || !session) {
@@ -260,19 +279,9 @@ export default function PricingCards({ packages }: { packages: any[] }) {
       <Script src="https://checkout.razorpay.com/v1/checkout.js" />
       
       <div className="max-w-[1400px] mx-auto mb-10 flex flex-col md:flex-row justify-center items-center gap-6">
-        <label className="flex items-center space-x-4 cursor-pointer bg-white px-6 py-4 rounded-xl shadow-sm border border-secondary/20 hover:border-primary/50 transition-colors">
-          <span className="text-lg font-medium text-primary">I am an Indian student (Applies 18% GST)</span>
-          <div className="relative flex items-center">
-            <input 
-              type="checkbox" 
-              className="sr-only"
-              checked={isIndianStudent}
-              onChange={(e) => setIsIndianStudent(e.target.checked)}
-            />
-            <div className={`block w-14 h-8 rounded-full transition-colors ${isIndianStudent ? 'bg-accent' : 'bg-gray-300'}`}></div>
-            <div className={`absolute left-1 bg-white w-6 h-6 rounded-full transition-transform ${isIndianStudent ? 'translate-x-6' : 'translate-x-0'}`}></div>
-          </div>
-        </label>
+        <div className="bg-secondary/10 px-6 py-3 rounded-xl border border-secondary/20">
+          <span className="text-lg font-bold text-primary/80">{locationStatus}</span>
+        </div>
       </div>
 
       <div className="max-w-[1400px] mx-auto flex flex-wrap justify-center gap-6 md:gap-8">

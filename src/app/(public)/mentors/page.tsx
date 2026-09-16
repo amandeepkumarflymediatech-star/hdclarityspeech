@@ -152,6 +152,7 @@ export default async function MentorsPage() {
         </div>
 
         {/* What Our Learners Say Section */}
+        {false && (
         <div>
           <div className="flex items-center gap-4 mb-12">
              <div className="h-px bg-secondary/50 flex-1 hidden md:block"></div>
@@ -191,6 +192,7 @@ export default async function MentorsPage() {
             )}
           </div>
         </div>
+        )}
 
       </div>
     </div>

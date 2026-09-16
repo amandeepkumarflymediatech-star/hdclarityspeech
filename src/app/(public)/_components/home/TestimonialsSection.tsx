@@ -4,6 +4,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Star, ChevronLeft, ChevronRight, BadgeCheck } from 'lucide-react';
 
 export default function TestimonialsSection({ initialTestimonials }: { initialTestimonials?: any[] }) {
+  return null; // Hidden as per request
+  /*
   const defaultTestimonials = [
     { name: 'Mazin', role: 'Sales Director', time: '2 months ago', text: 'I avoided presentations and feared losing the room. Now I lead global meetings with absolute confidence.', stars: 5 },
     { name: 'Tarun', role: 'Product Manager', time: '3 months ago', text: 'My ideas were great, but my delivery made them sound weak. The 1:1 sessions completely changed my professional presence.', stars: 5 },
@@ -62,7 +64,6 @@ export default function TestimonialsSection({ initialTestimonials }: { initialTe
 
         <div className="bg-[#F8F9FA] rounded-[40px] p-8 md:p-12 lg:p-16 flex flex-col lg:flex-row gap-12 relative">
           
-          {/* Left Summary Section */}
           <div className="flex-shrink-0 lg:w-64 flex flex-col items-center justify-center border-b lg:border-b-0 lg:border-r border-secondary/50 pb-10 lg:pb-0 lg:pr-10 text-center">
             <h3 className="text-primary font-black uppercase tracking-widest text-lg mb-4">Excellent</h3>
             <div className="flex text-[#FFB800] mb-3">
@@ -81,13 +82,11 @@ export default function TestimonialsSection({ initialTestimonials }: { initialTe
             </div>
           </div>
 
-          {/* Right Carousel Section */}
           <div 
             className="flex-1 relative"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
-            {/* Arrow Buttons */}
             <button 
               onClick={prevSlide}
               className="absolute -left-5 top-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full flex items-center justify-center text-primary shadow-lg border border-secondary z-20 hover:scale-110 transition-transform"
@@ -101,14 +100,12 @@ export default function TestimonialsSection({ initialTestimonials }: { initialTe
               <ChevronRight size={20} />
             </button>
 
-            {/* Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
               {getVisibleTestimonials().map((t, i) => (
                 <TestimonialCard key={`${t.name}-${currentIndex}-${i}`} t={t} />
               ))}
             </div>
 
-            {/* Pagination Dots */}
             <div className="flex items-center justify-center gap-2 mt-10">
               {testimonials.map((_, i) => (
                 <button
@@ -123,8 +120,10 @@ export default function TestimonialsSection({ initialTestimonials }: { initialTe
       </div>
     </section>
   );
+  */
 }
 
+/*
 function TestimonialCard({ t }: { t: any }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const isLongText = t.text.length > 80;
@@ -171,3 +170,4 @@ function TestimonialCard({ t }: { t: any }) {
     </div>
   );
 }
+*/

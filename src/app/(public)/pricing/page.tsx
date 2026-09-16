@@ -17,8 +17,8 @@ export default async function PricingPage() {
       <section className="px-6 py-8 md:py-10 text-center">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-5xl md:text-6xl font-black text-primary mb-6 transition-all duration-300 font-playfair">Invest In Your Growth</h1>
-          <p className="text-lg md:text-xl text-primary/80 leading-relaxed transition-colors duration-300 max-w-2xl mx-auto">
-            Choose the coaching package that fits your goals and budget. All sessions are 60 minutes long and personalized to you.
+          <p className="text-lg md:text-xl text-primary/80 max-w-2xl mx-auto font-sans">
+            Choose the coaching package that fits your goals and budget. All sessions are 1 hour long and personalized to you.
           </p>
         </div>
       </section>

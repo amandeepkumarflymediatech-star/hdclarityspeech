@@ -27,7 +27,7 @@ export default function SignupSelectionPage() {
               <User className="w-10 h-10 text-primary group-hover:text-accent transition-colors" />
             </div>
             <h2 className="text-2xl font-black text-primary font-playfair mb-3">I am a Student</h2>
-            <p className="text-primary/70 text-sm font-sans mb-8">Access expert speech therapists, custom routines, and track your progress.</p>
+            <p className="text-primary/70 text-sm font-sans mb-8">Access expert communication coaches, custom routines, and track your progress.</p>
             <div className="mt-auto flex items-center gap-2 text-accent font-bold text-sm tracking-widest uppercase">
               Sign Up <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </div>

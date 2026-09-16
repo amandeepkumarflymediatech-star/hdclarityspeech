@@ -23,7 +23,7 @@ export default function DashboardLayout({ children, user }: { children: React.Re
   ];
 
   const displayName = user?.name || 'Tutor';
-  const displayHeadline = user?.teachingHeadline || 'Speech Therapist';
+  const displayHeadline = user?.teachingHeadline || 'Communication Coach';
 
   return (
     <div className="flex h-screen bg-secondary/20 overflow-hidden font-sans selection:bg-accent/20">

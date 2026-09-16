@@ -92,7 +92,7 @@ export default function BecomeTutorPage() {
           Empower voices and build your career with <span className="text-accent">HD Clarity</span>.
         </h1>
         <p className="text-lg md:text-xl text-primary/80 font-sans max-w-2xl mx-auto leading-relaxed">
-          Join our network of elite speech therapists and make a profound impact on students worldwide from the comfort of your home.
+          Join our network of elite communication coaches and make a profound impact on students worldwide from the comfort of your home.
         </p>
       </div>
 

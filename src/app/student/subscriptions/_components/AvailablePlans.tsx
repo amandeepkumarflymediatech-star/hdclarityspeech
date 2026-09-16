@@ -1,29 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import RazorpayCheckoutButton from "@/components/student/RazorpayCheckoutButton";
 
 export default function AvailablePlans({ packages, standaloneSession }: { packages: any[], standaloneSession: any }) {
   const [isIndianStudent, setIsIndianStudent] = useState(false);
+  const [locationStatus, setLocationStatus] = useState("Detecting location...");
+
+  useEffect(() => {
+    fetch('https://get.geojs.io/v1/ip/country.json')
+      .then(res => res.json())
+      .then(data => {
+        if (data.country === 'IN') {
+          setIsIndianStudent(true);
+          setLocationStatus("Location: India (18% GST Applicable)");
+        } else {
+          setIsIndianStudent(false);
+          setLocationStatus("Location: International (No GST)");
+        }
+      })
+      .catch(err => {
+        console.error('Failed to get location', err);
+        setLocationStatus("Location detection failed. Defaulting to International.");
+      });
+  }, []);
 
   return (
     <div className="pt-8 border-t border-secondary/30">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
         <h2 className="text-3xl font-black text-primary font-playfair tracking-tight">Available Plans</h2>
         
-        <label className="flex items-center space-x-4 cursor-pointer bg-white px-6 py-4 rounded-xl shadow-sm border border-secondary/20 hover:border-primary/50 transition-colors">
-          <span className="text-sm sm:text-base font-medium text-primary">I am an Indian student (Applies 18% GST)</span>
-          <div className="relative flex items-center">
-            <input 
-              type="checkbox" 
-              className="sr-only"
-              checked={isIndianStudent}
-              onChange={(e) => setIsIndianStudent(e.target.checked)}
-            />
-            <div className={`block w-14 h-8 rounded-full transition-colors ${isIndianStudent ? 'bg-accent' : 'bg-gray-300'}`}></div>
-            <div className={`absolute left-1 bg-white w-6 h-6 rounded-full transition-transform ${isIndianStudent ? 'translate-x-6' : 'translate-x-0'}`}></div>
-          </div>
-        </label>
+        <div className="bg-secondary/10 px-6 py-3 rounded-xl border border-secondary/20">
+          <span className="text-sm sm:text-base font-bold text-primary/80">{locationStatus}</span>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">

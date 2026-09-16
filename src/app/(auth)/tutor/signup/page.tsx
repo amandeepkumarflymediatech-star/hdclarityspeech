@@ -223,7 +223,7 @@ export default function Signup() {
             
             <ul className="space-y-6">
               {[
-                'Access to expert speech therapists',
+                'Access to expert communication coaches',
                 'Customized practice routines',
                 'Real-time progress tracking',
                 'Community support and peer learning'

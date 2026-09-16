@@ -49,7 +49,7 @@ export default async function AllTutorsPage() {
                   <CheckCircle2 size={14} className="text-accent" />
                 </h3>
                 <p className="text-xs text-primary/60 font-bold uppercase tracking-widest mt-0.5 truncate">
-                  {tutor.teachingHeadline || 'Speech Therapist'}
+                  {tutor.teachingHeadline || 'Communication Coach'}
                 </p>
               </div>
             </div>

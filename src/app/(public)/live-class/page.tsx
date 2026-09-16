@@ -51,7 +51,7 @@ export default function LiveClassPage() {
           <div className="anim-left flex flex-col gap-4 sm:gap-5 text-sm sm:text-base text-primary/90 font-bold mb-10 sm:mb-12 p-4 sm:p-6 bg-white/40 sm:bg-transparent rounded-3xl sm:rounded-none border border-primary/5 sm:border-transparent">
             <div className="flex items-center gap-3 sm:gap-4">
               <div className="w-10 h-10 rounded-full bg-secondary/50 flex items-center justify-center text-primary"><Clock className="w-5 h-5"/></div> 
-              <span>45-Minute Intensive Sessions</span>
+              <span>1-Hour Intensive Sessions</span>
             </div>
             <div className="flex items-center gap-4">
               <div className="w-10 h-10 rounded-full bg-secondary/50 flex items-center justify-center text-primary"><CheckCircle2 className="w-5 h-5"/></div> 
