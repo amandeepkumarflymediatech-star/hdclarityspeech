@@ -81,9 +81,14 @@ export default function Footer() {
 
         {/* Copyright */}
         <div className="mt-16 pt-8 border-t border-slate-100 dark:border-slate-800/50 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
-          <p className="text-sm text-slate-500 dark:text-slate-400">
-            © {new Date().getFullYear()} HD Clarity Speech. All rights reserved.
-          </p>
+          <div className="flex flex-col gap-2">
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              © {new Date().getFullYear()} HD Clarity Speech. All rights reserved.
+            </p>
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              Design and Developed by <a href="https://flymediatech.com/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline font-medium">Fly Media Technology</a>
+            </p>
+          </div>
           <div className="flex gap-6 justify-center">
             <span className="text-sm font-medium text-slate-500 dark:text-slate-400">Speak Clearly. Live Boldly.</span>
           </div>
