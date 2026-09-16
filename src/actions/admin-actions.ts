@@ -151,11 +151,18 @@ export async function updateUser(id: string, formData: FormData) {
 }
 
 export async function deleteUser(id: string) {
-  await prisma.user.delete({
-    where: { id }
-  });
-
-  revalidatePath("/admin/users");
+  try {
+    await prisma.user.delete({
+      where: { id }
+    });
+    revalidatePath("/admin/users");
+    return { success: true };
+  } catch (error: any) {
+    if (error.code === 'P2003') {
+      return { error: "Cannot delete user. This user has associated records (like bookings or sessions) that must be removed first." };
+    }
+    return { error: "Failed to delete user due to a database error." };
+  }
 }
 
 export async function approveTutor(id: string, isApproved: boolean) {

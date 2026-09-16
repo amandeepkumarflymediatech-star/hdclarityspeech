@@ -94,8 +94,16 @@ export default function UserManagementClient({ users }: { users: User[] }) {
     });
 
     if (result.isConfirmed) {
-      await deleteUser(id);
-      toast.success("User deleted successfully");
+      try {
+        const res = await deleteUser(id);
+        if (res && res.error) {
+          toast.error(res.error);
+        } else {
+          toast.success("User deleted successfully");
+        }
+      } catch (e) {
+        toast.error("An unexpected error occurred.");
+      }
     }
   };
 
