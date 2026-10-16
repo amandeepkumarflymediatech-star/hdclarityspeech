@@ -26,14 +26,17 @@ export async function POST(req: Request) {
   try {
     const { amount, currency = "INR", packageId, couponCode } = await req.json();
 
-    if (!amount) {
-      return NextResponse.json({ error: "Amount is required" }, { status: 400 });
+    const numericAmount = Number(amount);
+    if (isNaN(numericAmount) || numericAmount <= 0) {
+      return NextResponse.json({ error: "Amount must be greater than 0" }, { status: 400 });
     }
 
     const conversionRate = await getUsdToInrRate();
+    // Razorpay minimum amount for INR is 100 paise (₹1.00)
+    const amountInPaise = Math.max(100, Math.round(numericAmount * conversionRate * 100));
 
     const options: any = {
-      amount: Math.round(amount * conversionRate * 100), // Convert USD to INR and then to paise
+      amount: amountInPaise,
       currency,
       receipt: `rcpt_${crypto.randomBytes(10).toString("hex")}`,
       notes: {

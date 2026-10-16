@@ -72,12 +72,27 @@ export default function RazorpayCheckoutButton({ amount, packageId, label, varia
       const response = await fetch("/api/razorpay/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: finalAmount, packageId, couponCode: appliedCoupon }),
+        body: JSON.stringify({ 
+          amount, // Pass base amount so server applies coupon & GST without double-counting
+          packageId, 
+          couponCode: appliedCoupon,
+          isIndianStudent 
+        }),
       });
       
       const data = await response.json();
       
       if (!response.ok) throw new Error(data.error);
+
+      // If the order is 100% free (e.g. 100% coupon), skip Razorpay
+      if (data.freeOrder) {
+        toast.success("Enrolled successfully! Your package is active.");
+        setCouponCode("");
+        setDiscountAmount(0);
+        router.refresh();
+        setLoading(false);
+        return;
+      }
 
       // 3. Open Razorpay Checkout
       const options = {

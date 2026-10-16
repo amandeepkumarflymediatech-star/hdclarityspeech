@@ -201,6 +201,27 @@ export default function PricingCards({ packages }: { packages: any[] }) {
 
     setIsProcessing(true);
 
+    if (amount <= 0) {
+      try {
+        const res = await fetch('/api/razorpay/create-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount: 0, packageId, couponCode: appliedCouponCode }),
+        });
+        const data = await res.json();
+        if (data.freeOrder) {
+          Swal.fire('Success', 'Package activated successfully!', 'success');
+          setIsProcessing(false);
+          router.push('/student');
+          return;
+        }
+      } catch (e: any) {
+        Swal.fire('Error', e.message || 'Failed to activate package', 'error');
+        setIsProcessing(false);
+        return;
+      }
+    }
+
     if (!(window as any).Razorpay) {
       Swal.fire('Error', 'Razorpay SDK failed to load. Are you online?', 'error');
       setIsProcessing(false);
