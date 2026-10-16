@@ -3,7 +3,11 @@ import Razorpay from "razorpay";
 import crypto from "crypto";
 import { getUsdToInrRate } from "@/lib/exchange-rate";
 
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/auth";
+
 export async function POST(req: Request) {
+  const session = await getServerSession(authOptions);
   const keyId = process.env.RAZORPAY_KEY_ID;
   const keySecret = process.env.RAZORPAY_KEY_SECRET;
 
@@ -20,7 +24,7 @@ export async function POST(req: Request) {
     key_secret: keySecret,
   });
   try {
-    const { amount, currency = "INR" } = await req.json();
+    const { amount, currency = "INR", packageId, couponCode } = await req.json();
 
     if (!amount) {
       return NextResponse.json({ error: "Amount is required" }, { status: 400 });
@@ -28,10 +32,15 @@ export async function POST(req: Request) {
 
     const conversionRate = await getUsdToInrRate();
 
-    const options = {
+    const options: any = {
       amount: Math.round(amount * conversionRate * 100), // Convert USD to INR and then to paise
       currency,
       receipt: `rcpt_${crypto.randomBytes(10).toString("hex")}`,
+      notes: {
+        userId: session?.user?.id || "",
+        packageId: packageId || "",
+        couponCode: couponCode || "",
+      },
     };
 
     const order = await razorpay.orders.create(options);

@@ -211,7 +211,7 @@ export default function PricingCards({ packages }: { packages: any[] }) {
       const res = await fetch('/api/payments/razorpay', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount }),
+        body: JSON.stringify({ amount, packageId, couponCode: appliedCouponCode }),
       });
 
       const order = await res.json();

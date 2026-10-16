@@ -25,6 +25,20 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid payment signature" }, { status: 400 });
     }
 
+    // Check if already processed (e.g., via webhook or concurrent request)
+    const existingPayment = await prisma.payment.findFirst({
+      where: {
+        OR: [
+          { razorpayOrderId: razorpay_order_id },
+          { razorpayPaymentId: razorpay_payment_id }
+        ]
+      }
+    });
+
+    if (existingPayment) {
+      return NextResponse.json({ success: true, message: "Payment already processed" });
+    }
+
     // Payment is valid! Grant the package to the student.
     const packageDetails = {
       "single-class": { name: "Single Class", price: 15, totalSessions: 1, validityDays: 30 },
