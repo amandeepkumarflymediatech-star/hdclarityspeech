@@ -72,6 +72,10 @@ export default async function MentorsPage() {
           <p className="text-lg md:text-xl text-primary/80 max-w-2xl mx-auto font-sans">
             Connect with our elite roster of communication specialists and start transforming your voice today.
           </p>
+          <div className="mt-8 inline-flex items-center gap-2.5 px-4 py-2 bg-white rounded-full border border-accent/20 shadow-sm text-xs font-semibold text-primary">
+            <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+            <span>Cohort Status: <strong className="text-accent font-bold">Only 4 slots available</strong> for this month across all tutors.</span>
+          </div>
         </div>
 
         {/* Available Mentors Section */}

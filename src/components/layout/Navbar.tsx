@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { useSession, signOut } from "next-auth/react";
 import { User, LogOut, LayoutDashboard, ChevronDown, Menu, X } from "lucide-react";
+import AnnouncementBar from './AnnouncementBar';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -37,6 +38,7 @@ export default function Navbar() {
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50">
+      <AnnouncementBar />
       <nav
         className={`w-full bg-white transition-all duration-300 ${isScrolled ? 'shadow-sm border-b border-secondary/50 py-3' : 'py-5 border-b border-secondary/20'
           }`}
@@ -80,7 +82,7 @@ export default function Navbar() {
               href="/pricing"
               className={`transition ${isActive('/pricing') ? 'text-accent' : 'text-primary hover:text-accent'}`}
             >
-              Subscription
+              Packages
             </Link>
           </div>
 
@@ -191,7 +193,7 @@ export default function Navbar() {
               onClick={() => setIsMobileMenuOpen(false)}
               className={`block py-2 text-base font-bold ${isActive('/pricing') ? 'text-accent' : 'text-primary'}`}
             >
-              Subscription
+              Packages
             </Link>
             {!session ? (
               <div className="border-t border-secondary/20 pt-4 mt-2">

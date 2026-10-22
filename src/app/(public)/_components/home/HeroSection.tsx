@@ -122,6 +122,15 @@ export default function HeroSection() {
               Explore Method
             </Link>
           </div>
+
+          {/* Limited Seats Urgency Notice */}
+          <div className="mt-6 inline-flex items-center gap-2.5 px-3.5 py-1.5 bg-white/70 backdrop-blur-sm border border-accent/20 rounded-full text-xs font-semibold text-primary">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
+            </span>
+            <span>Limited Intake: <strong className="text-accent font-bold">Only 4 1-on-1 coaching seats</strong> remain for this month.</span>
+          </div>
         </div>
 
         <div className="hidden lg:block relative w-full lg:max-w-[85%] lg:ml-auto h-[250px] sm:h-[350px] md:h-[400px] lg:h-[550px] mt-8 sm:mt-12 lg:mt-0">
