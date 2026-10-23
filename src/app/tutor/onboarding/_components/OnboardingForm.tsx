@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { User, Briefcase, BookOpen, Calendar, CheckCircle2, ArrowRight, ArrowLeft } from 'lucide-react';
+import { User, Briefcase, BookOpen, Calendar, CheckCircle2, ArrowRight, ArrowLeft, Video, Film, Play } from 'lucide-react';
+import { getVideoEmbedInfo } from '@/lib/video-utils';
 
 interface OnboardingData {
   name: string;
@@ -18,6 +19,7 @@ interface OnboardingData {
   teachingAges: string[];
   teachingStyle: string[];
   calendlyUrl: string;
+  videoUrl?: string;
 }
 
 export default function OnboardingForm({ initialData }: { initialData?: Partial<OnboardingData> }) {
@@ -41,6 +43,7 @@ export default function OnboardingForm({ initialData }: { initialData?: Partial<
     teachingAges: initialData?.teachingAges || [],
     teachingStyle: initialData?.teachingStyle || [],
     calendlyUrl: initialData?.calendlyUrl || '',
+    videoUrl: initialData?.videoUrl || '',
   });
 
   const totalSteps = 5;
@@ -76,6 +79,9 @@ export default function OnboardingForm({ initialData }: { initialData?: Partial<
     } else if (currentStep === 4) {
       if (data.calendlyUrl && !data.calendlyUrl.startsWith('https://calendly.com/')) {
         errors.calendlyUrl = "Must be a valid Calendly URL starting with https://calendly.com/";
+      }
+      if (data.videoUrl && !data.videoUrl.startsWith('http://') && !data.videoUrl.startsWith('https://')) {
+        errors.videoUrl = "Video link must start with https:// (e.g. YouTube, Vimeo, Loom)";
       }
     }
     setFieldErrors(errors);
@@ -323,6 +329,51 @@ export default function OnboardingForm({ initialData }: { initialData?: Partial<
               {fieldErrors.calendlyUrl && <p className="text-red-500 text-xs mt-1 font-bold">{fieldErrors.calendlyUrl}</p>}
             </div>
           </div>
+
+          {/* Video Showcase Section */}
+          <div className="bg-white p-6 rounded-2xl border border-secondary text-left space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-xl bg-accent/10 text-accent flex items-center justify-center shrink-0">
+                <Film size={22} />
+              </div>
+              <div>
+                <h3 className="font-bold text-primary">Introduction Video Showcase (Optional)</h3>
+                <p className="text-xs text-primary/70">
+                  Share your YouTube, Vimeo, Loom, or direct MP4 link so students can preview your mentoring style.
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-primary uppercase tracking-widest mb-2">Video Link</label>
+              <input 
+                type="url" 
+                value={data.videoUrl || ''} 
+                onChange={e => updateData({ videoUrl: e.target.value })} 
+                className={`w-full p-4 border bg-white focus:border-accent outline-none rounded-xl ${fieldErrors.videoUrl ? 'border-red-500' : 'border-secondary'}`} 
+                placeholder="https://www.youtube.com/watch?v=... or https://youtu.be/... or https://vimeo.com/..." 
+              />
+              {fieldErrors.videoUrl && <p className="text-red-500 text-xs mt-1 font-bold">{fieldErrors.videoUrl}</p>}
+            </div>
+
+            {data.videoUrl && (() => {
+              const info = getVideoEmbedInfo(data.videoUrl);
+              return info.isValid ? (
+                <div className="mt-3">
+                  <p className="text-xs font-bold text-emerald-600 mb-2 flex items-center gap-1.5">
+                    <CheckCircle2 size={13} /> Video recognized ({info.type.toUpperCase()})
+                  </p>
+                  <div className="relative aspect-video rounded-xl overflow-hidden bg-black max-w-md mx-auto">
+                    {info.isIframe ? (
+                      <iframe src={info.embedUrl} title="Intro preview" className="w-full h-full border-0" allowFullScreen />
+                    ) : (
+                      <video src={info.embedUrl} controls className="w-full h-full object-cover" />
+                    )}
+                  </div>
+                </div>
+              ) : null;
+            })()}
+          </div>
         </div>
       )}
 
@@ -409,6 +460,15 @@ export default function OnboardingForm({ initialData }: { initialData?: Partial<
                   <a href={data.calendlyUrl} target="_blank" rel="noreferrer" className="text-[#006BFF] hover:underline break-all">{data.calendlyUrl}</a>
                 ) : (
                   <p className="text-primary/50 italic">Not provided</p>
+                )}
+              </div>
+
+              <div className="pt-4 border-t border-secondary/50">
+                <strong className="text-primary block mb-1">Introduction Video Link:</strong>
+                {data.videoUrl ? (
+                  <a href={data.videoUrl} target="_blank" rel="noreferrer" className="text-accent hover:underline break-all font-medium">{data.videoUrl}</a>
+                ) : (
+                  <p className="text-primary/50 italic">Not provided (can be added later in your Profile)</p>
                 )}
               </div>
             </div>

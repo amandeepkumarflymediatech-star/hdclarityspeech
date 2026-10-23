@@ -52,6 +52,7 @@ export default async function TutorOnboardingPage() {
     teachingAges: parseJsonArray(dbUser.teachingAges),
     teachingStyle: parseJsonArray(dbUser.teachingStyle),
     calendlyUrl: dbUser.calendlyUrl || '',
+    videoUrl: dbUser.videoUrl || '',
   };
 
   const isPendingReview = dbUser.onboardingStatus === 'UNDER_REVIEW';

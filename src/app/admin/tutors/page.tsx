@@ -1,3 +1,4 @@
+// Admin tutors management page
 import { prisma } from "@/lib/db";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
@@ -13,7 +14,7 @@ export default async function AdminTutorsPage() {
 
   const tutors = await prisma.user.findMany({
     where: { role: 'TUTOR' },
-    select: { id: true, name: true, email: true, createdAt: true, isApproved: true, experience: true, bio: true, qualifications: true },
+    select: { id: true, name: true, email: true, createdAt: true, isApproved: true, experience: true, bio: true, qualifications: true, videoUrl: true },
     orderBy: { createdAt: 'desc' }
   });
 

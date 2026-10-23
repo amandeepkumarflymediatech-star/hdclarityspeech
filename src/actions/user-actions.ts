@@ -27,6 +27,8 @@ export async function updateProfile(formData: FormData) {
   const teachingLevels = formData.get("teachingLevels") as string | null;
   const teachingAges = formData.get("teachingAges") as string | null;
   const teachingStyle = formData.get("teachingStyle") as string | null;
+  const videoUrlRaw = formData.get("videoUrl");
+  const videoUrl = typeof videoUrlRaw === "string" ? videoUrlRaw.trim() : null;
   const imageFile = formData.get("image") as File | null;
 
   if (!name || !email) {
@@ -67,6 +69,7 @@ export async function updateProfile(formData: FormData) {
       ...(teachingLevels !== null && { teachingLevels }),
       ...(teachingAges !== null && { teachingAges }),
       ...(teachingStyle !== null && { teachingStyle }),
+      ...(videoUrlRaw !== null && { videoUrl: videoUrl || null }),
       ...(imageUrl && { image: imageUrl })
     }
   });
@@ -75,6 +78,8 @@ export async function updateProfile(formData: FormData) {
   revalidatePath("/student/settings");
   revalidatePath("/tutor/settings");
   revalidatePath("/tutor/profile");
+  revalidatePath(`/mentors/${session.user.id}`);
+  revalidatePath("/mentors");
   revalidatePath("/admin/settings");
 }
 

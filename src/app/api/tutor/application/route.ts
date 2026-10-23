@@ -1,3 +1,4 @@
+// Tutor application submission endpoint
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -31,6 +32,7 @@ export async function POST(req: NextRequest) {
       teachingAges,
       teachingStyle,
       calendlyUrl,
+      videoUrl,
     } = body;
 
     const onboardingStatus =
@@ -52,6 +54,7 @@ export async function POST(req: NextRequest) {
         teachingAges: teachingAges || null,
         teachingStyle: teachingStyle || null,
         calendlyUrl: calendlyUrl || null,
+        videoUrl: videoUrl || null,
         onboardingStatus,
       },
     });

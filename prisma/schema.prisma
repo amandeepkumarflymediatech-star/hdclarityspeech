@@ -44,6 +44,7 @@ model User {
   teachingAges     String?
   teachingStyle    String?
   calendlyUrl      String?
+  videoUrl         String?   @db.Text
   isApproved    Boolean   @default(false)
 
   createdAt     DateTime  @default(now())

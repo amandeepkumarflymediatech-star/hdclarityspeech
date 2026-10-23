@@ -176,3 +176,20 @@ export async function approveTutor(id: string, isApproved: boolean) {
 
   revalidatePath("/admin/tutors");
 }
+
+export async function updateTutorVideoUrl(id: string, videoUrl: string | null) {
+  const session = await getServerSession(authOptions);
+  if (!session || session.user.role !== "ADMIN") throw new Error("Unauthorized");
+
+  const trimmed = videoUrl?.trim() || null;
+
+  await prisma.user.update({
+    where: { id },
+    data: { videoUrl: trimmed }
+  });
+
+  revalidatePath("/admin/tutors");
+  revalidatePath(`/mentors/${id}`);
+  revalidatePath("/mentors");
+}
+

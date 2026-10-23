@@ -4,6 +4,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { Play, Pause, Volume2, VolumeX, Maximize2, Sparkles, CheckCircle2, Film } from 'lucide-react';
 
+import { getVideoEmbedInfo } from '@/lib/video-utils';
+
 interface TutorVideoShowcaseProps {
   tutorName: string;
   tutorId: string;
@@ -40,25 +42,7 @@ export default function TutorVideoShowcase({
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const activeVideoUrl = propVideoUrl || CLIENT_TUTOR_VIDEOS[tutorId] || '';
-
-  // Determine video type
-  const isYouTube = activeVideoUrl.includes('youtube.com') || activeVideoUrl.includes('youtu.be');
-  const isVimeo = activeVideoUrl.includes('vimeo.com');
-
-  const getYouTubeEmbedUrl = (url: string) => {
-    let videoId = '';
-    if (url.includes('youtu.be/')) {
-      videoId = url.split('youtu.be/')[1]?.split('?')[0] || '';
-    } else if (url.includes('watch?v=')) {
-      videoId = url.split('watch?v=')[1]?.split('&')[0] || '';
-    }
-    return videoId ? `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0` : url;
-  };
-
-  const getVimeoEmbedUrl = (url: string) => {
-    const videoId = url.split('vimeo.com/')[1]?.split('?')[0] || '';
-    return videoId ? `https://player.vimeo.com/video/${videoId}?autoplay=1` : url;
-  };
+  const videoInfo = getVideoEmbedInfo(activeVideoUrl);
 
   const handlePlayToggle = () => {
     if (!activeVideoUrl) {
@@ -126,21 +110,21 @@ export default function TutorVideoShowcase({
       {/* Cinema Video Container */}
       <div className="relative w-full aspect-video md:aspect-[21/9] bg-slate-950 rounded-3xl overflow-hidden shadow-2xl border border-primary/15 group">
         
-        {/* If YouTube / Vimeo Embed */}
-        {activeVideoUrl && (isYouTube || isVimeo) ? (
+        {/* If Embed (YouTube / Vimeo / Loom) */}
+        {videoInfo.isValid && videoInfo.isIframe ? (
           <iframe
-            src={isYouTube ? getYouTubeEmbedUrl(activeVideoUrl) : getVimeoEmbedUrl(activeVideoUrl)}
+            src={videoInfo.embedUrl}
             title={`${tutorName} Intro Video`}
             className="w-full h-full border-0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           />
-        ) : activeVideoUrl ? (
+        ) : videoInfo.isValid ? (
           // Direct HTML5 Video
           <>
             <video
               ref={videoRef}
-              src={activeVideoUrl}
+              src={videoInfo.embedUrl}
               poster={tutorImage || '/hero-img.webp'}
               className="w-full h-full object-cover"
               playsInline

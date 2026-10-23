@@ -4,6 +4,7 @@ import { saveCalendlyUrl } from "@/actions/tutor-actions";
 import { toast } from "sonner";
 import { useTransition, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Edit2 } from "lucide-react";
 
 export default function SettingsForm({ user }: { user: any }) {
@@ -93,6 +94,19 @@ export default function SettingsForm({ user }: { user: any }) {
           )}
         </div>
       )}
+
+      <div className="pt-6 border-t border-secondary/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <p className="text-xs font-bold text-primary">Need to update your Video Showcase Link or Public Bio?</p>
+          <p className="text-[11px] text-primary/60 mt-0.5">Manage your intro video, profile picture, and teaching specialties on your profile page.</p>
+        </div>
+        <Link 
+          href="/tutor/profile" 
+          className="px-4 py-2 bg-secondary/10 hover:bg-primary hover:text-white text-primary text-xs font-bold rounded-xl transition-colors uppercase tracking-wider shrink-0 border border-secondary/30"
+        >
+          Edit Profile & Video
+        </Link>
+      </div>
     </form>
   );
 }

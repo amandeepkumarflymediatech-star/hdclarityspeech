@@ -1,9 +1,11 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { GraduationCap, Search, CheckCircle, XCircle, ArrowUpDown, ChevronLeft, ChevronRight, Filter } from "lucide-react";
-import { approveTutor } from "@/actions/admin-actions";
+import { GraduationCap, Search, CheckCircle, XCircle, ArrowUpDown, ChevronLeft, ChevronRight, Filter, Film, ExternalLink, Video, Save, Play } from "lucide-react";
+import { approveTutor, updateTutorVideoUrl } from "@/actions/admin-actions";
 import { toast } from "sonner";
+import Link from "next/link";
+import { getVideoEmbedInfo } from "@/lib/video-utils";
 
 type Tutor = {
   id: string;
@@ -14,6 +16,7 @@ type Tutor = {
   experience?: string | null;
   bio?: string | null;
   qualifications?: string | null;
+  videoUrl?: string | null;
 };
 
 export default function TutorManagementClient({ tutors }: { tutors: Tutor[] }) {
@@ -22,7 +25,30 @@ export default function TutorManagementClient({ tutors }: { tutors: Tutor[] }) {
   const [sortConfig, setSortConfig] = useState<{ key: keyof Tutor; direction: 'asc' | 'desc' } | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedTutor, setSelectedTutor] = useState<Tutor | null>(null);
+  const [adminVideoUrl, setAdminVideoUrl] = useState<string>("");
+  const [isSavingVideo, setIsSavingVideo] = useState(false);
   const itemsPerPage = 10;
+
+  const handleOpenTutor = (tutor: Tutor) => {
+    setSelectedTutor(tutor);
+    setAdminVideoUrl(tutor.videoUrl || "");
+  };
+
+  const handleSaveVideo = async () => {
+    if (!selectedTutor) return;
+    setIsSavingVideo(true);
+    try {
+      await updateTutorVideoUrl(selectedTutor.id, adminVideoUrl);
+      setSelectedTutor({ ...selectedTutor, videoUrl: adminVideoUrl.trim() || null });
+      toast.success("Tutor video link updated successfully!");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to update video link");
+    } finally {
+      setIsSavingVideo(false);
+    }
+  };
+
+  const videoInfo = getVideoEmbedInfo(adminVideoUrl);
 
   const processedTutors = useMemo(() => {
     let result = [...tutors];
@@ -150,7 +176,7 @@ export default function TutorManagementClient({ tutors }: { tutors: Tutor[] }) {
                   </td>
                   <td className="p-6 text-right relative space-x-2 whitespace-nowrap">
                     <button 
-                      onClick={() => setSelectedTutor(tutor)}
+                      onClick={() => handleOpenTutor(tutor)}
                       className="px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-primary/70 bg-secondary/10 hover:bg-secondary/30 border border-secondary/50 rounded-lg transition-colors"
                     >
                       View Details
@@ -200,18 +226,28 @@ export default function TutorManagementClient({ tutors }: { tutors: Tutor[] }) {
 
       {selectedTutor && (
         <div className="fixed inset-0 z-50 bg-primary/20 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl shadow-xl border border-secondary/30 max-w-2xl w-full p-8 relative animate-in fade-in zoom-in duration-300">
+          <div className="bg-white rounded-3xl shadow-xl border border-secondary/30 max-w-2xl w-full p-8 relative animate-in fade-in zoom-in duration-300 max-h-[90vh] overflow-y-auto">
             <button 
               onClick={() => setSelectedTutor(null)}
               className="absolute top-6 right-6 p-2 bg-secondary/20 hover:bg-secondary/40 text-primary rounded-full transition-colors"
             >
               <XCircle size={20} />
             </button>
-            <h2 className="text-2xl font-black text-primary font-playfair mb-6">Tutor Details</h2>
+            <div className="flex items-center justify-between gap-4 mb-6 pr-10">
+              <h2 className="text-2xl font-black text-primary font-playfair">Tutor Details</h2>
+              <Link
+                href={`/mentors/${selectedTutor.id}`}
+                target="_blank"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-accent hover:underline bg-accent/10 px-3 py-1.5 rounded-xl border border-accent/20"
+              >
+                <span>View Public Profile</span>
+                <ExternalLink size={13} />
+              </Link>
+            </div>
             <div className="space-y-4">
               <div>
                 <p className="text-xs font-bold text-primary/50 uppercase tracking-widest">Name</p>
-                <p className="text-primary font-medium">{selectedTutor.name || 'N/A'}</p>
+                <p className="text-primary font-medium text-base">{selectedTutor.name || 'N/A'}</p>
               </div>
               <div>
                 <p className="text-xs font-bold text-primary/50 uppercase tracking-widest">Email</p>
@@ -237,6 +273,50 @@ export default function TutorManagementClient({ tutors }: { tutors: Tutor[] }) {
                   </a>
                 </div>
               )}
+
+              {/* Video Showcase Section in Admin */}
+              <div className="pt-4 border-t border-secondary/30">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-xs font-bold text-primary uppercase tracking-widest flex items-center gap-1.5">
+                    <Film size={14} className="text-accent" /> Tutor Video Showcase Link
+                  </p>
+                  {selectedTutor.videoUrl && (
+                    <a 
+                      href={selectedTutor.videoUrl} 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs font-bold text-accent hover:underline flex items-center gap-1"
+                    >
+                      <Play size={12} /> Test Link
+                    </a>
+                  )}
+                </div>
+                <div className="flex gap-2">
+                  <div className="relative flex-1">
+                    <Video className="absolute left-3.5 top-1/2 -translate-y-1/2 text-primary/40" size={16} />
+                    <input 
+                      type="url"
+                      value={adminVideoUrl}
+                      onChange={(e) => setAdminVideoUrl(e.target.value)}
+                      placeholder="https://youtube.com/watch?v=... or https://vimeo.com/..."
+                      className="w-full bg-secondary/5 border border-secondary/40 rounded-xl pl-10 pr-3 py-2.5 text-xs focus:ring-1 focus:ring-accent focus:border-accent text-primary outline-none"
+                    />
+                  </div>
+                  <button
+                    onClick={handleSaveVideo}
+                    disabled={isSavingVideo}
+                    className="px-4 py-2 bg-primary hover:bg-accent text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-colors shrink-0 flex items-center gap-1.5 disabled:opacity-50"
+                  >
+                    <Save size={13} />
+                    <span>{isSavingVideo ? "Saving..." : "Save Link"}</span>
+                  </button>
+                </div>
+                {videoInfo.isValid && (
+                  <p className="text-[11px] text-emerald-600 font-bold mt-1.5">
+                    Format Recognized: {videoInfo.type.toUpperCase()}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         </div>

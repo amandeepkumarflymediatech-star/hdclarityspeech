@@ -467,6 +467,7 @@ export default async function MentorProfilePage({ params }: Props) {
           tutorName={mentor.name || 'Tutor'} 
           tutorId={mentor.id} 
           tutorImage={mentor.image}
+          videoUrl={mentor.videoUrl}
           bio={mentor.bio}
         />
 
