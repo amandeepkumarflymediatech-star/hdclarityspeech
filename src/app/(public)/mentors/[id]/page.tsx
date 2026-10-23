@@ -18,10 +18,14 @@ import {
   Users, 
   Calendar,
   ArrowRight,
-  Flame
+  Flame,
+  Film,
+  Play,
+  ShieldCheck
 } from 'lucide-react';
 import type { Metadata } from 'next';
 import TutorVideoShowcase from '@/components/tutor/TutorVideoShowcase';
+import MentorHeroMedia from '@/components/tutor/MentorHeroMedia';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -104,7 +108,7 @@ export default async function MentorProfilePage({ params }: Props) {
 
   return (
     <div className="w-full bg-[#F7F5F0] min-h-screen pt-32 pb-24 text-primary font-sans">
-      <div className="max-w-5xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-6">
         
         {/* Back Link */}
         <div className="flex items-center justify-between mb-8">
@@ -125,26 +129,14 @@ export default async function MentorProfilePage({ params }: Props) {
         <div className="bg-white rounded-3xl shadow-xl border border-primary/5 overflow-hidden mb-12">
           <div className="flex flex-col md:flex-row">
             
-            {/* Tutor Image Section */}
-            <div className="md:w-5/12 relative h-96 md:h-auto min-h-[380px] bg-secondary">
-              {mentor.image ? (
-                <Image 
-                  src={mentor.image} 
-                  alt={mentor.name || 'Tutor'} 
-                  fill 
-                  priority
-                  className="object-cover mix-blend-multiply opacity-95 transition-all duration-700 hover:scale-105" 
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center bg-primary text-white font-playfair text-8xl font-black">
-                  {mentor.name?.charAt(0) || 'T'}
-                </div>
-              )}
-
-              <div className="absolute top-4 left-4 bg-primary/90 text-white backdrop-blur px-3 py-1 rounded-full flex items-center gap-1.5 shadow-md text-xs font-bold uppercase tracking-wider">
-                <UserCheck size={14} className="text-accent" />
-                <span>Verified Coach</span>
-              </div>
+            {/* Tutor Media Section (Photo & Video Switcher) */}
+            <div className="md:w-5/12 relative">
+              <MentorHeroMedia 
+                tutorName={mentor.name || 'Tutor'} 
+                tutorId={mentor.id} 
+                tutorImage={mentor.image} 
+                videoUrl={(mentor as any)?.videoUrl} 
+              />
             </div>
 
             {/* Tutor Header Info Section */}
@@ -235,17 +227,34 @@ export default async function MentorProfilePage({ params }: Props) {
                   <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
 
+                <a 
+                  href="#intro-video"
+                  className="text-center py-4 px-6 bg-accent/10 border border-accent/40 text-primary hover:bg-accent hover:text-white font-bold uppercase tracking-widest text-xs transition-colors rounded-xl flex items-center justify-center gap-2 group"
+                >
+                  <Film size={15} className="text-accent group-hover:text-white transition-colors" />
+                  <span>Watch Video</span>
+                </a>
+
                 <Link 
                   href="/pricing"
                   className="text-center py-4 px-6 bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-widest text-xs transition-colors rounded-xl"
                 >
-                  View Packages
+                  Packages
                 </Link>
               </div>
 
             </div>
           </div>
         </div>
+
+        {/* Video Showcase Section (Immediately accessible right after Hero without excessive scrolling) */}
+        <TutorVideoShowcase 
+          tutorName={mentor.name || 'Tutor'} 
+          tutorId={mentor.id} 
+          tutorImage={mentor.image} 
+          videoUrl={(mentor as any)?.videoUrl} 
+          bio={mentor.bio}
+        />
 
         {/* Detailed Information Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
@@ -462,14 +471,34 @@ export default async function MentorProfilePage({ params }: Props) {
           </div>
         )}
 
-        {/* Video Showcase Section (At the End of the Profile) */}
-        <TutorVideoShowcase 
-          tutorName={mentor.name || 'Tutor'} 
-          tutorId={mentor.id} 
-          tutorImage={mentor.image}
-          videoUrl={mentor.videoUrl}
-          bio={mentor.bio}
-        />
+        {/* Bottom Booking & Transformative Results Banner */}
+        <div className="bg-primary text-white rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden border border-white/10 mt-12">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative z-10 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full text-accent text-xs font-bold uppercase tracking-wider mb-4 border border-white/15">
+              <ShieldCheck size={14} className="text-accent" />
+              <span>100% Guaranteed Speech Transformation</span>
+            </div>
+            <h3 className="text-3xl sm:text-4xl font-black font-playfair text-white tracking-tight mb-4">
+              Ready to Speak with Total Clarity alongside {mentor.name?.split(' ')[0]}?
+            </h3>
+            <p className="text-white/70 text-sm sm:text-base leading-relaxed mb-8">
+              Join high-performing founders, executives, and professionals who have unlocked vocal presence and flawless articulation with HD Clarity Speech.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 items-center">
+              <Link
+                href="/pricing"
+                className="w-full sm:w-auto px-8 py-4 bg-accent hover:bg-white hover:text-primary text-white font-bold uppercase tracking-widest text-xs rounded-xl shadow-xl transition-all flex items-center justify-center gap-2 group"
+              >
+                <span>Book 1:1 Coaching Now</span>
+                <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <p className="text-xs text-white/50 font-sans">
+                Use coupon <span className="font-mono text-accent font-bold">CLARITY20</span> for 20% off all packages
+              </p>
+            </div>
+          </div>
+        </div>
 
       </div>
     </div>

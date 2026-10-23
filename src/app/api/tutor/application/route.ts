@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
         calendlyUrl: calendlyUrl || null,
         videoUrl: videoUrl || null,
         onboardingStatus,
-      },
+      } as any,
     });
 
     return NextResponse.json({

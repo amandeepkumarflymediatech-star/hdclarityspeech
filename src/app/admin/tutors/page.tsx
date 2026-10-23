@@ -14,13 +14,13 @@ export default async function AdminTutorsPage() {
 
   const tutors = await prisma.user.findMany({
     where: { role: 'TUTOR' },
-    select: { id: true, name: true, email: true, createdAt: true, isApproved: true, experience: true, bio: true, qualifications: true, videoUrl: true },
+    select: { id: true, name: true, email: true, createdAt: true, isApproved: true, experience: true, bio: true, qualifications: true, videoUrl: true } as any,
     orderBy: { createdAt: 'desc' }
   });
 
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 font-sans">
-      <TutorManagementClient tutors={tutors} />
+      <TutorManagementClient tutors={tutors as any} />
     </div>
   );
 }

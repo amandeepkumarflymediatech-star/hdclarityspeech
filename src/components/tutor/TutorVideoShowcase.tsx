@@ -83,7 +83,7 @@ export default function TutorVideoShowcase({
   };
 
   return (
-    <section className="mt-16 pt-16 border-t border-primary/10">
+    <section id="intro-video" className="mb-14 scroll-mt-28">
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
         <div>
