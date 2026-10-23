@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import { Play, Pause, Volume2, VolumeX, Maximize2, Sparkles, CheckCircle2, Film } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX, Maximize2, Sparkles, CheckCircle2, Film, ExternalLink } from 'lucide-react';
 
 import { getVideoEmbedInfo } from '@/lib/video-utils';
 
@@ -112,13 +112,27 @@ export default function TutorVideoShowcase({
         
         {/* If Embed (YouTube / Vimeo / Loom) */}
         {videoInfo.isValid && videoInfo.isIframe ? (
-          <iframe
-            src={videoInfo.embedUrl}
-            title={`${tutorName} Intro Video`}
-            className="w-full h-full border-0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
+          <div className="relative w-full h-full">
+            <iframe
+              src={videoInfo.embedUrl}
+              title={`${tutorName} Intro Video`}
+              className="w-full h-full border-0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+            />
+            {videoInfo.originalUrl && (
+              <a
+                href={videoInfo.originalUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity bg-black/80 hover:bg-accent text-white text-[11px] font-bold px-3 py-1.5 rounded-lg backdrop-blur-md shadow-lg border border-white/10 flex items-center gap-1.5"
+              >
+                <span>Watch on {videoInfo.type === 'youtube' ? 'YouTube' : 'External'}</span>
+                <ExternalLink size={12} />
+              </a>
+            )}
+          </div>
         ) : videoInfo.isValid ? (
           // Direct HTML5 Video
           <>

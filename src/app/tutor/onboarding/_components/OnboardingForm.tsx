@@ -365,7 +365,14 @@ export default function OnboardingForm({ initialData }: { initialData?: Partial<
                   </p>
                   <div className="relative aspect-video rounded-xl overflow-hidden bg-black max-w-md mx-auto">
                     {info.isIframe ? (
-                      <iframe src={info.embedUrl} title="Intro preview" className="w-full h-full border-0" allowFullScreen />
+                      <iframe 
+                        src={info.embedUrl} 
+                        title="Intro preview" 
+                        className="w-full h-full border-0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        allowFullScreen 
+                      />
                     ) : (
                       <video src={info.embedUrl} controls className="w-full h-full object-cover" />
                     )}

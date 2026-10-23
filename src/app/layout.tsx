@@ -24,6 +24,7 @@ const cormorant = Cormorant_Garamond({
 export const metadata: Metadata = {
   title: "HD Clarity Speech",
   description: "Speaking clearly isn't a skill... it's your sharpest weapon.",
+  referrer: "strict-origin-when-cross-origin",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

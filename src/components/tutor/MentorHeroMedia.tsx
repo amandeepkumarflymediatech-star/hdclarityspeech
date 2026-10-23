@@ -137,7 +137,8 @@ export default function MentorHeroMedia({
               src={videoInfo.embedUrl}
               title={`${tutorName} Video Intro`}
               className="w-full h-full border-0 absolute inset-0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
               allowFullScreen
             />
           ) : videoInfo.isValid ? (
