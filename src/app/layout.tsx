@@ -3,6 +3,7 @@ import { Playfair_Display, DM_Sans, Cormorant_Garamond } from "next/font/google"
 import "./globals.css";
 import AuthProvider from "@/components/providers/AuthProvider";
 import { Toaster } from 'sonner';
+import MetaPixel from "@/components/analytics/MetaPixel";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </AuthProvider>
         <Toaster position="top-right" richColors />
+        <MetaPixel />
       </body>
     </html>
   );
