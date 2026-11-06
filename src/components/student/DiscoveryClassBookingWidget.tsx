@@ -22,10 +22,25 @@ export default function DiscoveryClassBookingWidget({
 }: DiscoveryClassBookingWidgetProps) {
   const [mounted, setMounted] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [widgetHeight, setWidgetHeight] = useState('660px');
   const router = useRouter();
 
   useEffect(() => {
     setMounted(true);
+    const updateHeight = () => {
+      if (typeof window !== 'undefined') {
+        if (window.innerWidth < 640) {
+          setWidgetHeight('580px');
+        } else if (window.innerWidth < 1024) {
+          setWidgetHeight('650px');
+        } else {
+          setWidgetHeight('700px');
+        }
+      }
+    };
+    updateHeight();
+    window.addEventListener('resize', updateHeight);
+    return () => window.removeEventListener('resize', updateHeight);
   }, []);
 
   useCalendlyEventListener({
@@ -63,7 +78,7 @@ export default function DiscoveryClassBookingWidget({
 
   if (!mounted) {
     return (
-      <div className="min-h-[580px] sm:min-h-[660px] md:min-h-[680px] w-full bg-secondary/10 rounded-xl sm:rounded-2xl md:rounded-[24px] animate-pulse flex flex-col items-center justify-center p-6 sm:p-8 text-center">
+      <div className="min-h-[560px] sm:min-h-[620px] md:min-h-[650px] lg:min-h-[700px] w-full bg-secondary/10 rounded-xl sm:rounded-2xl md:rounded-[20px] lg:rounded-[24px] animate-pulse flex flex-col items-center justify-center p-6 sm:p-8 text-center">
         <Loader2 className="w-7 h-7 sm:w-8 sm:h-8 text-accent animate-spin mb-3 sm:mb-4" />
         <p className="text-primary/70 font-bold uppercase tracking-wider text-xs sm:text-sm">
           Loading Discovery Schedule...
@@ -73,11 +88,11 @@ export default function DiscoveryClassBookingWidget({
   }
 
   return (
-    <div className="w-full relative overflow-hidden rounded-xl sm:rounded-2xl md:rounded-[24px]">
+    <div className="w-full relative overflow-hidden rounded-xl sm:rounded-2xl md:rounded-[20px] lg:rounded-[24px]">
       {isProcessing && (
-        <div className="absolute inset-0 bg-white/90 backdrop-blur-sm z-30 flex flex-col items-center justify-center rounded-xl sm:rounded-2xl md:rounded-[24px] p-6 text-center">
-          <Loader2 className="w-9 h-9 sm:w-10 sm:h-10 text-accent animate-spin mb-3 sm:mb-4" />
-          <h4 className="text-lg sm:text-xl font-black font-playfair text-primary mb-2">Finalizing Your Booking</h4>
+        <div className="absolute inset-0 bg-white/90 backdrop-blur-sm z-30 flex flex-col items-center justify-center rounded-xl sm:rounded-2xl md:rounded-[20px] lg:rounded-[24px] p-6 text-center">
+          <Loader2 className="w-8 h-8 sm:w-10 sm:h-10 text-accent animate-spin mb-3 sm:mb-4" />
+          <h4 className="text-base sm:text-lg md:text-xl font-black font-playfair text-primary mb-2">Finalizing Your Booking</h4>
           <p className="text-primary/70 text-xs sm:text-sm max-w-sm">
             Saving your Discovery Class to your student dashboard...
           </p>
@@ -86,7 +101,7 @@ export default function DiscoveryClassBookingWidget({
 
       <InlineWidget
         url={calendlyUrl}
-        styles={{ height: '680px', width: '100%' }}
+        styles={{ height: widgetHeight, width: '100%', minHeight: '560px' }}
         prefill={{
           name: prefillName,
           email: prefillEmail,
@@ -95,4 +110,3 @@ export default function DiscoveryClassBookingWidget({
     </div>
   );
 }
-

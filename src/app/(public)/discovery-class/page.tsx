@@ -235,22 +235,22 @@ export default async function DiscoveryClassPage() {
 
             {/* STATE 4: Student is LOGGED IN and ELIGIBLE to book their 1-time Discovery Class */}
             {eligibility.isLoggedIn && eligibility.role === 'STUDENT' && eligibility.eligible && (
-              <div className="relative bg-white p-2 sm:p-3 md:p-5 rounded-2xl sm:rounded-3xl md:rounded-[36px] shadow-xl border border-primary/10">
+              <div className="relative bg-white p-2.5 sm:p-4 md:p-5 lg:p-6 rounded-2xl sm:rounded-3xl md:rounded-[28px] lg:rounded-[36px] shadow-xl border border-primary/10 w-full transition-all duration-300">
                 
                 {/* Student Welcome Banner */}
-                <div className="px-3 sm:px-4 py-2 sm:py-2.5 mb-2 sm:mb-3 rounded-xl sm:rounded-2xl bg-accent/10 border border-accent/20 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+                <div className="px-3 sm:px-4 md:px-5 py-2 sm:py-2.5 md:py-3 mb-2.5 sm:mb-3 md:mb-4 rounded-xl sm:rounded-2xl bg-accent/10 border border-accent/20 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <div className="flex items-center gap-2 text-xs sm:text-sm min-w-0">
                     <span className="w-2 h-2 rounded-full bg-accent animate-pulse shrink-0" />
-                    <span className="font-bold text-primary truncate">
+                    <span className="font-bold text-primary truncate max-w-[200px] sm:max-w-xs md:max-w-sm lg:max-w-xs">
                       Logged in as {eligibility.user?.name || eligibility.user?.email}
                     </span>
                   </div>
-                  <span className="text-[10px] sm:text-xs font-bold text-accent uppercase tracking-wider shrink-0">
+                  <span className="inline-flex items-center text-[10px] sm:text-xs font-bold text-accent uppercase tracking-wider shrink-0 bg-white/70 sm:bg-accent/15 px-2.5 py-1 rounded-full border border-accent/20 self-start sm:self-auto">
                     1 Free Class Available
                   </span>
                 </div>
 
-                <div className="bg-[#F7F5F0]/50 rounded-xl sm:rounded-2xl md:rounded-[24px] overflow-hidden min-h-[580px] sm:min-h-[660px] md:min-h-[700px] flex flex-col relative z-10 border border-primary/5">
+                <div className="bg-[#F7F5F0]/50 rounded-xl sm:rounded-2xl md:rounded-[20px] lg:rounded-[24px] overflow-hidden min-h-[560px] sm:min-h-[620px] md:min-h-[650px] lg:min-h-[700px] flex flex-col relative z-10 border border-primary/5 w-full">
                   {calendlyUrl ? (
                     <DiscoveryClassBookingWidget
                       calendlyUrl={calendlyUrl}
@@ -259,12 +259,12 @@ export default async function DiscoveryClassPage() {
                       tutorId={tutorId}
                     />
                   ) : (
-                    <div className="text-center py-12 sm:py-16 px-4 sm:px-8 text-primary my-auto">
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-5 sm:mb-6 border border-primary/10 shadow-lg">
-                        <Calendar className="w-8 h-8 text-accent" />
+                    <div className="text-center py-12 sm:py-16 md:py-20 px-4 sm:px-8 text-primary my-auto">
+                      <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-5 border border-primary/10 shadow-lg">
+                        <Calendar className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 text-accent" />
                       </div>
-                      <h3 className="text-xl sm:text-2xl font-black mb-2 sm:mb-3 font-playfair tracking-tight">Scheduling is temporarily offline</h3>
-                      <p className="text-primary/60 max-w-md mx-auto text-sm sm:text-base font-sans leading-relaxed mb-6">
+                      <h3 className="text-lg sm:text-xl md:text-2xl font-black mb-2 sm:mb-3 font-playfair tracking-tight">Scheduling is temporarily offline</h3>
+                      <p className="text-primary/60 max-w-md mx-auto text-xs sm:text-sm md:text-base font-sans leading-relaxed mb-6">
                         Our coaches are currently in sessions. Please check back shortly or browse our tutor roster.
                       </p>
                       <Link 
