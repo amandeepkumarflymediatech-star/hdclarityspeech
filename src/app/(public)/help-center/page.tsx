@@ -20,7 +20,7 @@ export default function HelpCenterPage() {
           <div className="space-y-6">
             <div>
               <h3 className="text-xl font-semibold text-primary mb-2">How do I book a session?</h3>
-              <p>You can book a session by navigating to the "1:1 Session" page, selecting a package that suits your needs, and following the checkout process.</p>
+              <p>You can book your complimentary first session on the "Discovery Class" page. To book regular recurring sessions with our speech coaches, visit our "Packages" page to select a plan that suits your goals.</p>
             </div>
             <div>
               <h3 className="text-xl font-semibold text-primary mb-2">What if I need to cancel or reschedule?</h3>

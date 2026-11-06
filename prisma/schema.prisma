@@ -30,6 +30,8 @@ model User {
   password      String?        
   role          Role      @default(STUDENT)
   isActive      Boolean   @default(true) // For Admin activation/deactivation
+  hasUsedDemo   Boolean   @default(false) // Discovery/Demo class limit to 1
+  demoBookedAt  DateTime?
   
   // Tutor Specific Profile Fields
   onboardingStatus OnboardingStatus @default(NOT_STARTED)
@@ -254,6 +256,7 @@ model Booking {
   tutorId          String
   sessionTypeId    String
   status           String   @default("PENDING_PAYMENT") // PENDING_PAYMENT, PAID, WAITING_FOR_SCHEDULING, SCHEDULED, COMPLETED, CANCELLED
+  isDemo           Boolean  @default(false)
   
   student          User        @relation("StudentBookings", fields: [studentId], references: [id])
   tutor            User        @relation("TutorBookings", fields: [tutorId], references: [id])
@@ -279,6 +282,7 @@ model Session {
   cancelUrl          String?
   rescheduleUrl      String?
   status             String   @default("SCHEDULED") // SCHEDULED, IN_PROGRESS, COMPLETED, CANCELLED, RESCHEDULED, NO_SHOW
+  isDemo             Boolean  @default(false)
   
   tutorNotes         String?  @db.Text
   studentFeedback    String?  @db.Text

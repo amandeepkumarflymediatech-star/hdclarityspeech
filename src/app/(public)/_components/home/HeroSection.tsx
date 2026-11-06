@@ -115,8 +115,8 @@ export default function HeroSection() {
           </p>
 
           <div className="hero-actions flex flex-col sm:flex-row gap-4 items-center w-full sm:w-auto">
-            <Link href="/live-class" className="px-6 sm:px-8 py-3 sm:py-4 bg-accent hover:bg-primary text-white font-bold rounded-none shadow-sm transition-all w-full sm:w-auto text-center text-xs sm:text-sm uppercase tracking-wider">
-              Book Your First Session
+            <Link href="/discovery-class" className="px-6 sm:px-8 py-3 sm:py-4 bg-accent hover:bg-primary text-white font-bold rounded-none shadow-sm transition-all w-full sm:w-auto text-center text-xs sm:text-sm uppercase tracking-wider">
+              Book Free Discovery Class
             </Link>
             <Link href="/about" className="px-6 sm:px-8 py-3 sm:py-4 bg-transparent border-2 border-primary hover:bg-primary text-primary hover:text-white font-bold rounded-none transition-all w-full sm:w-auto text-center text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2">
               Explore Method

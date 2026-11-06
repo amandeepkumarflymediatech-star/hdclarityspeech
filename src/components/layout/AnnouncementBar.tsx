@@ -10,26 +10,26 @@ export default function AnnouncementBar() {
   if (!isVisible) return null;
 
   return (
-    <div className="w-full bg-primary text-white py-2 px-4 sm:px-6 text-xs sm:text-sm font-medium border-b border-white/10 relative z-50">
-      <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+    <div className="w-full bg-primary text-white py-1.5 sm:py-2 px-3 sm:px-6 text-[11px] sm:text-xs md:text-sm font-medium border-b border-white/10 relative z-50">
+      <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-4">
         
         {/* Left / Center Content */}
-        <div className="flex-1 flex items-center justify-center gap-2 sm:gap-3 flex-wrap text-center">
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-accent text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider shrink-0">
-            <Flame className="w-3.5 h-3.5 fill-current animate-pulse" />
+        <div className="flex-1 flex items-center justify-center gap-1.5 sm:gap-3 flex-wrap text-center">
+          <span className="inline-flex items-center gap-1 sm:gap-1.5 px-2 py-0.5 rounded-full bg-accent text-white font-bold text-[9px] sm:text-[10px] md:text-xs uppercase tracking-wider shrink-0">
+            <Flame className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-current animate-pulse" />
             Limited Intake
           </span>
 
-          <span className="text-white/90 font-sans">
+          <span className="text-white/90 font-sans leading-tight sm:leading-normal">
             Only <strong className="text-accent font-bold">4 coaching seats</strong> left for this month! Use code <strong className="text-white font-mono bg-white/10 px-1.5 py-0.5 rounded">CLARITY20</strong> for 20% OFF.
           </span>
 
           <Link
             href="/pricing"
-            className="inline-flex items-center gap-1 text-accent hover:text-white font-bold underline-offset-4 hover:underline transition-colors ml-1 text-xs sm:text-sm shrink-0"
+            className="inline-flex items-center gap-1 text-accent hover:text-white font-bold underline-offset-4 hover:underline transition-colors text-[11px] sm:text-xs md:text-sm shrink-0"
           >
             <span>Claim Your Seat</span>
-            <ArrowRight size={14} />
+            <ArrowRight size={13} />
           </Link>
         </div>
 

@@ -107,7 +107,7 @@ export default function ProgramsSection() {
                       <p className={`font-sans text-sm sm:text-base md:text-lg max-w-lg mb-6 sm:mb-8 leading-relaxed ${program.color === 'bg-primary' || program.color === 'bg-accent' ? 'text-white/80' : 'text-primary/70'}`}>
                         {program.description}
                       </p>
-                      <Link href="/live-class" className={`inline-flex items-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-full px-6 py-3 transition-colors shadow-sm ${program.color === 'bg-primary' || program.color === 'bg-accent' ? 'bg-white text-primary hover:bg-accent hover:text-white' : 'bg-primary text-white hover:bg-accent'}`}>
+                      <Link href="/discovery-class" className={`inline-flex items-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-full px-6 py-3 transition-colors shadow-sm ${program.color === 'bg-primary' || program.color === 'bg-accent' ? 'bg-white text-primary hover:bg-accent hover:text-white' : 'bg-primary text-white hover:bg-accent'}`}>
                         Explore Detail <ChevronRight size={16} />
                       </Link>
                    </div>

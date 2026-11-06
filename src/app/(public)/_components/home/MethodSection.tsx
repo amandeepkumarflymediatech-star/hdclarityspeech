@@ -91,7 +91,7 @@ export default function MethodSection() {
               <h3 className="card-reveal text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 font-playfair tracking-tight">The 1:1 Crucible</h3>
               <p className="card-reveal text-white/70 mb-6 sm:mb-8 text-base sm:text-lg font-sans leading-relaxed">Lock in your sessions. No generic courses. You get intense, personalized coaching designed to strip away the noise and forge your delivery.</p>
               <div className="card-reveal">
-                 <Link href="/live-class" className="inline-flex px-6 sm:px-8 py-3 sm:py-4 bg-accent text-white font-bold uppercase tracking-wider text-xs sm:text-sm rounded-full hover:bg-white hover:text-primary transition-colors shadow-md">View Mentors</Link>
+                 <Link href="/mentors" className="inline-flex px-6 sm:px-8 py-3 sm:py-4 bg-accent text-white font-bold uppercase tracking-wider text-xs sm:text-sm rounded-full hover:bg-white hover:text-primary transition-colors shadow-md">View Mentors</Link>
               </div>
             </div>
             <div className="card-reveal flex-1 w-full relative aspect-square md:aspect-[4/3] overflow-hidden rounded-2xl bg-white/5">
@@ -106,7 +106,7 @@ export default function MethodSection() {
               <h3 className="card-reveal text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 font-playfair tracking-tight">Execute in HD</h3>
               <p className="card-reveal text-white/90 mb-6 sm:mb-8 text-base sm:text-lg font-sans leading-relaxed">Walk into your next meeting, presentation, or negotiation with unshakable conviction. The room is yours.</p>
               <div className="card-reveal">
-                 <Link href="/live-class" className="inline-flex px-6 sm:px-8 py-3 sm:py-4 bg-white text-primary font-bold uppercase tracking-wider text-xs sm:text-sm rounded-full hover:bg-primary hover:text-white transition-colors shadow-md">Start Performing</Link>
+                 <Link href="/discovery-class" className="inline-flex px-6 sm:px-8 py-3 sm:py-4 bg-white text-primary font-bold uppercase tracking-wider text-xs sm:text-sm rounded-full hover:bg-primary hover:text-white transition-colors shadow-md">Book Discovery Class</Link>
               </div>
             </div>
             <div className="card-reveal flex-1 w-full relative aspect-square md:aspect-[4/3] overflow-hidden rounded-2xl bg-white/10">

@@ -55,8 +55,8 @@ export default function AboutPage() {
           <p className="text-white/80 text-lg mb-8 max-w-2xl mx-auto font-sans">
             Ready to experience the difference that dedicated 1-on-1 support makes? Start your journey today.
           </p>
-          <Link href="/live-class" className="inline-block px-10 py-5 bg-accent hover:bg-white hover:text-primary text-white font-bold uppercase tracking-wider text-sm rounded-none shadow-sm transition-all">
-            Book a Session
+          <Link href="/discovery-class" className="inline-block px-10 py-5 bg-accent hover:bg-white hover:text-primary text-white font-bold uppercase tracking-wider text-sm rounded-none shadow-sm transition-all">
+            Book Free Discovery Class
           </Link>
         </div>
       </section>

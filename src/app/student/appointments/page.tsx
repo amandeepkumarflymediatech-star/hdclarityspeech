@@ -101,6 +101,11 @@ export default async function StudentAppointmentsPage({
                     <span className="inline-block px-2.5 py-1 bg-secondary/10 text-[10px] font-bold uppercase tracking-widest text-primary border border-secondary/20 rounded-lg">
                       {apt.booking?.sessionType?.name || 'Therapy Session'}
                     </span>
+                    {apt.isDemo && (
+                      <span className="inline-block px-2.5 py-1 bg-amber-500/10 text-amber-700 text-[10px] font-bold uppercase tracking-widest border border-amber-500/20 rounded-lg">
+                        Discovery Demo
+                      </span>
+                    )}
                     <span className="text-accent text-[10px] font-bold uppercase tracking-widest bg-accent/10 px-2.5 py-1 rounded-lg border border-accent/20">
                       {apt.status}
                     </span>

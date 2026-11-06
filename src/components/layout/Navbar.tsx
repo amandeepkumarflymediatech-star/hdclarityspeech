@@ -40,10 +40,10 @@ export default function Navbar() {
     <div className="fixed top-0 left-0 right-0 z-50">
       <AnnouncementBar />
       <nav
-        className={`w-full bg-white transition-all duration-300 ${isScrolled ? 'shadow-sm border-b border-secondary/50 py-3' : 'py-5 border-b border-secondary/20'
+        className={`w-full bg-white transition-all duration-300 ${isScrolled ? 'shadow-sm border-b border-secondary/50 py-2.5 sm:py-3' : 'py-3 sm:py-5 border-b border-secondary/20'
           }`}
       >
-        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
 
           {/* Left Side: Logo */}
           <div className="font-bold flex items-center">
@@ -67,10 +67,10 @@ export default function Navbar() {
               About Us
             </Link>
             <Link
-              href="/live-class"
-              className={`transition flex items-center gap-1 ${isActive('/live-class') ? 'text-accent' : 'text-primary hover:text-accent'}`}
+              href="/discovery-class"
+              className={`transition flex items-center gap-1 ${isActive('/discovery-class') ? 'text-accent' : 'text-primary hover:text-accent'}`}
             >
-              1:1 Session
+              Discovery Class
             </Link>
             <Link
               href="/mentors"
@@ -175,11 +175,11 @@ export default function Navbar() {
               About Us
             </Link>
             <Link
-              href="/live-class"
+              href="/discovery-class"
               onClick={() => setIsMobileMenuOpen(false)}
-              className={`block py-2 text-base font-bold ${isActive('/live-class') ? 'text-accent' : 'text-primary'}`}
+              className={`block py-2 text-base font-bold ${isActive('/discovery-class') ? 'text-accent' : 'text-primary'}`}
             >
-              1:1 Session
+              Discovery Class
             </Link>
             <Link
               href="/mentors"
