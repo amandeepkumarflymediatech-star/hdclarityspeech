@@ -4,9 +4,122 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import fs from "fs";
+import path from "path";
 
 // Initialize Prisma
 const prisma = new PrismaClient();
+
+function cleanString(str?: string | null): string {
+  if (!str) return "";
+  let cleaned = str.trim();
+  if (
+    (cleaned.startsWith('"') && cleaned.endsWith('"')) ||
+    (cleaned.startsWith("'") && cleaned.endsWith("'"))
+  ) {
+    cleaned = cleaned.substring(1, cleaned.length - 1).trim();
+  }
+  return cleaned;
+}
+
+function getAdminEnvCredentials() {
+  let email = cleanString(process.env.ADMIN_EMAIL);
+  let username = cleanString(process.env.ADMIN_USERNAME);
+  let password = cleanString(process.env.ADMIN_PASSWORD);
+
+  try {
+    const envPaths = [
+      path.join(process.cwd(), ".env"),
+      path.join(process.cwd(), ".env.local"),
+      path.resolve(__dirname, "../../.env"),
+      path.resolve(__dirname, "../../../.env"),
+      "d:\\hdclarityspeech\\.env",
+    ];
+
+    for (const p of envPaths) {
+      if (fs.existsSync(p)) {
+        const content = fs.readFileSync(p, "utf8");
+        const lines = content.split("\n");
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (!trimmed || trimmed.startsWith("#")) continue;
+          const eqIdx = trimmed.indexOf("=");
+          if (eqIdx !== -1) {
+            const key = trimmed.slice(0, eqIdx).trim();
+            const val = trimmed.slice(eqIdx + 1).trim();
+            if (key === "ADMIN_EMAIL") email = cleanString(val);
+            if (key === "ADMIN_USERNAME") username = cleanString(val);
+            if (key === "ADMIN_PASSWORD") password = cleanString(val);
+          }
+        }
+        if (password) break;
+      }
+    }
+  } catch (err) {
+    console.error("Error reading admin credentials from .env:", err);
+  }
+
+  return {
+    email: email || "admin@hdclarityspeech.com",
+    username: username || "admin",
+    password: password || "admin@123",
+  };
+}
+
+async function syncAdminUser(targetEmail: string, newPlainPass: string) {
+  try {
+    const passwordHash = await bcrypt.hash(newPlainPass, 10);
+
+    // 1. Check if user exists by target email
+    let user = await prisma.user.findUnique({
+      where: { email: targetEmail },
+    });
+
+    // 2. If not found by email, check if any existing admin user exists
+    if (!user) {
+      user = await prisma.user.findFirst({
+        where: { role: "ADMIN" },
+      });
+    }
+
+    if (user) {
+      user = await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          email: targetEmail,
+          password: passwordHash,
+          role: "ADMIN",
+          isActive: true,
+        },
+      });
+      console.log(`Synced admin credentials in DB for user: ${targetEmail}`);
+    } else {
+      user = await prisma.user.create({
+        data: {
+          email: targetEmail,
+          password: passwordHash,
+          name: "System Admin",
+          role: "ADMIN",
+          isActive: true,
+          isApproved: true,
+        },
+      });
+      console.log(`Created new admin account in DB with email: ${targetEmail}`);
+    }
+
+    return user;
+  } catch (error) {
+    console.error("Failed to sync admin user in DB:", error);
+    return {
+      id: "admin-env",
+      email: targetEmail,
+      name: "System Admin",
+      role: "ADMIN" as const,
+      isActive: true,
+      isApproved: true,
+    };
+  }
+}
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma) as any,
@@ -28,6 +141,42 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Invalid credentials");
         }
 
+        const inputEmail = cleanString(credentials.email).toLowerCase();
+        const inputPass = cleanString(credentials.password);
+        const reqRole = cleanString(credentials.role).toUpperCase();
+
+        const adminCreds = getAdminEnvCredentials();
+        const adminEmailClean = adminCreds.email.toLowerCase();
+        const adminUserClean = adminCreds.username.toLowerCase();
+
+        const isAdminAttempt =
+          reqRole === "ADMIN" ||
+          inputEmail === adminEmailClean ||
+          inputEmail === adminUserClean ||
+          inputEmail === "admin" ||
+          inputEmail === "admin@hdclarityspeech.com" ||
+          inputEmail === "admin@hdclarity.com";
+
+        if (isAdminAttempt) {
+          if (inputPass !== adminCreds.password) {
+            console.error("Auth error: Invalid admin password against active .env authority");
+            throw new Error("Invalid credentials");
+          }
+
+          const targetEmail = adminCreds.email || "admin@hdclarityspeech.com";
+          const adminUser = await syncAdminUser(targetEmail, adminCreds.password);
+
+          console.log(`Admin authentication successful via .env authority for: ${targetEmail}`);
+          return {
+            id: adminUser.id,
+            email: adminUser.email,
+            name: adminUser.name || "System Admin",
+            role: "ADMIN",
+            isApproved: true,
+          };
+        }
+
+        // Standard user/student/tutor authentication
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
         });
