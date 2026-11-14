@@ -8,7 +8,7 @@ export default async function AdminBlogPage() {
   const session = await getServerSession(authOptions);
   
   if (!session || session.user.role !== "ADMIN") {
-    redirect("/login");
+    redirect("/portal/login");
   }
 
   // @ts-ignore - Bypass IDE cache issue

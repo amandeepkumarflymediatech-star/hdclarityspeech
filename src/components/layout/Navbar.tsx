@@ -112,7 +112,7 @@ export default function Navbar() {
                       <p className="text-xs font-bold text-primary truncate">{session.user.email}</p>
                     </div>
                     <Link
-                      href={session.user.role === 'STUDENT' ? '/student' : '/tutor'}
+                      href={session.user.role === 'ADMIN' ? '/admin' : (session.user.role === 'TUTOR' ? '/tutor' : '/student')}
                       onClick={() => setIsDropdownOpen(false)}
                       className="flex items-center gap-3 px-4 py-3 hover:bg-secondary/10 text-primary transition font-bold text-sm"
                     >
@@ -220,7 +220,7 @@ export default function Navbar() {
                   <p className="text-xs text-primary/70 truncate">{session.user.email}</p>
                 </div>
                 <Link
-                  href={session.user.role === 'STUDENT' ? '/student' : '/tutor'}
+                  href={session.user.role === 'ADMIN' ? '/admin' : (session.user.role === 'TUTOR' ? '/tutor' : '/student')}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="flex items-center gap-3 py-3 text-base font-bold text-primary mb-2"
                 >

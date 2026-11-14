@@ -9,7 +9,7 @@ export default async function AdminTutorsPage() {
   const session = await getServerSession(authOptions);
   
   if (!session || session.user.role !== "ADMIN") {
-    redirect("/login");
+    redirect("/portal/login");
   }
 
   const tutors = await prisma.user.findMany({

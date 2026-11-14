@@ -10,7 +10,7 @@ export default async function AdminDashboard() {
   const session = await getServerSession(authOptions);
   
   if (!session || session.user.role !== "ADMIN") {
-    redirect("/login");
+    redirect("/portal/login");
   }
 
   const [totalUsers, activePackages, activeSessions, completedSessions] = await Promise.all([

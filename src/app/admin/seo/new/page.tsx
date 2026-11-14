@@ -7,7 +7,7 @@ export default async function NewSeoPage() {
   const session = await getServerSession(authOptions);
   
   if (!session || session.user.role !== "ADMIN") {
-    redirect("/login");
+    redirect("/portal/login");
   }
 
   return <SeoMetadataForm />;

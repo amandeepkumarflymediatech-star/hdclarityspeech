@@ -7,7 +7,7 @@ export default async function NewBlogPostPage() {
   const session = await getServerSession(authOptions);
   
   if (!session || session.user.role !== "ADMIN") {
-    redirect("/login");
+    redirect("/portal/login");
   }
 
   return <BlogPostForm />;

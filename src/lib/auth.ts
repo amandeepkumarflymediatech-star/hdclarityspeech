@@ -270,6 +270,15 @@ export const authOptions: NextAuthOptions = {
       }
 
       if (user) {
+        if ((user as any).role === "ADMIN") {
+          token.role = "ADMIN";
+          token.isApproved = true;
+          token.sub = user.id;
+          token.name = user.name || "System Admin";
+          token.email = user.email;
+          return token;
+        }
+
         const dbUser = await prisma.user.findUnique({
           where: { email: user.email }
         });

@@ -8,7 +8,7 @@ export default async function AdminSubscriptionsPage() {
   const session = await getServerSession(authOptions);
   
   if (!session || session.user.role !== "ADMIN") {
-    redirect("/login");
+    redirect("/portal/login");
   }
 
   const packages = await prisma.studentPackage.findMany({
