@@ -26,6 +26,7 @@ function getAdminEnvCredentials() {
   let email = cleanString(process.env.ADMIN_EMAIL);
   let username = cleanString(process.env.ADMIN_USERNAME);
   let password = cleanString(process.env.ADMIN_PASSWORD);
+  let jwtExpiresIn = cleanString(process.env.JWT_EXPIRES_IN);
 
   try {
     const envPaths = [
@@ -50,6 +51,7 @@ function getAdminEnvCredentials() {
             if (key === "ADMIN_EMAIL") email = cleanString(val);
             if (key === "ADMIN_USERNAME") username = cleanString(val);
             if (key === "ADMIN_PASSWORD") password = cleanString(val);
+            if (key === "JWT_EXPIRES_IN") jwtExpiresIn = cleanString(val);
           }
         }
         if (password) break;
@@ -63,7 +65,31 @@ function getAdminEnvCredentials() {
     email: email || "admin@hdclarityspeech.com",
     username: username || "admin",
     password: password || "admin@123",
+    jwtExpiresIn: jwtExpiresIn || "24h",
   };
+}
+
+function parseDurationToSeconds(durationStr?: string | null): number {
+  if (!durationStr) return 24 * 60 * 60; // 24h default
+  const str = String(durationStr).trim().toLowerCase();
+  const match = str.match(/^(\d+)([smhdwy]?)$/);
+  if (!match) return 24 * 60 * 60;
+  const val = parseInt(match[1], 10);
+  const unit = match[2];
+  switch (unit) {
+    case "s": return val;
+    case "m": return val * 60;
+    case "h": return val * 3600;
+    case "d": return val * 86400;
+    case "w": return val * 7 * 86400;
+    case "y": return val * 365 * 86400;
+    default: return val;
+  }
+}
+
+function getSessionMaxAge(): number {
+  const creds = getAdminEnvCredentials();
+  return parseDurationToSeconds(creds.jwtExpiresIn || process.env.JWT_EXPIRES_IN || "24h");
 }
 
 async function syncAdminUser(targetEmail: string, newPlainPass: string) {
@@ -217,6 +243,10 @@ export const authOptions: NextAuthOptions = {
   ],
   session: {
     strategy: "jwt",
+    maxAge: getSessionMaxAge(),
+  },
+  jwt: {
+    maxAge: getSessionMaxAge(),
   },
   pages: {
     signIn: "/login",
@@ -249,6 +279,11 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
     async session({ session, token }: any) {
+      const now = Math.floor(Date.now() / 1000);
+      if (!token || token.error === "TokenExpiredError" || (token.expiresAt && now > token.expiresAt)) {
+        return null;
+      }
+
       if (token && session.user) {
         session.user.id = token.sub;
         session.user.role = token.role;
@@ -258,18 +293,13 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
     async jwt({ token, user, trigger }: any) {
-      if (trigger === "update" && token.sub) {
-        const dbUser = await prisma.user.findUnique({
-          where: { id: token.sub }
-        });
-        if (dbUser) {
-          token.name = dbUser.name;
-          token.picture = dbUser.image;
-        }
-        return token;
-      }
+      const now = Math.floor(Date.now() / 1000);
+      const activeMaxAge = getSessionMaxAge();
 
       if (user) {
+        token.issuedAt = now;
+        token.expiresAt = now + activeMaxAge;
+
         if ((user as any).role === "ADMIN") {
           token.role = "ADMIN";
           token.isApproved = true;
@@ -302,7 +332,27 @@ export const authOptions: NextAuthOptions = {
           token.role = (user as any).role || defaultRole;
           token.isApproved = (user as any).isApproved || false;
         }
+        return token;
       }
+
+      // Check if session has expired on subsequent requests
+      if (token.expiresAt && now > token.expiresAt) {
+        console.warn(`[NextAuth] Token expired for user: ${token.email || token.sub}. Exp: ${token.expiresAt}, Now: ${now}`);
+        token.error = "TokenExpiredError";
+        return token;
+      }
+
+      if (trigger === "update" && token.sub) {
+        const dbUser = await prisma.user.findUnique({
+          where: { id: token.sub }
+        });
+        if (dbUser) {
+          token.name = dbUser.name;
+          token.picture = dbUser.image;
+        }
+        return token;
+      }
+
       return token;
     },
   },
